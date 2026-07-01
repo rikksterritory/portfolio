@@ -192,12 +192,28 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
 /* ════════════════════════════
    SECTION SCROLLSPY NAV
 ════════════════════════════ */
-.section-nav{position:fixed;top:50%;right:28px;transform:translateY(-50%);z-index:90;width:38px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none;}
+div.section-nav{position:fixed!important;top:50%!important;right:28px!important;left:auto!important;bottom:auto!important;transform:translateY(-50%)!important;z-index:90;width:38px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none;padding:0;border:none;background:none;}
 .sn-link{position:relative;display:block;width:24px;height:2px;border-radius:999px;background:rgba(255,255,255,0.24);pointer-events:auto;text-decoration:none;cursor:pointer;transition:width 180ms ease,background 180ms ease;}
 .sn-link:hover{width:34px;background:rgba(255,255,255,0.72);}
 .sn-link.active{width:38px;background:var(--accent);}
 .sn-link::before{content:attr(data-label);position:absolute;right:48px;top:50%;transform:translateY(-50%) translateX(4px);opacity:0;pointer-events:none;white-space:nowrap;background:rgba(16,13,13,0.96);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.84);padding:6px 10px;border-radius:8px;font-size:12px;line-height:1;box-shadow:0 8px 24px rgba(0,0,0,0.24);font-family:var(--ff);transition:opacity 160ms ease,transform 160ms ease;}
 .sn-link:hover::before{opacity:1;transform:translateY(-50%) translateX(0);}
+
+/* ════════════════════════════
+   LIGHTBOX
+════════════════════════════ */
+.lb{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.88);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s;}
+.lb.open{opacity:1;pointer-events:all;}
+.lb-inner{position:relative;max-width:1100px;width:100%;display:flex;flex-direction:column;gap:16px;}
+.lb-img{width:100%;max-height:80vh;object-fit:contain;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,0.6);display:block;}
+.lb-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.lb-caption{font-family:var(--ff);font-size:13px;font-weight:500;color:rgba(240,237,232,0.6);}
+.lb-close{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(240,237,232,0.7);cursor:pointer;transition:all .2s;flex-shrink:0;}
+.lb-close:hover{background:rgba(255,255,255,0.15);color:#fff;}
+.screen-card{cursor:pointer;}
+
+/* snap-cta visited fix */
+.snap-cta,.snap-cta:visited,.snap-cta:link{color:var(--accent)!important;text-decoration:none!important;}
 
 /* ════════════════════════════
    RESPONSIVE
@@ -253,7 +269,7 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
 <!-- ═══════════════════════════
      SECTION NAV (scrollspy)
 ═══════════════════════════ -->
-<nav class="section-nav" aria-label="Page sections">
+<div class="section-nav" aria-label="Page sections">
   <a class="sn-link" href="#s-intro"    data-label="Intro"></a>
   <a class="sn-link" href="#s-what"     data-label="What I Do"></a>
   <a class="sn-link" href="#s-work"     data-label="Best Work"></a>
@@ -262,7 +278,7 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
   <a class="sn-link" href="#s-process"  data-label="Process"></a>
   <a class="sn-link" href="#s-bring"    data-label="What I Bring"></a>
   <a class="sn-link" href="#s-cta"      data-label="CTA"></a>
-</nav>
+</div>
 
 <!-- ═══════════════════════════
      1. HERO
@@ -400,9 +416,8 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
   <div class="screens-grid">
 
     <!-- Screen 1 -->
-    <div class="screen-card rv d1">
+    <div class="screen-card rv d1" data-img="Images/Start_Trigger_Screen.png" data-label="Workflow Canvas — Agentic Workflow Builder">
       <div class="screen-img">
-        <!-- Replace with: Images/Start_Trigger_Screen.png -->
         <img src="Images/Start_Trigger_Screen.png" alt="Workflow Canvas" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -416,9 +431,8 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
     </div>
 
     <!-- Screen 2 -->
-    <div class="screen-card rv d2">
+    <div class="screen-card rv d2" data-img="Images/Logs_&_Insights.png" data-label="ARE Reasoning / Logs — Agentic Workflow Builder">
       <div class="screen-img">
-        <!-- Replace with: Images/Logs_&_Insights.png -->
         <img src="Images/Logs_&_Insights.png" alt="ARE Reasoning Logs" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -432,9 +446,8 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
     </div>
 
     <!-- Screen 3 -->
-    <div class="screen-card rv d3">
+    <div class="screen-card rv d3" data-img="Images/Screen12.png" data-label="Role-Play Creator — AI Role-Play">
       <div class="screen-img">
-        <!-- Replace with: Images/Screen12.png or a role-play creator screenshot -->
         <img src="Images/Screen12.png" alt="Role-Play Creator" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -448,9 +461,8 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
     </div>
 
     <!-- Screen 4 -->
-    <div class="screen-card rv d4">
+    <div class="screen-card rv d4" data-img="Images/Screen4.png" data-label="Practice Session — AI Role-Play">
       <div class="screen-img">
-        <!-- Replace with: Images/Screen4.png or a practice session screenshot -->
         <img src="Images/Screen4.png" alt="Practice Session" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -464,9 +476,8 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
     </div>
 
     <!-- Screen 5 -->
-    <div class="screen-card rv d1">
+    <div class="screen-card rv d1" data-img="Images/Real-time_coaching_signals_1.png" data-label="Feedback & Coaching — AI Role-Play">
       <div class="screen-img">
-        <!-- Replace with: a feedback/coaching screenshot from role-play -->
         <img src="Images/Real-time_coaching_signals_1.png" alt="Feedback and Coaching" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -480,9 +491,8 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
     </div>
 
     <!-- Screen 6 -->
-    <div class="screen-card rv d2">
+    <div class="screen-card rv d2" data-img="Images/Ask_buddy_Images/Ask_Buddy_Reasoing_Thinking___Got_your_Query.png" data-label="AI Assistant — Ask Buddy">
       <div class="screen-img">
-        <!-- Replace with: Images/Ask_buddy_Images/Ask_Buddy_Reasoing_Thinking___Got_your_Query.png -->
         <img src="Images/Ask_buddy_Images/Ask_Buddy_Reasoing_Thinking___Got_your_Query.png" alt="AI Assistant" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
@@ -496,9 +506,8 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
     </div>
 
     <!-- Screen 7 -->
-    <div class="screen-card rv d3">
+    <div class="screen-card rv d3" data-img="Images/Ask_buddy_Images/Prompt_Starter.png" data-label="Prompt / Response Flow — Ask Buddy">
       <div class="screen-img">
-        <!-- Replace with: Images/Ask_buddy_Images/Prompt_Starter.png -->
         <img src="Images/Ask_buddy_Images/Prompt_Starter.png" alt="Prompt Response Flow" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -512,17 +521,17 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
     </div>
 
     <!-- Screen 8 -->
-    <div class="screen-card rv d4">
+    <div class="screen-card rv d4" data-img="Images/Progress_dashboard_2.png" data-label="Manager Analytics Dashboard — AI Role-Play">
       <div class="screen-img">
-        <!-- Replace with: a screenshot from Agent Handoff UX prototype when available -->
-        <div class="screen-placeholder-icon" style="display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <img src="Images/Progress_dashboard_2.png" alt="Manager Analytics Dashboard" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
+        <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M6 20V10M12 20V4M18 20v-8"/></svg>
         </div>
       </div>
       <div class="screen-info">
-        <p class="screen-project">UX Solution Lab</p>
-        <p class="screen-label">Agent Handoff UX Prototype</p>
-        <p class="screen-desc">A vibe-coded prototype for testing how AI agents transfer context and control to humans.</p>
+        <p class="screen-project">AI Role-Play</p>
+        <p class="screen-label">Manager Analytics Dashboard</p>
+        <p class="screen-desc">A performance overview for managers tracking team proficiency, score distribution, and role-play trends.</p>
       </div>
     </div>
 
@@ -669,6 +678,21 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
 </section>
 
 <!-- ═══════════════════════════
+     LIGHTBOX
+═══════════════════════════ -->
+<div class="lb" id="lb" role="dialog" aria-modal="true">
+  <div class="lb-inner">
+    <img class="lb-img" id="lb-img" src="" alt="">
+    <div class="lb-footer">
+      <span class="lb-caption" id="lb-caption"></span>
+      <button class="lb-close" id="lb-close" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
      FOOTER
 ═══════════════════════════ -->
 <footer>
@@ -680,6 +704,33 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
 <script>
 // Nav solid on scroll
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',scrollY>60));
+
+// Lightbox
+(function(){
+  const lb=document.getElementById('lb');
+  const lbImg=document.getElementById('lb-img');
+  const lbCaption=document.getElementById('lb-caption');
+  const lbClose=document.getElementById('lb-close');
+  function open(src,label){
+    lbImg.src=src; lbImg.alt=label; lbCaption.textContent=label;
+    lb.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    lb.classList.remove('open');
+    document.body.style.overflow='';
+  }
+  document.querySelectorAll('.screen-card[data-img]').forEach(card=>{
+    card.addEventListener('click',()=>{
+      const img=card.querySelector('.screen-img img');
+      const src=img&&img.complete&&img.naturalWidth>0 ? img.src : card.dataset.img;
+      open(src, card.dataset.label||'');
+    });
+  });
+  lbClose.addEventListener('click',close);
+  lb.addEventListener('click',e=>{ if(e.target===lb) close(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+})();
 
 // Scroll-reveal
 const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:0.04,rootMargin:'0px 0px -20px 0px'});
