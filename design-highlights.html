@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Highlights – Kiran Tanwar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0C0A0A;
+  --bg2:#1A1214;
+  --bg3:#2A1008;
+  --card:#1A1214;
+  --white:#FFFFFF;
+  --muted:rgba(240,237,232,0.50);
+  --muted2:rgba(240,237,232,0.45);
+  --border:rgba(240,237,232,0.07);
+  --accent:#FF9C09;
+  --accent-dim:rgba(255,156,9,0.10);
+  --accent-bdr:rgba(255,156,9,0.25);
+  --radius:16px;
+  --radius-sm:10px;
+  --radius-pill:100px;
+  --ff:'DM Sans',sans-serif;
+  --ffs:'Cormorant Garamond',serif;
+  --content-max:1440px;
+  --content-gutter:clamp(24px,5vw,96px);
+  --section-y:clamp(88px,9vw,150px);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:var(--ff);overflow-x:hidden;}
+
+/* ── Layout ── */
+.section-inner,.hero-inner{width:min(calc(100% - var(--content-gutter) * 2),var(--content-max));margin-inline:auto;}
+section{padding-block:var(--section-y);padding-inline:0;}
+nav,footer{padding-inline:var(--content-gutter);}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding-block:20px;display:flex;align-items:center;justify-content:space-between;transition:all .3s;}
+nav.solid{background:rgba(12,10,10,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--ff);font-weight:600;font-size:16px;color:rgba(255,255,255,0.75);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.6);}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center;}
+.nav-links a{font-family:var(--ff);font-size:14px;font-weight:400;color:var(--muted);text-decoration:none;padding:8px 18px;border-radius:var(--radius-pill);transition:all .2s;}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.07);}
+.nav-links a.active{color:#fff;font-weight:600;}
+.nav-cta-link{color:#0C0A0A!important;background:var(--accent)!important;border:1px solid var(--accent)!important;font-weight:500!important;padding:9px 24px!important;}
+.nav-cta-link:hover{background:#FFB340!important;border-color:#FFB340!important;}
+
+/* ── Reveal ── */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .85s cubic-bezier(.16,1,.3,1);}
+.rv.vis{opacity:1;transform:none;}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* ── Typography ── */
+.kicker{font-family:var(--ff);font-size:11px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.kicker::before{content:'';width:7px;height:7px;border-radius:50%;background:rgba(255,156,9,0.7);}
+.section-h{font-family:var(--ff);font-weight:800;font-size:clamp(28px,4vw,48px);color:#fff;line-height:1.05;letter-spacing:-.02em;margin-bottom:16px;}
+.section-body{font-family:var(--ff);font-size:16px;font-weight:300;color:var(--muted);line-height:1.8;max-width:640px;}
+
+/* ── Base card ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;transition:border-color .25s,transform .3s;}
+.card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.card-title{font-family:var(--ff);font-weight:700;font-size:17px;color:#fff;margin-bottom:10px;}
+.card-body{font-family:var(--ff);font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+/* ── Grids ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+
+/* ── Buttons ── */
+.btn{display:inline-block;font-family:var(--ff);font-size:14px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:var(--radius-pill);transition:all .25s;}
+.btn-primary{color:#0C0A0A;background:var(--accent);border:1px solid var(--accent);}
+.btn-primary:hover{background:#FFB340;border-color:#FFB340;}
+.btn-ghost{color:var(--muted);border:1px solid var(--border);}
+.btn-ghost:hover{color:#fff;border-color:rgba(240,237,232,0.3);}
+.btn-row{display:flex;gap:16px;flex-wrap:wrap;}
+
+/* ── Footer ── */
+footer{padding-block:28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
+.f-name{font-family:var(--ff);font-weight:600;font-size:14px;color:var(--muted2);}
+
+/* ════════════════════════════
+   HERO
+════════════════════════════ */
+.dh-hero{
+  padding-block:160px 100px;
+  padding-inline:0;
+  background:radial-gradient(ellipse 70% 55% at 50% 110%,rgba(255,156,9,0.13) 0%,transparent 70%),var(--bg);
+  border-bottom:1px solid var(--border);
+}
+.dh-hero-inner{width:min(calc(100% - var(--content-gutter) * 2),var(--content-max));margin-inline:auto;}
+.dh-hero-title{font-family:var(--ff);font-weight:800;font-size:clamp(52px,9vw,96px);color:#fff;line-height:.97;letter-spacing:-.04em;margin-bottom:28px;}
+.dh-hero-sub{font-family:var(--ffs);font-style:italic;font-size:clamp(18px,2.2vw,26px);color:rgba(240,237,232,0.72);line-height:1.5;max-width:680px;margin-bottom:20px;}
+.dh-hero-note{font-family:var(--ff);font-size:14px;font-weight:300;color:rgba(240,237,232,0.35);line-height:1.7;max-width:580px;margin-bottom:36px;}
+.dh-hero-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.dh-pill{display:inline-flex;align-items:center;font-family:var(--ff);font-size:12px;font-weight:500;color:var(--accent);padding:7px 18px;border-radius:var(--radius-pill);border:1px solid var(--accent-bdr);background:var(--accent-dim);}
+.dh-time{font-family:var(--ff);font-size:12px;font-weight:500;color:rgba(240,237,232,0.28);letter-spacing:.08em;text-transform:uppercase;margin-top:12px;}
+
+/* ════════════════════════════
+   WHAT I DO
+════════════════════════════ */
+.what-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.what-lead{font-family:var(--ff);font-weight:700;font-size:clamp(22px,3vw,34px);color:#fff;line-height:1.2;letter-spacing:-.02em;margin-bottom:48px;max-width:680px;}
+.what-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:32px;transition:border-color .25s,transform .3s;}
+.what-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.what-icon{width:44px;height:44px;border-radius:12px;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+
+/* ════════════════════════════
+   BEST WORK SNAPSHOT
+════════════════════════════ */
+.snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;}
+.snap-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .3s;}
+.snap-card:hover{border-color:var(--accent-bdr);transform:translateY(-6px);}
+.snap-thumb{height:200px;background:#111;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);overflow:hidden;position:relative;}
+.snap-thumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+.snap-thumb-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;height:100%;}
+.snap-thumb-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(255,156,9,0.07) 0%,transparent 70%);}
+.snap-thumb-label{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,237,232,0.2);position:relative;z-index:1;}
+.snap-body{padding:28px;display:flex;flex-direction:column;flex:1;}
+.snap-type{font-family:var(--ff);font-size:10px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.snap-title{font-family:var(--ff);font-weight:700;font-size:17px;color:#fff;margin-bottom:8px;line-height:1.25;}
+.snap-tag{font-family:var(--ff);font-size:13px;font-weight:400;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.snap-focus{font-family:var(--ff);font-size:12px;font-weight:300;color:rgba(240,237,232,0.35);line-height:1.5;margin-bottom:20px;flex:1;}
+.snap-cta{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff);font-size:12px;font-weight:600;color:var(--accent);text-decoration:none;padding:9px 18px;border-radius:var(--radius-pill);border:1px solid var(--accent-bdr);background:var(--accent-dim);transition:all .25s;align-self:flex-start;}
+.snap-cta:hover{background:rgba(255,156,9,0.18);border-color:var(--accent);}
+
+/* ════════════════════════════
+   KEY SCREENS
+════════════════════════════ */
+.screens-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.screens-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;}
+.screen-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .25s,transform .3s;}
+.screen-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.screen-img{height:160px;background:#0e0c0c;overflow:hidden;border-bottom:1px solid var(--border);position:relative;display:flex;align-items:center;justify-content:center;}
+.screen-img img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+/* Replace placeholder icon with <img> tag when screenshot is available */
+.screen-placeholder-icon{position:relative;z-index:1;}
+.screen-img::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(255,156,9,0.06) 0%,transparent 70%);}
+.screen-info{padding:18px 20px 20px;}
+.screen-project{font-family:var(--ff);font-size:10px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.screen-label{font-family:var(--ff);font-weight:700;font-size:14px;color:#fff;margin-bottom:6px;line-height:1.3;}
+.screen-desc{font-family:var(--ff);font-size:12px;font-weight:300;color:var(--muted);line-height:1.6;}
+
+/* ════════════════════════════
+   IMPACT
+════════════════════════════ */
+.impact-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:48px;}
+.impact-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;transition:border-color .25s,transform .3s;}
+.impact-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.impact-num{font-family:var(--ff);font-weight:800;font-size:clamp(22px,2.5vw,32px);color:var(--accent);letter-spacing:-.02em;margin-bottom:6px;line-height:1;}
+.impact-label{font-family:var(--ff);font-weight:700;font-size:13px;color:#fff;margin-bottom:8px;}
+.impact-body{font-family:var(--ff);font-size:12px;font-weight:300;color:var(--muted);line-height:1.6;}
+
+/* ════════════════════════════
+   PROCESS
+════════════════════════════ */
+.process-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.process-lead{font-family:var(--ff);font-weight:700;font-size:clamp(22px,3vw,34px);color:#fff;line-height:1.2;letter-spacing:-.02em;margin-bottom:16px;max-width:620px;}
+.process-flow{display:flex;align-items:center;gap:0;margin:40px 0 32px;overflow-x:auto;padding-bottom:4px;}
+.pf-step{display:flex;align-items:center;flex-shrink:0;}
+.pf-node{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-family:var(--ff);font-size:13px;font-weight:600;color:#fff;white-space:nowrap;transition:border-color .25s;}
+.pf-node:hover{border-color:var(--accent-bdr);}
+.pf-node.pf-active{background:var(--accent-dim);border-color:var(--accent-bdr);color:var(--accent);}
+.pf-arrow{width:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.pf-arrow svg{opacity:.3;}
+.process-body{font-family:var(--ff);font-size:15px;font-weight:300;color:var(--muted);line-height:1.8;max-width:700px;}
+
+/* ════════════════════════════
+   WHAT I BRING
+════════════════════════════ */
+.bring-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;}
+.bring-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;transition:border-color .25s,transform .3s;}
+.bring-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.bring-num{font-family:var(--ff);font-size:11px;font-weight:700;letter-spacing:.10em;color:var(--accent);margin-bottom:16px;text-transform:uppercase;}
+.bring-title{font-family:var(--ff);font-weight:700;font-size:17px;color:#fff;margin-bottom:10px;line-height:1.2;}
+.bring-body{font-family:var(--ff);font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+/* ════════════════════════════
+   CLOSING CTA
+════════════════════════════ */
+.closing-section{padding-block:120px;background:linear-gradient(180deg,var(--bg) 0%,rgba(255,156,9,0.07) 50%,var(--bg) 100%);text-align:center;border-top:1px solid var(--border);}
+.closing-h{font-family:var(--ff);font-weight:800;font-size:clamp(32px,5vw,56px);color:#fff;letter-spacing:-.03em;margin-bottom:20px;}
+.closing-sub{font-family:var(--ff);font-size:16px;font-weight:300;color:var(--muted);max-width:560px;margin:0 auto 44px;line-height:1.75;}
+.closing-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+/* ════════════════════════════
+   SECTION SCROLLSPY NAV
+════════════════════════════ */
+.section-nav{position:fixed;top:50%;right:28px;transform:translateY(-50%);z-index:90;width:38px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none;}
+.sn-link{position:relative;display:block;width:24px;height:2px;border-radius:999px;background:rgba(255,255,255,0.24);pointer-events:auto;text-decoration:none;cursor:pointer;transition:width 180ms ease,background 180ms ease;}
+.sn-link:hover{width:34px;background:rgba(255,255,255,0.72);}
+.sn-link.active{width:38px;background:var(--accent);}
+.sn-link::before{content:attr(data-label);position:absolute;right:48px;top:50%;transform:translateY(-50%) translateX(4px);opacity:0;pointer-events:none;white-space:nowrap;background:rgba(16,13,13,0.96);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.84);padding:6px 10px;border-radius:8px;font-size:12px;line-height:1;box-shadow:0 8px 24px rgba(0,0,0,0.24);font-family:var(--ff);transition:opacity 160ms ease,transform 160ms ease;}
+.sn-link:hover::before{opacity:1;transform:translateY(-50%) translateX(0);}
+
+/* ════════════════════════════
+   RESPONSIVE
+════════════════════════════ */
+@media(max-width:1200px){
+  .impact-grid{grid-template-columns:repeat(3,1fr);}
+  .screens-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:960px){
+  nav{padding-block:16px;}
+  .grid-4,.what-section .grid-4{grid-template-columns:1fr 1fr;}
+  .snap-grid{grid-template-columns:1fr 1fr;}
+  .bring-grid{grid-template-columns:1fr 1fr;}
+  .impact-grid{grid-template-columns:1fr 1fr;}
+  .screens-grid{grid-template-columns:1fr 1fr;}
+  footer{padding-block:24px;}
+}
+@media(max-width:768px){
+  .snap-grid{grid-template-columns:1fr;}
+  .grid-3,.grid-4{grid-template-columns:1fr;}
+  .bring-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .impact-grid{grid-template-columns:1fr 1fr;}
+  .screens-grid{grid-template-columns:1fr 1fr;}
+  .dh-hero-title{font-size:clamp(44px,14vw,70px);}
+}
+@media(max-width:480px){
+  .impact-grid{grid-template-columns:1fr;}
+  .screens-grid{grid-template-columns:1fr;}
+  .nav-links li:not(:last-child){display:none;}
+}
+@media(max-width:900px){.section-nav{display:none;}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════
+     NAV
+═══════════════════════════ -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo"><span class="nav-dot"></span>Kiran Tanwar</a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html">Home</a></li>
+    <li><a href="portfolio.html#work">Work</a></li>
+    <li><a href="design-highlights.html" class="active">Highlights</a></li>
+    <li><a href="ai-assisted-prototypes.html">UX Solutions</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="#" class="nav-cta-link" onclick="window.open('mailto:'+'rikkdesigns'+'@'+'gmail.com');return false;">Let's Talk</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════
+     SECTION NAV (scrollspy)
+═══════════════════════════ -->
+<nav class="section-nav" aria-label="Page sections">
+  <a class="sn-link" href="#s-intro"    data-label="Intro"></a>
+  <a class="sn-link" href="#s-what"     data-label="What I Do"></a>
+  <a class="sn-link" href="#s-work"     data-label="Best Work"></a>
+  <a class="sn-link" href="#s-screens"  data-label="Key Screens"></a>
+  <a class="sn-link" href="#s-impact"   data-label="Impact"></a>
+  <a class="sn-link" href="#s-process"  data-label="Process"></a>
+  <a class="sn-link" href="#s-bring"    data-label="What I Bring"></a>
+  <a class="sn-link" href="#s-cta"      data-label="CTA"></a>
+</nav>
+
+<!-- ═══════════════════════════
+     1. HERO
+═══════════════════════════ -->
+<section id="s-intro" class="dh-hero">
+<div class="dh-hero-inner">
+  <p class="kicker rv vis">Design Highlights</p>
+  <h1 class="dh-hero-title rv vis d1">Design<br>Highlights</h1>
+  <p class="dh-hero-sub rv vis d2">A quick 2-minute snapshot of my best product design work, AI-first projects, key screens, impact, and the way I approach complex product problems.</p>
+  <p class="dh-hero-note rv vis d3">Built for a fast read before going deeper into the full case studies.</p>
+  <div class="dh-hero-pills rv vis d3">
+    <span class="dh-pill">Best work</span>
+    <span class="dh-pill">Key screens</span>
+    <span class="dh-pill">Impact</span>
+    <span class="dh-pill">AI-first experience</span>
+  </div>
+  <p class="dh-time rv vis d4">~2 min read</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════
+     2. WHAT I DO
+═══════════════════════════ -->
+<section id="s-what" class="what-section">
+<div class="section-inner">
+  <p class="kicker rv">What I Do</p>
+  <p class="what-lead rv d1">I design AI-first B2B products that simplify complex work.</p>
+  <div class="grid-4">
+    <div class="what-card rv d1">
+      <div class="what-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+      </div>
+      <p class="card-title">AI Product Design</p>
+      <p class="card-body">Assistants, role-play simulations, agentic workflows, and human-AI interaction patterns.</p>
+    </div>
+    <div class="what-card rv d2">
+      <div class="what-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M6 20V10M12 20V4M18 20v-8"/></svg>
+      </div>
+      <p class="card-title">Enterprise UX</p>
+      <p class="card-body">Complex workflows, information architecture, scalable systems, and role-based experiences.</p>
+    </div>
+    <div class="what-card rv d3">
+      <div class="what-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <p class="card-title">Design Systems</p>
+      <p class="card-body">Reusable components, foundations, interaction patterns, and visual consistency.</p>
+    </div>
+    <div class="what-card rv d4">
+      <div class="what-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <p class="card-title">AI Prototyping</p>
+      <p class="card-body">Vibe-coded UX solutions used to test product decisions before Figma or production.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════
+     3. BEST WORK SNAPSHOT
+═══════════════════════════ -->
+<section id="s-work">
+<div class="section-inner">
+  <p class="kicker rv">Best Work</p>
+  <h2 class="section-h rv d1">Best work snapshot</h2>
+  <p class="section-body rv d2">Three projects that represent my recent work across AI assistants, agentic systems, sales enablement, learning workflows, and enterprise UX.</p>
+  <div class="snap-grid">
+
+    <!-- Card 1: Agentic Workflow Builder -->
+    <div class="snap-card rv d1">
+      <div class="snap-thumb">
+        <!-- Replace with actual screenshot: Images/Agentic_Workflow_Thumbnail.png -->
+        <img src="Images/Agentic_Workflow_Thumbnail.png" alt="Agentic Workflow Builder" onerror="this.parentElement.innerHTML='<div class=\'snap-thumb-placeholder\'><svg width=\'36\' height=\'36\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'rgba(255,156,9,0.25)\' stroke-width=\'1.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'3\' y=\'3\' width=\'7\' height=\'7\' rx=\'1\'/><rect x=\'14\' y=\'3\' width=\'7\' height=\'7\' rx=\'1\'/><rect x=\'3\' y=\'14\' width=\'7\' height=\'7\' rx=\'1\'/><rect x=\'14\' y=\'14\' width=\'7\' height=\'7\' rx=\'1\'/></svg><span class=\'snap-thumb-label\'>Workflow Canvas</span></div>'">
+      </div>
+      <div class="snap-body">
+        <p class="snap-type">Agentic UX · Workflow Automation</p>
+        <p class="snap-title">Agentic Workflow Builder for GTM Automation</p>
+        <p class="snap-tag">Helping revenue teams build intelligent workflows without code.</p>
+        <p class="snap-focus">Agentic UX, workflow automation, AI reasoning, enterprise SaaS.</p>
+        <a href="agentic-workflow.html" class="snap-cta">View Case Study
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 2: AI Role-Play -->
+    <div class="snap-card rv d2">
+      <div class="snap-thumb">
+        <!-- Replace with actual screenshot: Images/Roleplay_Thumbnail.png -->
+        <img src="Images/Roleplay_Thumbnail.png" alt="AI Role-Play" onerror="this.parentElement.innerHTML='<div class=\'snap-thumb-placeholder\'><svg width=\'36\' height=\'36\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'rgba(255,156,9,0.25)\' stroke-width=\'1.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\'/></svg><span class=\'snap-thumb-label\'>Role-Play Creator</span></div>'">
+      </div>
+      <div class="snap-body">
+        <p class="snap-type">AI Simulation · Sales Training</p>
+        <p class="snap-title">AI Role-Play for Sales Reps &amp; Managers</p>
+        <p class="snap-tag">Practice conversations, handle objections, and improve before the real call.</p>
+        <p class="snap-focus">AI simulation, sales training, feedback UX, learning design.</p>
+        <a href="ai-roleplay.html" class="snap-cta">View Case Study
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: Ask Buddy -->
+    <div class="snap-card rv d3">
+      <div class="snap-thumb">
+        <!-- Replace with actual screenshot: Images/Ask_Buddy_Thumbnail.png -->
+        <img src="Images/Ask_Buddy_Thumbnail.png" alt="Ask Buddy" onerror="this.parentElement.innerHTML='<div class=\'snap-thumb-placeholder\'><svg width=\'36\' height=\'36\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'rgba(255,156,9,0.25)\' stroke-width=\'1.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><circle cx=\'12\' cy=\'12\' r=\'9\'/><path d=\'M12 8v4l3 3\'/></svg><span class=\'snap-thumb-label\'>AI Assistant</span></div>'">
+      </div>
+      <div class="snap-body">
+        <p class="snap-type">AI Assistant · Sales Enablement</p>
+        <p class="snap-title">Ask Buddy for Real-Time Sales Guidance</p>
+        <p class="snap-tag">Context-aware AI support for faster, more confident selling.</p>
+        <p class="snap-focus">AI assistant, sales enablement, contextual recommendations, content intelligence.</p>
+        <a href="ask-buddy.html" class="snap-cta">View Case Study
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════
+     4. KEY SCREENS
+═══════════════════════════ -->
+<section id="s-screens" class="screens-section">
+<div class="section-inner">
+  <p class="kicker rv">Key Screens</p>
+  <h2 class="section-h rv d1">Key screens across my work</h2>
+  <p class="section-body rv d2">A quick visual scan of the types of product experiences I have designed across AI workflows, sales training, guidance systems, and early prototypes.</p>
+
+  <div class="screens-grid">
+
+    <!-- Screen 1 -->
+    <div class="screen-card rv d1">
+      <div class="screen-img">
+        <!-- Replace with: Images/Start_Trigger_Screen.png -->
+        <img src="Images/Start_Trigger_Screen.png" alt="Workflow Canvas" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
+        <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
+      </div>
+      <div class="screen-info">
+        <p class="screen-project">Agentic Workflow Builder</p>
+        <p class="screen-label">Workflow Canvas</p>
+        <p class="screen-desc">A visual builder for creating AI-powered GTM workflows using agents, tools, and reasoning steps.</p>
+      </div>
+    </div>
+
+    <!-- Screen 2 -->
+    <div class="screen-card rv d2">
+      <div class="screen-img">
+        <!-- Replace with: Images/Logs_&_Insights.png -->
+        <img src="Images/Logs_&_Insights.png" alt="ARE Reasoning Logs" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
+        <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+      </div>
+      <div class="screen-info">
+        <p class="screen-project">Agentic Workflow Builder</p>
+        <p class="screen-label">ARE Reasoning / Logs</p>
+        <p class="screen-desc">A visibility layer that helps users understand what the workflow did and why.</p>
+      </div>
+    </div>
+
+    <!-- Screen 3 -->
+    <div class="screen-card rv d3">
+      <div class="screen-img">
+        <!-- Replace with: Images/Screen12.png or a role-play creator screenshot -->
+        <img src="Images/Screen12.png" alt="Role-Play Creator" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
+        <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+      </div>
+      <div class="screen-info">
+        <p class="screen-project">AI Role-Play</p>
+        <p class="screen-label">Role-Play Creator</p>
+        <p class="screen-desc">An admin flow for creating realistic sales practice scenarios and buyer personas.</p>
+      </div>
+    </div>
+
+    <!-- Screen 4 -->
+    <div class="screen-card rv d4">
+      <div class="screen-img">
+        <!-- Replace with: Images/Screen4.png or a practice session screenshot -->
+        <img src="Images/Screen4.png" alt="Practice Session" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
+        <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+      </div>
+      <div class="screen-info">
+        <p class="screen-project">AI Role-Play</p>
+        <p class="screen-label">Practice Session</p>
+        <p class="screen-desc">A guided role-play experience that helps reps practice buyer conversations before real meetings.</p>
+      </div>
+    </div>
+
+    <!-- Screen 5 -->
+    <div class="screen-card rv d1">
+      <div class="screen-img">
+        <!-- Replace with: a feedback/coaching screenshot from role-play -->
+        <img src="Images/Real-time_coaching_signals_1.png" alt="Feedback and Coaching" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
+        <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+      </div>
+      <div class="screen-info">
+        <p class="screen-project">AI Role-Play</p>
+        <p class="screen-label">Feedback &amp; Coaching</p>
+        <p class="screen-desc">A structured feedback view that helps reps understand strengths, gaps, and next steps.</p>
+      </div>
+    </div>
+
+    <!-- Screen 6 -->
+    <div class="screen-card rv d2">
+      <div class="screen-img">
+        <!-- Replace with: Images/Ask_buddy_Images/Ask_Buddy_Reasoing_Thinking___Got_your_Query.png -->
+        <img src="Images/Ask_buddy_Images/Ask_Buddy_Reasoing_Thinking___Got_your_Query.png" alt="AI Assistant" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
+        <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+      </div>
+      <div class="screen-info">
+        <p class="screen-project">Ask Buddy</p>
+        <p class="screen-label">AI Assistant</p>
+        <p class="screen-desc">A context-aware assistant that helps reps find answers, draft responses, and move deals forward.</p>
+      </div>
+    </div>
+
+    <!-- Screen 7 -->
+    <div class="screen-card rv d3">
+      <div class="screen-img">
+        <!-- Replace with: Images/Ask_buddy_Images/Prompt_Starter.png -->
+        <img src="Images/Ask_buddy_Images/Prompt_Starter.png" alt="Prompt Response Flow" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
+        <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+      </div>
+      <div class="screen-info">
+        <p class="screen-project">Ask Buddy</p>
+        <p class="screen-label">Prompt / Response Flow</p>
+        <p class="screen-desc">A guided interaction model that helps reps ask better questions and use AI-generated responses safely.</p>
+      </div>
+    </div>
+
+    <!-- Screen 8 -->
+    <div class="screen-card rv d4">
+      <div class="screen-img">
+        <!-- Replace with: a screenshot from Agent Handoff UX prototype when available -->
+        <div class="screen-placeholder-icon" style="display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.25)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+      </div>
+      <div class="screen-info">
+        <p class="screen-project">UX Solution Lab</p>
+        <p class="screen-label">Agent Handoff UX Prototype</p>
+        <p class="screen-desc">A vibe-coded prototype for testing how AI agents transfer context and control to humans.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════
+     5. IMPACT HIGHLIGHTS
+═══════════════════════════ -->
+<section id="s-impact">
+<div class="section-inner">
+  <p class="kicker rv">Impact</p>
+  <h2 class="section-h rv d1">Selected impact</h2>
+  <p class="section-body rv d2">A few outcomes from my design work and process.</p>
+
+  <div class="impact-grid">
+    <!-- 20% verified from portfolio.html (Ask Buddy metric) -->
+    <div class="impact-card rv d1">
+      <p class="impact-num">20%</p>
+      <p class="impact-label">Feature Adoption</p>
+      <p class="impact-body">Improved adoption through clearer AI assistant workflows and more useful sales guidance.</p>
+    </div>
+    <!-- 30% verified from portfolio.html (Ask Buddy metric) -->
+    <div class="impact-card rv d2">
+      <p class="impact-num">30%</p>
+      <p class="impact-label">Design Rework ↓</p>
+      <p class="impact-body">Reduced rework through early alignment with product and engineering.</p>
+    </div>
+    <div class="impact-card rv d3">
+      <p class="impact-num">Faster</p>
+      <p class="impact-label">Alignment</p>
+      <p class="impact-body">Used interactive prototypes to validate flows before full Figma investment.</p>
+    </div>
+    <div class="impact-card rv d4">
+      <p class="impact-num">Reusable</p>
+      <p class="impact-label">Design System</p>
+      <p class="impact-body">Built design system foundations to improve consistency and delivery speed.</p>
+    </div>
+    <div class="impact-card rv d5">
+      <p class="impact-num">AI-first</p>
+      <p class="impact-label">B2B SaaS Focus</p>
+      <p class="impact-body">Designed assistants, role-play simulations, workflow builders, and decision-support systems.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════
+     6. HOW I WORK
+═══════════════════════════ -->
+<section id="s-process" class="process-section">
+<div class="section-inner">
+  <p class="kicker rv">Process</p>
+  <p class="process-lead rv d1">My process is built around clarity and early validation.</p>
+
+  <div class="process-flow rv d2">
+    <div class="pf-step">
+      <div class="pf-node">Problem framing</div>
+    </div>
+    <div class="pf-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(240,237,232,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="pf-step">
+      <div class="pf-node">UX direction</div>
+    </div>
+    <div class="pf-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(240,237,232,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="pf-step">
+      <div class="pf-node pf-active">AI prototype / wireframe</div>
+    </div>
+    <div class="pf-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(240,237,232,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="pf-step">
+      <div class="pf-node">Stakeholder review</div>
+    </div>
+    <div class="pf-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(240,237,232,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="pf-step">
+      <div class="pf-node">Figma refinement</div>
+    </div>
+    <div class="pf-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(240,237,232,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="pf-step">
+      <div class="pf-node">Delivery</div>
+    </div>
+  </div>
+
+  <p class="process-body rv d3">I use a mix of product thinking, visual craft, AI prototyping, and collaboration to move from ambiguity to clear design decisions. When needed, I build interactive prototypes early so teams can test the experience before investing in full design or development.</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════
+     7. WHAT I BRING
+═══════════════════════════ -->
+<section id="s-bring">
+<div class="section-inner">
+  <p class="kicker rv">What I Bring</p>
+  <h2 class="section-h rv d1">What I bring as a designer</h2>
+  <div class="bring-grid">
+    <div class="bring-card rv d1">
+      <p class="bring-num">01</p>
+      <p class="bring-title">13+ years of design craft</p>
+      <p class="bring-body">Visual design, motion, branding, product design, and systems thinking.</p>
+    </div>
+    <div class="bring-card rv d2">
+      <p class="bring-num">02</p>
+      <p class="bring-title">4+ years in B2B SaaS</p>
+      <p class="bring-body">Experience with sales enablement, learning, AI assistants, and enterprise workflows.</p>
+    </div>
+    <div class="bring-card rv d3">
+      <p class="bring-num">03</p>
+      <p class="bring-title">AI-first design experience</p>
+      <p class="bring-body">Designed for trust, control, context, human judgment, and real workflow adoption.</p>
+    </div>
+    <div class="bring-card rv d4">
+      <p class="bring-num">04</p>
+      <p class="bring-title">Strong product judgment</p>
+      <p class="bring-body">Comfortable working with product, engineering, data science, and stakeholders.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════
+     8. CLOSING CTA
+═══════════════════════════ -->
+<section id="s-cta" class="closing-section">
+<div class="section-inner">
+  <h2 class="closing-h rv">Want the deeper story?</h2>
+  <p class="closing-sub rv d1">Explore the full case studies to see the thinking, process, and design decisions behind each project.</p>
+  <div class="closing-btns rv d2">
+    <a href="portfolio.html#work" class="btn btn-primary">View Case Studies</a>
+    <a href="ai-assisted-prototypes.html" class="btn btn-ghost">View UX Solution Lab</a>
+    <!-- Replace href with actual resume file path if available -->
+    <a href="Images/enqr3sik_1745926398639.pdf" target="_blank" rel="noopener" class="btn btn-ghost">Download Resume</a>
+    <a href="mailto:rikkdesigns@gmail.com" class="btn btn-ghost">Let's Talk</a>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════
+     FOOTER
+═══════════════════════════ -->
+<footer>
+  <p>&#169; 2026 Kiran Tanwar</p>
+  <span class="f-name">Designed with intention</span>
+  <p>All rights reserved</p>
+</footer>
+
+<script>
+// Nav solid on scroll
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',scrollY>60));
+
+// Scroll-reveal
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');});},{threshold:0.04,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// Section scrollspy
+(function(){
+  const sections=['s-intro','s-what','s-work','s-screens','s-impact','s-process','s-bring','s-cta'];
+  const links=document.querySelectorAll('.sn-link');
+  function update(){
+    let active='s-intro';
+    sections.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el&&el.getBoundingClientRect().top<=window.innerHeight*0.45) active=id;
+    });
+    links.forEach(l=>{
+      const href=l.getAttribute('href').slice(1);
+      l.classList.toggle('active',href===active);
+    });
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+})();
+</script>
+</body>
+</html>
