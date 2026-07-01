@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kiran Tanwar - Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0C0A0A;
+  --bg2:#1A1214;
+  --card:#1A1214;
+  --white:#FFFFFF;
+  --muted:rgba(240,237,232,0.50);
+  --muted2:rgba(240,237,232,0.45);
+  --border:rgba(240,237,232,0.07);
+  --accent:#C41E3A;
+  --accent-dim:rgba(196,30,58,0.10);
+  --accent-bdr:rgba(196,30,58,0.25);
+  --gold:#F5C542;
+  --gold-dim:rgba(245,197,66,0.10);
+  --gold-bdr:rgba(245,197,66,0.25);
+}
+
+html,body{
+  height:100%;
+  overflow:hidden;
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Space Grotesk',sans-serif;
+}
+
+/* ── Film grain overlay ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  z-index:1;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.022;
+}
+
+/* ── Pulsing glow ── */
+.glow{
+  position:fixed;
+  top:0;left:50%;
+  transform:translateX(-50%);
+  width:700px;height:500px;
+  background:radial-gradient(ellipse at 50% 40%, rgba(196,30,58,0.08) 0%, transparent 70%);
+  animation:pulse 5s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes pulse{
+  0%,100%{transform:translateX(-50%) scale(1);}
+  50%{transform:translateX(-50%) scale(1.15);}
+}
+
+/* ── Layout ── */
+.stage{
+  position:relative;
+  z-index:2;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:0 24px;
+  gap:0;
+}
+
+/* ── Fade-up animation ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.fu{opacity:0;animation:fadeUp .7s cubic-bezier(.16,1,.3,1) forwards;}
+.fu1{animation-delay:.1s;}
+.fu2{animation-delay:.15s;}
+.fu3{animation-delay:.3s;}
+.fu4{animation-delay:.45s;}
+.fu5{animation-delay:.5s;}
+.fu6{animation-delay:.65s;}
+.fu7{animation-delay:.85s;}
+
+/* ── Kicker ── */
+.kicker{
+  display:flex;align-items:center;gap:12px;
+  font-family:'Space Mono',monospace;
+  font-size:11px;font-weight:400;
+  letter-spacing:.10em;text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:20px;
+}
+.kicker-line{width:28px;height:1px;background:rgba(196,30,58,0.4);}
+
+/* ── Gooey morph ── */
+.morph-outer{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:clamp(80px,12vw,140px);
+  margin-bottom:24px;
+}
+.morph-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  filter:url(#gooey-threshold);
+}
+.morph-text{
+  position:absolute;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;
+  font-size:clamp(52px,10vw,110px);
+  color:#fff;
+  white-space:nowrap;
+  text-align:center;
+  line-height:1;
+  user-select:none;
+}
+
+/* ── Subtitle ── */
+.subtitle{
+  font-family:'Space Mono',monospace;
+  font-size:12px;font-weight:400;
+  color:var(--muted);
+  letter-spacing:.02em;
+  text-align:center;
+  line-height:1.7;
+  max-width:460px;
+  margin-bottom:32px;
+}
+.subtitle strong{color:#fff;font-weight:700;}
+
+/* ── Divider ── */
+.divider{
+  width:48px;height:1px;
+  background:linear-gradient(to right, transparent, var(--accent), transparent);
+  margin-bottom:28px;
+}
+
+/* ── Question ── */
+.question{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(15px,2.2vw,20px);
+  font-weight:500;
+  color:#fff;
+  text-align:center;
+  margin-bottom:20px;
+}
+
+/* ── Path buttons ── */
+.paths{
+  width:100%;
+  max-width:480px;
+  border-radius:12px;
+  border:1px solid rgba(240,237,232,0.06);
+  overflow:hidden;
+  margin-bottom:28px;
+}
+.path{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:18px 20px;
+  text-decoration:none;
+  background:var(--bg2);
+  transition:background .3s;
+  position:relative;
+  overflow:hidden;
+}
+.path::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .35s;
+  pointer-events:none;
+}
+.path-a::before{background:linear-gradient(to right, rgba(196,30,58,0.12), transparent);}
+.path-b::before{background:linear-gradient(to right, rgba(245,197,66,0.10), transparent);}
+.path:hover::before{opacity:1;}
+
+.path-sep{height:1px;background:rgba(240,237,232,0.06);}
+
+/* Circle indicator */
+.path-icon{
+  width:40px;height:40px;
+  border-radius:50%;
+  border:1.5px solid rgba(196,30,58,0.3);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:background .3s, border-color .3s;
+  position:relative;
+  z-index:1;
+}
+.path-b .path-icon{border-color:rgba(245,197,66,0.3);}
+.path:hover .path-a-icon{background:var(--accent);border-color:var(--accent);}
+.path:hover .path-b-icon{background:var(--gold);border-color:var(--gold);}
+
+.path-icon svg{
+  width:11px;height:11px;
+  transition:fill .3s;
+}
+.path-a .path-icon svg{fill:var(--accent);}
+.path-b .path-icon svg{fill:var(--gold);}
+.path:hover .path-icon svg{fill:#fff;}
+
+/* Center text */
+.path-body{flex:1;position:relative;z-index:1;}
+.path-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:15px;font-weight:600;
+  color:#fff;
+  margin-bottom:3px;
+  line-height:1.2;
+}
+.path-sub{
+  font-family:'Space Mono',monospace;
+  font-size:11px;font-weight:400;
+  color:var(--muted2);
+  line-height:1.7;
+}
+
+/* Time label */
+.path-time{
+  font-family:'Space Mono',monospace;
+  font-size:11px;font-weight:400;
+  white-space:nowrap;
+  position:relative;z-index:1;
+  flex-shrink:0;
+}
+.path-a .path-time{color:rgba(196,30,58,0.55);}
+.path-b .path-time{color:rgba(245,197,66,0.55);}
+
+/* ── Footer ── */
+.gate-footer{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  color:rgba(240,237,232,0.45);
+  display:flex;align-items:center;gap:12px;
+}
+.gate-footer a{
+  color:rgba(240,237,232,0.45);
+  text-decoration:none;
+  transition:color .2s;
+}
+.gate-footer a:hover{color:rgba(240,237,232,0.55);}
+.gate-footer span{opacity:.4;}
+
+/* ── Responsive ── */
+@media(max-width:560px){
+  .path{padding:15px 14px;gap:12px;}
+  .path-icon{width:34px;height:34px;}
+  .path-time{display:none;}
+  .kicker-line{width:18px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Gooey SVG filter -->
+<svg style="position:absolute;width:0;height:0;" aria-hidden="true">
+  <defs>
+    <filter id="gooey-threshold">
+      <feColorMatrix in="SourceGraphic" type="matrix"
+        values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 255 -140" />
+    </filter>
+  </defs>
+</svg>
+
+<!-- Pulsing glow -->
+<div class="glow" aria-hidden="true"></div>
+
+<!-- Main stage -->
+<main class="stage">
+
+  <!-- 1. Kicker -->
+  <div class="kicker fu fu1" aria-label="Kiran Tanwar">
+    <span class="kicker-line"></span>
+    Kiran Tanwar
+    <span class="kicker-line"></span>
+  </div>
+
+  <!-- 2. Gooey morph -->
+  <div class="morph-outer fu fu2" aria-live="polite" aria-atomic="true">
+    <div class="morph-wrap">
+      <span class="morph-text" id="morph1">Designer</span>
+      <span class="morph-text" id="morph2">Builder</span>
+    </div>
+  </div>
+
+  <!-- 3. Subtitle -->
+  <p class="subtitle fu fu3">
+    <strong>Senior Product Designer</strong> - shaping how humans<br>interact with AI across enterprise products.
+  </p>
+
+  <!-- 4. Divider -->
+  <div class="divider fu fu4" aria-hidden="true"></div>
+
+  <!-- 5. Question -->
+  <p class="question fu fu5">How would you like to explore?</p>
+
+  <!-- 6. Path buttons -->
+  <div class="paths fu fu6">
+
+    <a class="path path-a" href="ai-assisted-prototypes.html">
+      <div class="path-icon path-a-icon">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 0 L10 6 L0 12 Z"/>
+        </svg>
+      </div>
+      <div class="path-body">
+        <div class="path-title">Just the highlights</div>
+        <div class="path-sub">Best work, key screens, impact numbers</div>
+      </div>
+      <div class="path-time">~2 min</div>
+    </a>
+
+    <div class="path-sep" aria-hidden="true"></div>
+
+    <a class="path path-b" href="portfolio.html">
+      <div class="path-icon path-b-icon">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 0 L10 6 L0 12 Z"/>
+        </svg>
+      </div>
+      <div class="path-body">
+        <div class="path-title">Walk me through everything</div>
+        <div class="path-sub">Full case studies with research, decisions &amp; process</div>
+      </div>
+      <div class="path-time">~15 min</div>
+    </a>
+
+  </div>
+
+  <!-- 7. Footer -->
+  <div class="gate-footer fu fu7">
+    <a href="portfolio.html">skip intro</a>
+    <span>·</span>
+    <span>2026</span>
+  </div>
+
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  const WORDS       = ['Designer','Builder','Thinker','Problem Solver','AI Designer','Maker'];
+  const MORPH_TIME  = 1.2;   // seconds for each morph
+  const COOLDOWN    = 0.5;   // seconds of pause between morphs
+
+  const el1 = document.getElementById('morph1');
+  const el2 = document.getElementById('morph2');
+
+  let wordIdx  = 0;
+  let morph    = 0;
+  let cooldown = COOLDOWN;
+  let lastTime = null;
+
+  function setMorph(fraction) {
+    // el2 sharpens in
+    const blur2 = Math.min(8 / fraction - 8, 100);
+    el2.style.filter  = `blur(${blur2}px)`;
+    el2.style.opacity = Math.pow(fraction, 0.4);
+
+    // el1 blurs out
+    const inv = 1 - fraction;
+    const blur1 = Math.min(8 / inv - 8, 100);
+    el1.style.filter  = `blur(${blur1}px)`;
+    el1.style.opacity = Math.pow(inv, 0.4);
+  }
+
+  function doMorph(dt) {
+    morph += dt / MORPH_TIME;
+
+    if (morph >= 1) {
+      // Snap to next word cleanly
+      morph = 0;
+      cooldown = COOLDOWN;
+
+      // Advance word index
+      wordIdx = (wordIdx + 1) % WORDS.length;
+
+      // Swap: el1 becomes what el2 showed, el2 becomes the next
+      el1.textContent = WORDS[wordIdx];
+      el2.textContent = WORDS[(wordIdx + 1) % WORDS.length];
+
+      // Reset: el1 fully visible, el2 fully hidden
+      el1.style.filter  = 'blur(0px)';
+      el1.style.opacity = '1';
+      el2.style.filter  = 'blur(8px)';
+      el2.style.opacity = '0';
+      return;
+    }
+
+    setMorph(morph);
+  }
+
+  function tick(now) {
+    if (!lastTime) lastTime = now;
+    const dt = (now - lastTime) / 1000;
+    lastTime = now;
+
+    if (cooldown > 0) {
+      cooldown -= dt;
+      if (cooldown <= 0) {
+        cooldown = 0;
+        // Ensure clean start state before morphing
+        el1.style.filter  = 'blur(0px)';
+        el1.style.opacity = '1';
+        el2.style.filter  = 'blur(8px)';
+        el2.style.opacity = '0';
+      }
+    } else {
+      doMorph(dt);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // Init
+  el1.textContent = WORDS[0];
+  el2.textContent = WORDS[1];
+  el1.style.filter  = 'blur(0px)';
+  el1.style.opacity = '1';
+  el2.style.filter  = 'blur(8px)';
+  el2.style.opacity = '0';
+
+  requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>

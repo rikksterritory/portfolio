@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent Handoff UX — ServiceAI Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── Wise Neptune Design System ── */
+  --bg:       #0D0D0D;
+  --bg-1:     #141414;
+  --bg-2:     #1C1C1C;
+  --bg-3:     rgba(255,255,255,0.04);
+  --surface:  rgba(255,255,255,0.06);
+  --surface-2:rgba(255,255,255,0.10);
+
+  --green:    #9FE870;
+  --green-dk: #7DD65A;
+  --green-lt: rgba(159,232,112,0.15);
+  --green-bd: rgba(159,232,112,0.28);
+
+  --amber:    #F5A623;
+  --amber-bg: rgba(245,166,35,0.12);
+  --amber-bd: rgba(245,166,35,0.3);
+
+  --red:      #FF6B6B;
+  --red-bg:   rgba(255,107,107,0.12);
+  --red-bd:   rgba(255,107,107,0.3);
+
+  --blue:     #60A5FA;
+  --blue-bg:  rgba(96,165,250,0.12);
+  --blue-bd:  rgba(96,165,250,0.25);
+
+  --text:     #FFFFFF;
+  --text-2:   rgba(255,255,255,0.65);
+  --text-3:   rgba(255,255,255,0.38);
+  --border:   rgba(255,255,255,0.09);
+  --border-2: rgba(255,255,255,0.16);
+
+  --r-sm:  8px;
+  --r:     16px;
+  --r-lg:  20px;
+  --r-pill:999px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.05);
+  --shadow:    0 4px 16px rgba(0,0,0,0.4),  0 0 0 1px rgba(255,255,255,0.07);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.55),0 0 0 1px rgba(255,255,255,0.07);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body,#root{height:100%;overflow:hidden}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);
+  -webkit-font-smoothing:antialiased}
+
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+@keyframes slide-in-r{from{opacity:0;transform:translateX(32px)}to{opacity:1;transform:none}}
+@keyframes slide-in-l{from{opacity:0;transform:translateX(-32px)}to{opacity:1;transform:none}}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes modal-in{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes check-pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+
+.anim-r{animation:slide-in-r .32s cubic-bezier(.22,1,.36,1) both}
+.anim-l{animation:slide-in-l .32s cubic-bezier(.22,1,.36,1) both}
+.anim-fade{animation:fade-in .2s ease both}
+
+/* ── Buttons (Wise pill style) ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px 20px;border-radius:var(--r-pill);border:none;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .16s;white-space:nowrap;letter-spacing:-0.01em}
+.btn-primary{background:var(--green);color:#163300}
+.btn-primary:hover{background:var(--green-dk);transform:translateY(-1px);
+  box-shadow:0 4px 16px rgba(159,232,112,0.3)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+.btn-primary:disabled{background:rgba(159,232,112,0.3);color:rgba(22,51,0,0.4);cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--text);border:1.5px solid var(--border-2)}
+.btn-ghost:hover{background:var(--surface);border-color:rgba(255,255,255,0.28)}
+.btn-green{background:var(--green);color:#163300}
+.btn-green:hover{background:var(--green-dk)}
+.btn-grey{background:var(--surface);color:var(--text-2);border:1.5px solid var(--border)}
+.btn-grey:hover{background:var(--surface-2);color:var(--text)}
+.btn-sm{padding:6px 14px;font-size:12px}
+
+/* ── Cards ── */
+.card{background:rgba(255,255,255,0.05);border-radius:var(--r);
+  box-shadow:none;border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+
+/* ── Glass bubble base ── */
+.bubble-ai{
+  background:rgba(255,255,255,0.07);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 2px 12px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.08)}
+.bubble-user{
+  background:rgba(159,232,112,0.18);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(159,232,112,0.28);
+  box-shadow:0 2px 12px rgba(0,0,0,0.25),inset 0 1px 0 rgba(159,232,112,0.15)}
+
+/* ── Chips / Tags ── */
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
+  border-radius:var(--r-pill);font-size:11px;font-weight:600;letter-spacing:0.02em}
+input,textarea{font-family:'Inter',sans-serif;font-size:13px;outline:none}
+textarea{resize:none}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.28)}
+
+.tag-green{background:var(--green-lt);color:var(--green);border:1px solid var(--green-bd)}
+.tag-amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)}
+.tag-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd)}
+.tag-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd)}
+.tag-grey{background:var(--surface);color:var(--text-2);border:1px solid var(--border)}
+
+.hover-row:hover{background:var(--surface-2);cursor:pointer}
+.checkbox-custom{width:16px;height:16px;border:2px solid rgba(255,255,255,0.25);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:all .14s;flex-shrink:0}
+.checkbox-custom.checked{background:var(--green);border-color:var(--green)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- shared components -->
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ── Tabler icon library ───────────────────────────────────────────────────────
+const TIcon = ({ name, size=16, color='currentColor', style={} }) => {
+  const s = { display:'inline-block', flexShrink:0, verticalAlign:'middle', ...style };
+  const p = (d) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={s}>
+      {d}
+    </svg>
+  );
+  const icons = {
+    'alert-triangle': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 9v4"/><path d="M12 16h.01"/><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.871l-8.106 -13.534a1.914 1.914 0 0 0 -3.274 0z"/></>),
+    'lock': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"/><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/><path d="M8 11v-4a4 4 0 1 1 8 0v4"/></>),
+    'calendar': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></>),
+    'mail': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"/><path d="M3 7l9 6l9 -6"/></>),
+    'search': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/><path d="M21 21l-6 -6"/></>),
+    'message': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 9h8"/><path d="M8 13h6"/><path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/></>),
+    'chart-bar': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M9 8m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M15 4m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M4 20l14 0"/></>),
+    'mood-sad': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M9 10l.01 0"/><path d="M15 10l.01 0"/><path d="M9.5 15.25a3.5 3.5 0 0 1 5 0"/></>),
+    'mood-angry': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M14.5 16.05a3.5 3.5 0 0 0 -5 0"/><path d="M8.5 11.5l1.5 -1.5l-1.5 -1.5"/><path d="M15.5 11.5l-1.5 -1.5l1.5 -1.5"/></>),
+    'sparkles': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 18a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2a2 2 0 0 1 2 2"/><path d="M6 12a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2a2 2 0 0 1 2 2"/><path d="M12 6l1 2l2 1l-2 1l-1 2l-1 -2l-2 -1l2 -1z"/></>),
+    'bulb': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12h1"/><path d="M12 3v1"/><path d="M20 12h1"/><path d="M5.6 5.6l.7 .7"/><path d="M18.4 5.6l-.7 .7"/><path d="M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3"/><path d="M9.7 17l4.6 0"/></>),
+    'barbell': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M2 12h1"/><path d="M6 8h-2a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h2"/><path d="M6 7a1 1 0 0 1 1 -1h1a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-1a1 1 0 0 1 -1 -1z"/><path d="M22 12h-1"/><path d="M18 8h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2"/><path d="M18 7a1 1 0 0 0 -1 -1h-1a1 1 0 0 0 -1 1v10a1 1 0 0 0 1 1h1a1 1 0 0 0 1 -1z"/><path d="M10 12h4"/></>),
+    'coin': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 0 0 4h-2a2 2 0 0 1 -1.8 -1"/><path d="M12 7v10"/></>),
+    'armchair': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 11a2 2 0 0 1 2 2v2h10v-2a2 2 0 1 1 4 0v4a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2z"/><path d="M5 13v-7a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v7"/><path d="M11 19v2"/><path d="M13 19v2"/></>),
+    'user': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/></>),
+    'refresh': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></>),
+    'send': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 14l11 -11"/><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"/></>),
+    'clipboard': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"/><path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"/><path d="M9 12h6"/><path d="M9 16h6"/></>),
+    'robot': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"/><path d="M12 2v2"/><path d="M9 12v9"/><path d="M15 12v9"/><path d="M5 16l4 -2"/><path d="M15 14l4 2"/><path d="M9 18h6"/><path d="M10 8v.01"/><path d="M14 8v.01"/></>),
+    'clock': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M12 7v5l3 3"/></>),
+    'check-circle': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/><path d="M9 12l2 2l4 -4"/></>),
+    'flag': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 5a5 5 0 0 1 7 0a5 5 0 0 0 7 0v9a5 5 0 0 1 -7 0a5 5 0 0 0 -7 0v-9z"/><path d="M5 21v-7"/></>),
+    'arrow-right': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12h14"/><path d="M15 16l4 -4"/><path d="M15 8l4 4"/></>),
+    'arrow-left': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12h14"/><path d="M5 12l4 4"/><path d="M5 12l4 -4"/></>),
+    'users': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/></>),
+    'external-link': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6"/><path d="M11 13l9 -9"/><path d="M15 4h5v5"/></>),
+    'star': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/></>),
+    'download': p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/><path d="M7 11l5 5l5 -5"/><path d="M12 4l0 12"/></>),
+  };
+  return icons[name] || p(<><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/></>);
+};
+Object.assign(window,{TIcon});
+
+const BotIcon = ({ size }) => (
+  <svg width={size*0.62} height={size*0.62} viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="4" y="7" width="16" height="12" rx="3"/>
+    <path d="M12 7V3"/><circle cx="12" cy="3" r="1" fill="currentColor"/>
+    <circle cx="9" cy="13" r="1.2" fill="currentColor" stroke="none"/>
+    <circle cx="15" cy="13" r="1.2" fill="currentColor" stroke="none"/>
+    <path d="M9 17h6"/><path d="M2 13v2M22 13v2"/>
+  </svg>
+);
+
+const Av = ({ initials, grad, size=32, ring=false }) => {
+  const isBot = initials==='AVA';
+  return (
+    <div style={{width:size,height:size,borderRadius:'50%',flexShrink:0,
+      background:grad||'linear-gradient(135deg,#9FE870,#7DD65A)',
+      display:'flex',alignItems:'center',justifyContent:'center',
+      fontSize:size*.27,fontWeight:700,color:isBot?'rgba(255,255,255,0.9)':'#163300',
+      boxShadow:ring?`0 0 0 2px #163300,0 0 0 4px ${grad?.includes('9FE870')?'#9FE870':'#9FE870'}`:'none'}}>
+      {isBot ? <BotIcon size={size}/> : initials}
+    </div>
+  );
+};
+
+const Dot = ({ color='#9FE870', size=8 }) => (
+  <span style={{width:size,height:size,borderRadius:'50%',background:color,
+    display:'inline-block',flexShrink:0,animation:'pulse-dot 2s infinite'}} />
+);
+
+const Tag = ({ children, cls, style={} }) => (
+  <span className={`chip ${cls}`} style={style}>{children}</span>
+);
+
+const SLabel = ({ children, style={} }) => (
+  <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',
+    letterSpacing:'0.1em',color:'rgba(255,255,255,0.38)',...style}}>{children}</div>
+);
+
+const Divider = ({ my=12 }) => (
+  <div style={{height:1,background:'rgba(255,255,255,0.08)',margin:`${my}px 0`}} />
+);
+
+const PBadge = ({ title, desc }) => (
+  <div style={{display:'inline-flex',alignItems:'center',gap:6,padding:'5px 14px',
+    borderRadius:'var(--r-pill)',background:'rgba(159,232,112,0.1)',
+    border:'1px solid rgba(159,232,112,0.2)'}}>
+    <span style={{fontSize:10,fontWeight:700,color:'#9FE870',textTransform:'uppercase',
+      letterSpacing:'0.08em'}}>{title}</span>
+    <span style={{fontSize:10,color:'rgba(255,255,255,0.3)'}}>—</span>
+    <span style={{fontSize:10,color:'rgba(255,255,255,0.55)'}}>{desc}</span>
+  </div>
+);
+
+const CheckItem = ({ checked, label, sub, onToggle }) => (
+  <div onClick={onToggle} style={{display:'flex',gap:10,alignItems:'flex-start',
+    padding:'9px 12px',borderRadius:'var(--r-sm)',cursor:'pointer',
+    background:checked?'rgba(159,232,112,0.06)':'transparent',
+    border:`1px solid ${checked?'rgba(159,232,112,0.22)':'transparent'}`,
+    transition:'all .14s'}}>
+    <div className={`checkbox-custom ${checked?'checked':''}`} style={{marginTop:1}}>
+      {checked&&<svg width="9" height="7" viewBox="0 0 9 7" fill="none">
+        <path d="M1 3.5L3.5 6L8 1" stroke="#163300" strokeWidth="1.5"
+          strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>}
+    </div>
+    <div>
+      <div style={{fontSize:13,fontWeight:500,color:'var(--text)',lineHeight:1.4}}>{label}</div>
+      {sub&&<div style={{fontSize:11,color:'var(--text-3)',marginTop:1}}>{sub}</div>}
+    </div>
+  </div>
+);
+
+Object.assign(window,{Av,Dot,Tag,SLabel,Divider,PBadge,CheckItem});
+</script>
+
+<!-- Screen 1 & 2 & 3 -->
+<script type="text/babel">
+// ── Screen 1 — AI Agent in Flow ──────────────────────────────────────────────
+const Screen1 = () => {
+  const SD = ({color='rgba(255,255,255,0.25)',fill=false,icon=null,pulse=false})=>(
+    <div style={{width:20,height:20,borderRadius:'50%',flexShrink:0,display:'flex',
+      alignItems:'center',justifyContent:'center',border:`2px solid ${color}`,
+      background:fill?color:'transparent',animation:pulse?'pulse-dot 2s infinite':undefined,
+      fontSize:9,color:fill?'#141414':color,fontWeight:700}}>{icon}</div>
+  );
+
+  const metrics=[
+    {label:'Messages',value:'6'},
+    {label:'Avg Response',value:'< 1s'},
+    {label:'AI Confidence',value:'89%'},
+    {label:'Session Time',value:'3m 21s'},
+  ];
+  const stages=[
+    {phase:'Intake',rows:[
+      {dot:<SD color='rgba(255,255,255,0.3)' icon='↺'/>,
+        label:<><strong>Case CS-48821 opened</strong> — Marcus Webb (Acme Corp) filed a billing dispute for the March invoice, citing a $840 overcharge.</>,time:'9:42 AM'},
+      {dot:<SD color='var(--blue)' fill icon='✓'/>,
+        label:<><strong>Identity verified</strong> — Acme Corp confirmed, 3yr tenure active, contract terms and 24-month billing history retrieved.</>,time:'9:42 AM'},
+    ]},
+    {phase:'Verification',rows:[
+      {dot:<SD color='var(--blue)' fill icon='✓'/>,
+        label:<><strong>Billing error confirmed</strong> — March invoice billed 12 seats × $70 = $840; contract effective Mar 1st specifies 8 seats. $280 overcharge documented under CS-48821.</>,time:'9:43 AM'},
+      {dot:<SD color='rgba(255,255,255,0.3)' icon='→'/>,
+        label:<><strong>Overcharge correction offered ($280)</strong> — Ava can process the confirmed billing delta automatically within her authorization limit.</>,time:'9:43 AM'},
+    ]},
+    {phase:'Negotiation',rows:[
+      {dot:<SD color='var(--amber)' icon='⚠'/>,
+        label:<><strong>Full goodwill credit requested ($840)</strong> — Marcus cited two billing errors in three months and his 3-year account history as justification.</>,time:'9:44 AM'},
+      {dot:<SD color='rgba(255,255,255,0.3)' icon='○'/>,
+        label:<><strong>Repeat billing pattern flagged</strong> — Prior incident logged in account history alongside current dispute. NPS 7, churn risk assessed as Medium.</>,time:'9:45 AM'},
+    ]},
+    {phase:'Limit Reached',rows:[
+      {dot:<SD color='var(--amber)' icon='⚠'/>,
+        label:<><strong>Authorization ceiling hit</strong> — $840 credit request exceeds $200 automated agent limit. Audit log access and billing sync override also unavailable.</>,time:'9:46 AM'},
+      {dot:<SD color='var(--amber)' fill icon='→'/>,
+        label:<><strong>Escalation initiated</strong> — Confidence score dropped to 34%. Handoff to Sarah Chen triggered with full context package.</>,time:'9:46 AM'},
+    ]},
+  ];
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%',overflowY:'auto',padding:'20px 24px',gap:16}}>
+
+      <div className="card" style={{padding:'20px 24px'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+          <div style={{flex:1}}>
+            <div style={{fontSize:20,fontWeight:700,letterSpacing:'-0.02em',marginBottom:6}}>AI Session · CS-48821</div>
+            <div style={{fontSize:13,color:'var(--text-2)',lineHeight:1.6,maxWidth:540}}>
+              Ava handled intake, verified the billing error, and identified the authorization ceiling — without the customer repeating a single detail.
+            </div>
+          </div>
+          <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+            <div style={{display:'flex',alignItems:'center',gap:6,padding:'5px 10px 5px 8px',
+              borderRadius:'var(--r-pill)',background:'var(--green-lt)',border:'1px solid var(--green-bd)'}}>
+              <span style={{width:6,height:6,borderRadius:'50%',background:'var(--green)',display:'inline-block',animation:'pulse-dot 2s infinite'}}/>
+              <span style={{fontSize:12,fontWeight:600,color:'var(--green)'}}>Live</span>
+            </div>
+            <button className="btn btn-ghost btn-sm">View Transcript</button>
+          </div>
+        </div>
+        <div style={{display:'flex',gap:0,marginTop:16,borderTop:'1px solid var(--border)',paddingTop:16}}>
+          {metrics.map((m,i,arr)=>(
+            <div key={m.label} style={{flex:1,paddingRight:20,
+              borderRight:i<arr.length-1?'1px solid var(--border)':'none',paddingLeft:i>0?20:0}}>
+              <div style={{fontSize:10,color:'var(--text-3)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:4}}>{m.label}</div>
+              <div style={{fontSize:18,fontWeight:700,color:m.color||'var(--text)'}}>{m.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="card" style={{padding:0,overflow:'hidden'}}>
+        {stages.map((stage,si)=>(
+          <div key={stage.phase} style={{borderBottom:si<stages.length-1?'1px solid var(--border)':'none'}}>
+            {stage.rows.map((row,ri)=>(
+              <div key={ri} style={{display:'grid',gridTemplateColumns:'120px 1fr 100px',
+                alignItems:'flex-start',gap:0,
+                borderBottom:ri<stage.rows.length-1?'1px solid rgba(255,255,255,0.04)':'none',
+                padding:'13px 20px'}}>
+                <div style={{paddingRight:16,paddingTop:2}}>
+                  {ri===0&&<div style={{fontSize:11,fontWeight:600,color:'var(--text-2)'}}>{stage.phase}</div>}
+                </div>
+                <div style={{display:'flex',alignItems:'flex-start',gap:10,paddingRight:16}}>
+                  {row.dot}
+                  <div style={{fontSize:13,lineHeight:1.5,color:'var(--text-2)'}}>{row.label}</div>
+                </div>
+                <div style={{display:'flex',justifyContent:'flex-end',paddingTop:2}}>
+                  <div style={{display:'flex',alignItems:'center',gap:4,padding:'3px 8px',
+                    borderRadius:'var(--r-pill)',background:'var(--surface)',border:'1px solid var(--border)',
+                    fontSize:11,color:'var(--text-3)',whiteSpace:'nowrap'}}>
+                    <TIcon name="clock" size={10} color="var(--text-3)"/>{row.time}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="card" style={{padding:'12px 20px',display:'flex',gap:24,alignItems:'center',flexWrap:'wrap'}}>
+        <span style={{fontSize:12,color:'var(--text-2)',display:'flex',alignItems:'center',gap:6}}>
+          <span style={{width:5,height:5,borderRadius:'50%',background:'var(--green)',display:'inline-block'}}/>
+          Ava has handled cases like this <strong style={{color:'var(--text)',marginLeft:3}}>847 times</strong>
+        </span>
+        <span style={{fontSize:12,color:'var(--text-2)'}}>Avg. resolution: <strong style={{color:'var(--text)'}}>3m 12s</strong></span>
+        <span style={{fontSize:12,color:'var(--text-2)'}}>Billing CSAT: <strong style={{color:'var(--green)'}}>94%</strong></span>
+        <span style={{fontSize:11,color:'var(--text-3)',marginLeft:'auto',display:'flex',alignItems:'center',gap:4}}>
+          <TIcon name="lock" size={11} color="var(--text-3)"/> Encrypted · SOC 2 Type II
+        </span>
+      </div>
+    </div>
+  );
+};
+
+// ── Screen 2 — The Trigger Moment (customer chat) ────────────────────────────
+const Screen2 = () => {
+  const msgs = [
+    {id:1,from:'c',name:'Marcus Webb',time:'9:45 AM',
+      text:"Okay so when do I actually get this resolved? I've been waiting on this for two billing cycles now."},
+    {id:2,from:'a',name:'Ava',time:'9:46 AM',warn:true,
+      text:"Marcus, I want to be completely transparent with you. I've hit the limit of what I can resolve on my own — issuing a credit above $200 requires account-level authority that I don't have."},
+    {id:3,from:'c',name:'Marcus Webb',time:'9:46 AM',
+      text:"Why can't you just keep handling this? I don't want to get passed around to someone else who doesn't know my history."},
+    {id:4,from:'a',name:'Ava',time:'9:46 AM',handoff:true,
+      text:"I completely understand that frustration — and I appreciate your trust in me. The reason I'm involving Sarah is that she has specific account-level authority to issue the full $840 credit. That's genuinely outside what I can authorize, and I don't want to give you anything less than what you're owed."},
+    {id:5,from:'a',name:'Ava',time:'9:47 AM',handoff:true,
+      text:"I've already prepared a full briefing for Sarah Chen, our Senior Billing Specialist — she has everything: the $840 dispute, both billing incidents, your contract terms, and every step I've already taken. You won't need to explain a single thing."},
+    {id:6,from:'a',name:'Ava',time:'9:47 AM',handoff:true,
+      text:"Sarah has a strong track record with cases exactly like yours and can authorize the full credit. Connecting you now — average wait is under 2 minutes. Thank you for your patience, Marcus."},
+  ];
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%'}}>
+      <div style={{padding:'11px 20px',background:'var(--amber-bg)',
+        borderBottom:'1px solid var(--amber-bd)',
+        display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0}}>
+        <div style={{display:'flex',alignItems:'center',gap:10}}>
+          <TIcon name="alert-triangle" size={18} color="var(--amber)"/>
+          <div>
+            <div style={{fontSize:13,fontWeight:700,color:'var(--amber)'}}>Agent Limit Reached — Initiating Handoff</div>
+            <div style={{fontSize:11,color:'rgba(245,166,35,0.75)',marginTop:1}}>
+              Confidence score: <strong>34%</strong> · Credit request exceeds $200 limit · Audit log access unavailable · Billing sync override not permitted
+            </div>
+          </div>
+        </div>
+        <div style={{padding:'4px 12px',borderRadius:'var(--r-pill)',background:'var(--amber-bg)',
+          border:'1px solid var(--amber-bd)',fontSize:11,fontWeight:600,color:'var(--amber)'}}>
+          3 blockers
+        </div>
+      </div>
+
+      <div style={{padding:'9px 20px',background:'var(--bg-1)',borderBottom:'1px solid var(--border)',
+        display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0}}>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          <Dot color="var(--amber)"/>
+          <span style={{fontSize:12,fontWeight:600,color:'var(--amber)'}}>Handoff initiated</span>
+          <span style={{color:'var(--border-2)',margin:'0 3px'}}>·</span>
+          <span style={{fontSize:11,color:'var(--text-2)'}}>Ava → Sarah Chen · Context packaging in progress</span>
+        </div>
+        <div style={{display:'flex',gap:6}}>
+          <Tag cls="tag-amber">Escalated</Tag>
+          <Tag cls="tag-blue">CS-48821 · Billing</Tag>
+        </div>
+      </div>
+
+      <div style={{flex:1,overflowY:'auto',padding:'16px 20px',display:'flex',flexDirection:'column',gap:14}}>
+        <div style={{textAlign:'center'}}>
+          <span style={{fontSize:10.5,color:'var(--amber)',background:'var(--amber-bg)',
+            padding:'3px 12px',borderRadius:'var(--r-pill)',fontWeight:500,border:'1px solid var(--amber-bd)'}}>
+            ⚠ Escalation triggered · 9:46 AM · Confidence dropped below threshold
+          </span>
+        </div>
+        {msgs.map(m=>(
+          <div key={m.id} style={{display:'flex',
+            flexDirection:m.from==='c'?'row-reverse':'row',gap:10,alignItems:'flex-start'}}>
+            <Av initials={m.from==='a'?'AVA':'MW'}
+              grad={m.from==='a'
+                ?(m.handoff?'linear-gradient(135deg,#9FE870,#7DD65A)':'linear-gradient(135deg,#265200,#9FE870)')
+                :'linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.1))'}
+              size={30}/>
+            <div style={{maxWidth:'68%',display:'flex',flexDirection:'column',gap:4,
+              alignItems:m.from==='c'?'flex-end':'flex-start'}}>
+              <div style={{fontSize:10.5,color:'var(--text-3)',display:'flex',gap:5,alignItems:'center'}}>
+                <span style={{fontWeight:600,color:'var(--text-2)'}}>{m.name}</span>
+                <span>{m.time}</span>
+                {m.handoff&&<span style={{background:'var(--green-lt)',color:'var(--green)',fontSize:9,fontWeight:700,
+                  padding:'2px 6px',borderRadius:'var(--r-pill)',letterSpacing:'0.06em'}}>HANDOFF</span>}
+              </div>
+              <div className={m.from==='c'?'bubble-user':'bubble-ai'}
+                style={{padding:'10px 14px',lineHeight:1.6,fontSize:13,
+                borderRadius:m.from==='c'?'16px 4px 16px 16px':'4px 16px 16px 16px',
+                background:m.handoff?'rgba(159,232,112,0.12)':m.warn?'rgba(245,166,35,0.1)':undefined,
+                borderColor:m.handoff?'rgba(159,232,112,0.25)':m.warn?'rgba(245,166,35,0.25)':undefined,
+                color:m.from==='c'?'#e8ffdc':m.handoff?'var(--green)':m.warn?'var(--amber)':'var(--text)'}}>
+                {m.text}
+              </div>
+            </div>
+          </div>
+        ))}
+        <div style={{display:'flex',gap:10,alignItems:'flex-start'}}>
+          <Av initials="SC" grad="linear-gradient(135deg,#8B5CF6,#7C3AED)" size={30}/>
+          <div className="bubble-ai" style={{padding:'10px 14px',borderRadius:'4px 16px 16px 16px'}}>
+            <div style={{display:'flex',gap:4,alignItems:'center'}}>
+              {[0,1,2].map(i=>(
+                <div key={i} style={{width:6,height:6,borderRadius:'50%',background:'rgba(255,255,255,0.3)',
+                  animation:`pulse-dot 1.2s ${i*.2}s infinite`}}/>
+              ))}
+              <span style={{fontSize:11,color:'var(--text-2)',marginLeft:4}}>Sarah is reviewing your case…</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{borderTop:'1px solid var(--border)',padding:'10px 20px',background:'var(--bg-1)',
+        display:'flex',alignItems:'center',gap:16,flexShrink:0}}>
+        {[{done:true,label:'Full conversation transcript packaged'},
+          {done:true,label:'Account history & sentiment transferred'},
+          {done:false,label:'Routing to Sarah Chen…'}].map((item,i)=>(
+          <div key={i} style={{fontSize:11,color:'var(--text-2)',display:'flex',alignItems:'center',gap:6}}>
+            {item.done
+              ?<span style={{width:15,height:15,borderRadius:'50%',background:'var(--green-lt)',
+                  border:'1px solid var(--green-bd)',display:'inline-flex',alignItems:'center',
+                  justifyContent:'center',fontSize:8,color:'var(--green)'}}>✓</span>
+              :<div style={{width:15,height:15,border:'2px solid var(--amber)',borderRadius:'50%',
+                  borderTopColor:'transparent',animation:'spin .8s linear infinite'}}/>}
+            {item.label}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ── ScreenEsc — Escalation Lifecycle ─────────────────────────────────────────
+const ScreenEsc = () => {
+  const SD = ({color='rgba(255,255,255,0.25)',fill=false,icon=null,pulse=false})=>(
+    <div style={{width:20,height:20,borderRadius:'50%',flexShrink:0,display:'flex',
+      alignItems:'center',justifyContent:'center',border:`2px solid ${color}`,
+      background:fill?color:'transparent',animation:pulse?'pulse-dot 2s infinite':undefined,
+      fontSize:9,color:fill?'#141414':color,fontWeight:700}}>{icon}</div>
+  );
+
+  const metrics=[
+    {label:'AI Confidence',value:'34%',color:'var(--amber)'},
+    {label:'Blockers Hit',value:'3',color:'var(--amber)'},
+    {label:'Context Packaged',value:'100%',color:'var(--green)'},
+    {label:'Est. Wait',value:'< 2 min'},
+  ];
+  const stages=[
+    {phase:'Detection',rows:[
+      {dot:<SD color='var(--amber)' icon='⚠'/>,
+        label:<><strong>Confidence score dropped to 34%</strong> — credit request of $840 exceeded the $200 automated authorization limit, triggering escalation review.</>,time:'9:46 AM'},
+      {dot:<SD color='var(--amber)' icon='⚠'/>,
+        label:<><strong>Two additional blockers identified</strong> — audit log access unavailable; billing sync override not permitted at agent authorization level.</>,time:'9:46 AM'},
+    ]},
+    {phase:'Transparency',rows:[
+      {dot:<SD color='var(--blue)' fill icon='✓'/>,
+        label:<><strong>Ava disclosed its limitation to Marcus</strong> — explained directly that issuing credit above $200 requires account-level authority she does not have.</>,time:'9:46 AM'},
+      {dot:<SD color='var(--blue)' fill icon='✓'/>,
+        label:<><strong>Specialist introduced before transfer</strong> — Sarah Chen named, her seniority explained, and track record referenced to set expectations before routing.</>,time:'9:46 AM'},
+    ]},
+    {phase:'Handoff',rows:[
+      {dot:<SD color='var(--green)' fill icon='✓'/>,
+        label:<><strong>Conversation transcript packaged</strong> — full message history, timestamps, intent signals, and billing evidence compressed into context bundle.</>,time:'9:47 AM'},
+      {dot:<SD color='var(--green)' fill icon='✓'/>,
+        label:<><strong>Account &amp; sentiment transferred</strong> — 3yr tenure, NPS 7, churn risk (Medium), billing history, and both prior incidents included in bundle.</>,time:'9:47 AM'},
+    ]},
+    {phase:'Routing',rows:[
+      {dot:<SD color='rgba(255,255,255,0.3)' icon='→'/>,
+        label:<><strong>Routing to Sarah Chen</strong> — Senior Billing Specialist, authorized for account-level credits. Average wait: under 2 minutes.</>,time:'9:47 AM'},
+      {dot:<SD color='var(--blue)' pulse/>,
+        label:<><strong style={{color:'var(--blue)'}}>Sarah is reviewing the case</strong> — context package received, response in progress.</>,time:'Live'},
+    ]},
+  ];
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%',overflowY:'auto',padding:'20px 24px',gap:16}}>
+
+      <div className="card" style={{padding:'20px 24px'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+          <div style={{flex:1}}>
+            <div style={{fontSize:20,fontWeight:700,letterSpacing:'-0.02em',marginBottom:6}}>Escalation · CS-48821</div>
+            <div style={{fontSize:13,color:'var(--text-2)',lineHeight:1.6,maxWidth:540}}>
+              Ava hit its authorization ceiling and initiated a transparent, verified handoff to Sarah Chen — zero context lost in the transfer.
+            </div>
+          </div>
+          <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+            <div style={{display:'flex',alignItems:'center',gap:6,padding:'5px 10px 5px 6px',
+              borderRadius:'var(--r-pill)',background:'var(--amber-bg)',border:'1px solid var(--amber-bd)'}}>
+              <span style={{padding:'1px 7px',borderRadius:'var(--r-pill)',background:'var(--amber)',
+                color:'#141414',fontSize:10,fontWeight:700,letterSpacing:'0.02em'}}>3</span>
+              <span style={{fontSize:12,fontWeight:500,color:'var(--amber)'}}>Blockers Hit</span>
+            </div>
+            <button className="btn btn-ghost btn-sm">View Audit Log</button>
+          </div>
+        </div>
+        <div style={{display:'flex',gap:0,marginTop:16,borderTop:'1px solid var(--border)',paddingTop:16}}>
+          {metrics.map((m,i,arr)=>(
+            <div key={m.label} style={{flex:1,paddingRight:20,
+              borderRight:i<arr.length-1?'1px solid var(--border)':'none',paddingLeft:i>0?20:0}}>
+              <div style={{fontSize:10,color:'var(--text-3)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:4}}>{m.label}</div>
+              <div style={{fontSize:18,fontWeight:700,color:m.color||'var(--text)'}}>{m.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="card" style={{padding:0,overflow:'hidden'}}>
+        {stages.map((stage,si)=>(
+          <div key={stage.phase} style={{borderBottom:si<stages.length-1?'1px solid var(--border)':'none'}}>
+            {stage.rows.map((row,ri)=>(
+              <div key={ri} style={{display:'grid',gridTemplateColumns:'120px 1fr 100px',
+                alignItems:'flex-start',gap:0,
+                borderBottom:ri<stage.rows.length-1?'1px solid rgba(255,255,255,0.04)':'none',
+                padding:'13px 20px'}}>
+                <div style={{paddingRight:16,paddingTop:2}}>
+                  {ri===0&&<div style={{fontSize:11,fontWeight:600,color:'var(--text-2)'}}>{stage.phase}</div>}
+                </div>
+                <div style={{display:'flex',alignItems:'flex-start',gap:10,paddingRight:16}}>
+                  {row.dot}
+                  <div style={{fontSize:13,lineHeight:1.5,color:'var(--text-2)'}}>{row.label}</div>
+                </div>
+                <div style={{display:'flex',justifyContent:'flex-end',paddingTop:2}}>
+                  <div style={{display:'flex',alignItems:'center',gap:4,padding:'3px 8px',
+                    borderRadius:'var(--r-pill)',background:'var(--surface)',border:'1px solid var(--border)',
+                    fontSize:11,color:'var(--text-3)',whiteSpace:'nowrap'}}>
+                    <TIcon name="clock" size={10} color="var(--text-3)"/>{row.time}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ── Screen 3 — Customer Waiting State ────────────────────────────────────────
+const Screen3 = () => {
+  const [showAvaOpt,setShowAvaOpt] = useState(false);
+  const [avaConfirm,setAvaConfirm] = useState(false);
+  const [showTimeout,setShowTimeout] = useState(false);
+  const [timeSlot,setTimeSlot] = useState('');
+  const [timeoutAction,setTimeoutAction] = useState('');
+  const [seconds,setSeconds] = useState(105);
+  const [expanded,setExpanded] = useState(false);
+  const [callbackConfirmed,setCallbackConfirmed] = useState(false);
+
+  useEffect(()=>{
+    if(showTimeout) return;
+    const t = setInterval(()=>setSeconds(s=>s>0?s-1:0),1000);
+    return ()=>clearInterval(t);
+  },[showTimeout]);
+
+  const mm = String(Math.floor(seconds/60)).padStart(2,'0');
+  const ss = String(seconds%60).padStart(2,'0');
+  const pct = (seconds/105)*100;
+  const slots = ['Mon Apr 21 · 10:00 AM','Mon Apr 21 · 2:30 PM','Tue Apr 22 · 9:00 AM','Tue Apr 22 · 3:00 PM'];
+
+  const TRow = ({phase,children,time,isLast=false})=>(
+    <div style={{display:'grid',gridTemplateColumns:'120px 1fr 100px',alignItems:'flex-start',
+      borderBottom:!isLast?'1px solid rgba(255,255,255,0.06)':'none',padding:'14px 20px'}}>
+      <div style={{paddingRight:16,paddingTop:2}}>
+        {phase&&<div style={{fontSize:11,fontWeight:600,color:'var(--text-2)'}}>{phase}</div>}
+      </div>
+      <div style={{paddingRight:16}}>{children}</div>
+      <div style={{display:'flex',justifyContent:'flex-end',paddingTop:2}}>
+        {time&&<div style={{display:'flex',alignItems:'center',gap:4,padding:'3px 8px',
+          borderRadius:'var(--r-pill)',background:'var(--surface)',border:'1px solid var(--border)',
+          fontSize:11,color:'var(--text-3)',whiteSpace:'nowrap'}}>
+          <TIcon name="clock" size={10} color="var(--text-3)"/>{time}
+        </div>}
+      </div>
+    </div>
+  );
+
+  if(showTimeout) return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%',overflowY:'auto',padding:'20px 24px',gap:16}}>
+      <div className="card" style={{padding:'20px 24px'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+          <div style={{flex:1}}>
+            <div style={{fontSize:20,fontWeight:700,letterSpacing:'-0.02em',marginBottom:6}}>No Reps Available · CS-48821</div>
+            <div style={{fontSize:13,color:'var(--text-2)',lineHeight:1.6,maxWidth:540}}>
+              All specialists are currently with other customers. Your context is fully preserved — choose how you'd like to continue.
+            </div>
+          </div>
+          <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+            <div style={{padding:'5px 12px',borderRadius:'var(--r-pill)',background:'var(--surface)',
+              border:'1px solid var(--border)',fontSize:12,fontWeight:500,color:'var(--text-2)'}}>All Busy</div>
+            <button className="btn btn-ghost btn-sm" onClick={()=>setShowTimeout(false)}>← Back to queue</button>
+          </div>
+        </div>
+        <div style={{display:'flex',gap:0,marginTop:16,borderTop:'1px solid var(--border)',paddingTop:16}}>
+          {[{label:'Agents Available',value:'0',color:'var(--text-3)'},{label:'Context Status',value:'Preserved',color:'var(--green)'},
+            {label:'Email SLA',value:'4 hrs'},{label:'Options',value:'3 available'}].map((m,i,arr)=>(
+            <div key={m.label} style={{flex:1,paddingRight:20,
+              borderRight:i<arr.length-1?'1px solid var(--border)':'none',paddingLeft:i>0?20:0}}>
+              <div style={{fontSize:10,color:'var(--text-3)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:4}}>{m.label}</div>
+              <div style={{fontSize:18,fontWeight:700,color:m.color||'var(--text)'}}>{m.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="card" style={{padding:0,overflow:'hidden'}}>
+        <TRow phase="Option 1" time="Preferred">
+          <div>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
+              <TIcon name="calendar" size={15} color="var(--text-2)"/>
+              <span style={{fontWeight:600,fontSize:13}}>Schedule a callback</span>
+              <span style={{fontSize:11,color:'var(--text-2)'}}>— We'll call you at your chosen time</span>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:6,marginBottom:8}}>
+              {slots.map(s=>(
+                <div key={s} onClick={()=>{setTimeSlot(s);setTimeoutAction('schedule');}}
+                  style={{padding:'8px 10px',borderRadius:'var(--r-sm)',fontSize:12,cursor:'pointer',
+                    fontWeight:timeSlot===s?600:400,transition:'all .14s',
+                    border:`1.5px solid ${timeSlot===s?'var(--green)':'var(--border)'}`,
+                    background:timeSlot===s?'var(--green-lt)':'var(--surface)',
+                    color:timeSlot===s?'var(--green)':'var(--text-2)'}}>
+                  {s}
+                </div>
+              ))}
+            </div>
+            {timeSlot&&timeoutAction==='schedule'&&!callbackConfirmed&&(
+              <button className="btn btn-primary btn-sm" onClick={()=>setCallbackConfirmed(true)}>
+                Confirm — {timeSlot}
+              </button>
+            )}
+            {callbackConfirmed&&(
+              <div className="anim-fade" style={{padding:'6px 12px',borderRadius:'var(--r-sm)',
+                background:'var(--green-lt)',border:'1px solid var(--green-bd)',fontSize:12,
+                color:'var(--green)',fontWeight:500,display:'inline-flex',alignItems:'center',gap:6}}>
+                ✓ Callback scheduled for {timeSlot}
+              </div>
+            )}
+          </div>
+        </TRow>
+        <TRow phase="Option 2" time="">
+          <div style={{display:'flex',alignItems:'center',gap:10,cursor:'pointer'}} onClick={()=>setTimeoutAction('ava')}>
+            <TIcon name="robot" size={18} color={timeoutAction==='ava'?'var(--green)':'var(--text-2)'}/>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:600,fontSize:13,color:timeoutAction==='ava'?'var(--green)':'var(--text)'}}>Continue with Ava</div>
+              <div style={{fontSize:11,color:'var(--text-2)'}}>Return to AI — she'll document everything for a follow-up call</div>
+            </div>
+            {timeoutAction==='ava'&&<span style={{color:'var(--green)',fontSize:16}}>✓</span>}
+          </div>
+        </TRow>
+        <TRow phase="Option 3" isLast time="">
+          <div style={{display:'flex',alignItems:'center',gap:10,cursor:'pointer'}} onClick={()=>setTimeoutAction('msg')}>
+            <TIcon name="mail" size={18} color={timeoutAction==='msg'?'var(--green)':'var(--text-2)'}/>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:600,fontSize:13,color:timeoutAction==='msg'?'var(--green)':'var(--text)'}}>Leave a message</div>
+              <div style={{fontSize:11,color:'var(--text-2)'}}>We'll respond via email within 4 business hours</div>
+            </div>
+            {timeoutAction==='msg'&&<span style={{color:'var(--green)',fontSize:16}}>✓</span>}
+          </div>
+        </TRow>
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%',overflowY:'auto',padding:'20px 24px',gap:16}}>
+
+      <div className="card" style={{padding:'20px 24px'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+          <div style={{flex:1}}>
+            <div style={{fontSize:20,fontWeight:700,letterSpacing:'-0.02em',marginBottom:6}}>Customer Queue · CS-48821</div>
+            <div style={{fontSize:13,color:'var(--text-2)',lineHeight:1.6,maxWidth:540}}>
+              Marcus Webb is queued for Sarah Chen. Full context was transferred — he will not need to repeat anything when she picks up.
+            </div>
+          </div>
+          <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+            <div style={{display:'flex',alignItems:'center',gap:6,padding:'5px 10px 5px 8px',
+              borderRadius:'var(--r-pill)',background:'var(--green-lt)',border:'1px solid var(--green-bd)'}}>
+              <span style={{width:6,height:6,borderRadius:'50%',background:'var(--green)',display:'inline-block',animation:'pulse-dot 2s infinite'}}/>
+              <span style={{fontSize:12,fontWeight:600,color:'var(--green)'}}>Live</span>
+            </div>
+            <button className="btn btn-ghost btn-sm" onClick={()=>setShowTimeout(true)}>Simulate Timeout →</button>
+          </div>
+        </div>
+        <div style={{display:'flex',gap:0,marginTop:16,borderTop:'1px solid var(--border)',paddingTop:16}}>
+          {[{label:'Est. Wait',value:`${mm}:${ss}`},{label:'Representative',value:'Sarah Chen'},
+            {label:'Context Transfer',value:'100%',color:'var(--green)'},{label:'Rep CSAT',value:'98%',color:'var(--green)'}
+          ].map((m,i,arr)=>(
+            <div key={m.label} style={{flex:1,paddingRight:20,
+              borderRight:i<arr.length-1?'1px solid var(--border)':'none',paddingLeft:i>0?20:0}}>
+              <div style={{fontSize:10,color:'var(--text-3)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:4}}>{m.label}</div>
+              <div style={{fontSize:18,fontWeight:700,color:m.color||'var(--text)'}}>{m.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="card" style={{padding:0,overflow:'hidden'}}>
+        <TRow phase="Queue" time="9:47 AM">
+          <div>
+            <div style={{display:'flex',alignItems:'center',gap:14,marginBottom:12}}>
+              <div style={{position:'relative'}}>
+                <Av initials="SC" grad="linear-gradient(135deg,#8B5CF6,#7C3AED)" size={44} ring/>
+                <span style={{position:'absolute',bottom:1,right:1,width:10,height:10,
+                  borderRadius:'50%',background:'var(--green)',border:'2px solid #0D0D0D'}}/>
+              </div>
+              <div>
+                <div style={{fontWeight:700,fontSize:14}}>Sarah Chen</div>
+                <div style={{fontSize:12,color:'var(--text-2)',marginTop:1}}>Senior Billing Specialist · 6 yrs · CSAT 98%</div>
+                <div style={{display:'flex',gap:6,marginTop:5}}>
+                  <Tag cls="tag-green">● Online now</Tag>
+                  <Tag cls="tag-blue">Billing disputes</Tag>
+                </div>
+              </div>
+            </div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:11,color:'var(--text-2)',marginBottom:4}}>
+              <span>Connecting…</span><span>{mm}:{ss} remaining</span>
+            </div>
+            <div style={{height:4,borderRadius:'var(--r-pill)',background:'var(--surface-2)',overflow:'hidden'}}>
+              <div style={{height:'100%',borderRadius:'var(--r-pill)',
+                background:'linear-gradient(90deg,var(--green),var(--green-dk))',
+                width:`${pct}%`,transition:'width 1s linear'}}/>
+            </div>
+          </div>
+        </TRow>
+
+        <TRow phase="Context" time="9:47 AM">
+          <div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+              <div style={{display:'flex',alignItems:'center',gap:6}}>
+                <TIcon name="clipboard" size={13} color="var(--text-2)"/>
+                <span style={{fontWeight:600,fontSize:13}}>What was shared with Sarah</span>
+              </div>
+              <div style={{display:'flex',gap:6}}>
+                <Tag cls="tag-green">✓ Transferred</Tag>
+                <button onClick={()=>setExpanded(e=>!e)} className="btn btn-grey btn-sm">{expanded?'Collapse':'Details'}</button>
+              </div>
+            </div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5}}>
+              {[{icon:'message',label:'Full conversation transcript'},
+                {icon:'chart-bar',label:'Account & billing history (24 mo)'},
+                {icon:'search',label:'Steps Ava already attempted'},
+                {icon:'mood-angry',label:'Sentiment: Frustrated · Empathy-first'}
+              ].map((r,i)=>(
+                <div key={i} style={{display:'flex',alignItems:'center',gap:6,padding:'6px 9px',
+                  borderRadius:'var(--r-sm)',background:'var(--surface)',border:'1px solid var(--border)',fontSize:12}}>
+                  <TIcon name={r.icon} size={13} color="var(--text-3)"/>
+                  <span style={{color:'var(--text-2)'}}>{r.label}</span>
+                </div>
+              ))}
+            </div>
+            {expanded&&(
+              <div className="anim-fade" style={{marginTop:8,padding:10,borderRadius:'var(--r-sm)',
+                background:'var(--surface)',border:'1px solid var(--border)',fontSize:12,lineHeight:1.6,color:'var(--text-2)'}}>
+                <strong style={{color:'var(--text)'}}>Case summary:</strong> Marcus Webb (Acme Corp, 3yr) disputes $840 March charge — seat reduction 12→8 not applied (2nd incident). Requests full $840 goodwill credit. NPS 7, churn risk: medium. Ava confirmed $280 overcharge but cannot authorize full credit.
+              </div>
+            )}
+          </div>
+        </TRow>
+
+        <TRow phase="Preference" isLast time="">
+          <div>
+            {!showAvaOpt&&!avaConfirm&&(
+              <button onClick={()=>setShowAvaOpt(true)}
+                style={{background:'none',border:'none',fontSize:12,color:'var(--text-2)',
+                  cursor:'pointer',textDecoration:'underline',textDecorationStyle:'dotted',padding:0}}>
+                Prefer to keep chatting with Ava instead?
+              </button>
+            )}
+            {showAvaOpt&&!avaConfirm&&(
+              <div className="anim-fade" style={{padding:10,borderRadius:'var(--r)',
+                background:'var(--amber-bg)',border:'1px solid var(--amber-bd)',
+                display:'inline-flex',flexDirection:'column',gap:8,alignItems:'flex-start'}}>
+                <div style={{fontSize:12,fontWeight:500,color:'var(--amber)'}}>Are you sure? Sarah has already been briefed and is ready for you.</div>
+                <div style={{display:'flex',gap:8}}>
+                  <button className="btn btn-ghost btn-sm" onClick={()=>setAvaConfirm(true)}>Yes, return to Ava</button>
+                  <button className="btn btn-primary btn-sm" onClick={()=>setShowAvaOpt(false)}>No, keep waiting</button>
+                </div>
+              </div>
+            )}
+            {avaConfirm&&(
+              <div className="anim-fade" style={{padding:'6px 14px',borderRadius:'var(--r-pill)',
+                background:'var(--green-lt)',border:'1px solid var(--green-bd)',
+                fontSize:12,color:'var(--green)',fontWeight:500,display:'inline-flex',gap:6,alignItems:'center'}}>
+                ✓ Returning to Ava — context has been preserved
+              </div>
+            )}
+          </div>
+        </TRow>
+      </div>
+
+      <div style={{fontSize:12,color:'var(--text-3)',textAlign:'center'}}>
+        Sarah has been fully briefed. <strong style={{color:'var(--text-2)'}}>You will not need to repeat any information.</strong>
+      </div>
+    </div>
+  );
+};
+
+Object.assign(window,{Screen1,Screen2,Screen3});
+</script>
+
+<!-- Screen 4 & 5 & 6 -->
+<script type="text/babel">
+// ── Screen 4 — Rep AI Briefing Card ──────────────────────────────────────────
+const Screen4 = () => {
+  const [mode,setMode] = useState('summary');
+  const [showReassign,setShowReassign] = useState(false);
+  const [assigned,setAssigned] = useState(null);
+
+  const reps = [
+    {name:'David Park',role:'Senior Billing Specialist',status:'available',cases:3},
+    {name:'Priya Nair',role:'Account Manager',status:'busy',cases:7},
+    {name:'Tom Eriksson',role:'Billing Analyst',status:'available',cases:2},
+  ];
+  const tried = [
+    'Verified seat reduction request (Feb 28th) in system',
+    'Confirmed $280 billing discrepancy against contract',
+    'Documented second billing incident in account history',
+    'Applied billing error flag to CS-48821',
+  ];
+  const couldnt = [
+    'Cannot issue credits above $200 without account authority',
+    'Cannot force-sync billing system after cycle close',
+    'Cannot access audit log for the Feb seat change event',
+  ];
+
+  const TRow = ({phase,children,time,isLast=false})=>(
+    <div style={{display:'grid',gridTemplateColumns:'120px 1fr 100px',alignItems:'flex-start',
+      borderBottom:!isLast?'1px solid rgba(255,255,255,0.06)':'none',padding:'14px 20px'}}>
+      <div style={{paddingRight:16,paddingTop:2}}>
+        {phase&&<div style={{fontSize:11,fontWeight:600,color:'var(--text-2)'}}>{phase}</div>}
+      </div>
+      <div style={{paddingRight:16}}>{children}</div>
+      <div style={{display:'flex',justifyContent:'flex-end',paddingTop:2}}>
+        {time&&<div style={{display:'flex',alignItems:'center',gap:4,padding:'3px 8px',
+          borderRadius:'var(--r-pill)',background:'var(--surface)',border:'1px solid var(--border)',
+          fontSize:11,color:'var(--text-3)',whiteSpace:'nowrap'}}>
+          <TIcon name="clock" size={10} color="var(--text-3)"/>{time}
+        </div>}
+      </div>
+    </div>
+  );
+
+  const metrics=[
+    {label:'Customer',value:'Marcus Webb'},
+    {label:'Sentiment',value:'Frustrated',color:'var(--amber)'},
+    {label:'Tenure',value:'3 years',color:'var(--green)'},
+    {label:'Churn Risk',value:'Medium',color:'var(--amber)'},
+  ];
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%',overflowY:'auto',padding:'20px 24px',gap:16}}>
+
+      <div className="card" style={{padding:'20px 24px'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+          <div style={{flex:1}}>
+            <div style={{fontSize:20,fontWeight:700,letterSpacing:'-0.02em',marginBottom:6}}>AI Briefing · CS-48821</div>
+            <div style={{fontSize:13,color:'var(--text-2)',lineHeight:1.6,maxWidth:480}}>
+              For Sarah Chen — everything Ava learned, attempted, and couldn't resolve. Start your reply informed, not from scratch.
+            </div>
+          </div>
+          <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+            <div style={{position:'relative'}}>
+              <button onClick={()=>!assigned&&setShowReassign(s=>!s)}
+                style={{background:'var(--surface)',border:'1px solid var(--border)',
+                  color:'var(--text)',padding:'6px 12px',borderRadius:'var(--r-pill)',fontSize:12,
+                  cursor:assigned?'default':'pointer',fontFamily:'Inter,sans-serif',fontWeight:500,
+                  display:'flex',alignItems:'center',gap:4,opacity:assigned?.6:1}}>
+                {assigned?`✓ Reassigned to ${assigned}`:'Reassign ↓'}
+              </button>
+              {showReassign&&(
+                <div className="card anim-fade" style={{position:'absolute',right:0,
+                  top:'calc(100% + 8px)',minWidth:260,zIndex:100,padding:6}}>
+                  {reps.map(r=>(
+                    <div key={r.name} className="hover-row"
+                      onClick={()=>{setAssigned(r.name);setShowReassign(false);}}
+                      style={{padding:'9px 10px',borderRadius:'var(--r-sm)',display:'flex',
+                        alignItems:'center',justifyContent:'space-between',cursor:'pointer'}}>
+                      <div>
+                        <div style={{fontSize:13,fontWeight:500}}>{r.name}</div>
+                        <div style={{fontSize:11,color:'var(--text-2)'}}>{r.role} · {r.cases} active</div>
+                      </div>
+                      <span style={{fontSize:10,fontWeight:600,padding:'2px 8px',borderRadius:'var(--r-pill)',
+                        background:r.status==='available'?'var(--green-lt)':'var(--amber-bg)',
+                        color:r.status==='available'?'var(--green)':'var(--amber)'}}>
+                        {r.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div style={{display:'flex',background:'var(--surface)',border:'1px solid var(--border)',
+              borderRadius:'var(--r-pill)',overflow:'hidden'}}>
+              {['summary','full'].map(m=>(
+                <button key={m} onClick={()=>setMode(m)}
+                  style={{padding:'5px 16px',border:'none',cursor:'pointer',
+                    fontFamily:'Inter,sans-serif',fontSize:12,fontWeight:500,
+                    background:mode===m?'var(--green)':'transparent',
+                    color:mode===m?'#163300':'var(--text-2)',
+                    transition:'all .16s'}}>
+                  {m==='full'?'Full Briefing':'Summary'}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div style={{display:'flex',gap:0,marginTop:16,borderTop:'1px solid var(--border)',paddingTop:16}}>
+          {metrics.map((m,i,arr)=>(
+            <div key={m.label} style={{flex:1,paddingRight:20,
+              borderRight:i<arr.length-1?'1px solid var(--border)':'none',paddingLeft:i>0?20:0}}>
+              <div style={{fontSize:10,color:'var(--text-3)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:4}}>{m.label}</div>
+              <div style={{fontSize:15,fontWeight:700,color:m.color||'var(--text)'}}>{m.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="card anim-fade" key={mode} style={{padding:0,overflow:'hidden'}}>
+        {mode==='summary'&&<>
+          <TRow phase="Request" time="9:44 AM">
+            <div style={{fontSize:14,fontWeight:600,lineHeight:1.5}}>
+              Marcus Webb (Acme Corp) disputes his $840 March invoice — seat reduction 12→8 wasn't applied. Requesting full $840 as goodwill for a repeat billing error.
+            </div>
+          </TRow>
+          <TRow phase="Sentiment" time="9:45 AM">
+            <div style={{display:'flex',gap:12,alignItems:'center',padding:'10px 12px',borderRadius:'var(--r-sm)',
+              background:'var(--amber-bg)',border:'1px solid var(--amber-bd)'}}>
+              <TIcon name="mood-angry" size={26} color="var(--amber)"/>
+              <div>
+                <div style={{fontSize:13,fontWeight:600,color:'var(--amber)'}}>Frustrated · Churn risk: Medium</div>
+                <div style={{fontSize:12,color:'var(--text-2)',marginTop:1}}>3yr tenure · NPS 7 · 2nd billing incident · Account in good standing</div>
+              </div>
+            </div>
+          </TRow>
+          <TRow phase="Opening" time="AI gen" isLast>
+            <div style={{padding:'10px 12px',borderRadius:'var(--r-sm)',background:'var(--green-lt)',border:'1px solid var(--green-bd)'}}>
+              <div style={{fontSize:13,fontStyle:'italic',color:'var(--green)',lineHeight:1.65,
+                borderLeft:'3px solid var(--green)',paddingLeft:12,marginBottom:6}}>
+                "Hi Marcus, I'm Sarah — I've reviewed everything Ava documented and I completely understand the frustration. Two billing errors in three months is not the experience we want for you, and I'm going to make this right personally."
+              </div>
+              <div style={{fontSize:11,color:'var(--text-2)',display:'flex',alignItems:'center',gap:4}}>
+                <TIcon name="bulb" size={11} color="var(--text-3)"/> Tone: Empathy-first, accountability, no specific promises yet
+              </div>
+            </div>
+          </TRow>
+        </>}
+        {mode==='full'&&<>
+          <TRow phase="Request" time="9:44 AM">
+            <div style={{fontSize:13,lineHeight:1.6,color:'var(--text-2)'}}>
+              Marcus Webb (Acme Corp) disputes the $840 March invoice. Seat count was reduced 12→8 on Feb 28th but wasn't applied to the billing cycle. Requesting the full $840 as goodwill for a repeat billing issue — this is the second billing error in three months.
+            </div>
+          </TRow>
+          <TRow phase="Ava Tried" time="9:43 AM">
+            <div style={{display:'flex',flexDirection:'column',gap:5}}>
+              {tried.map((t,i)=>(
+                <div key={i} style={{display:'flex',gap:8,alignItems:'flex-start',fontSize:13}}>
+                  <span style={{color:'var(--green)',fontWeight:700,marginTop:1,flexShrink:0}}>✓</span>
+                  <span style={{color:'var(--text-2)',lineHeight:1.45}}>{t}</span>
+                </div>
+              ))}
+            </div>
+          </TRow>
+          <TRow phase="Blockers" time="9:46 AM">
+            <div style={{display:'flex',flexDirection:'column',gap:5,padding:'10px 12px',
+              borderRadius:'var(--r-sm)',background:'rgba(245,166,35,0.06)',border:'1px solid var(--amber-bd)'}}>
+              {couldnt.map((t,i)=>(
+                <div key={i} style={{display:'flex',gap:8,alignItems:'flex-start',fontSize:13}}>
+                  <span style={{width:14,height:14,borderRadius:'50%',border:'1.5px solid var(--amber)',
+                    display:'inline-flex',alignItems:'center',justifyContent:'center',
+                    fontSize:8,color:'var(--amber)',flexShrink:0,marginTop:2}}>○</span>
+                  <span style={{color:'var(--text-2)',lineHeight:1.45}}>{t}</span>
+                </div>
+              ))}
+            </div>
+          </TRow>
+          <TRow phase="Profile" time="9:45 AM">
+            <div style={{display:'flex',gap:14,flexWrap:'wrap',padding:'10px 12px',
+              borderRadius:'var(--r-sm)',background:'var(--amber-bg)',border:'1px solid var(--amber-bd)'}}>
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <TIcon name="mood-angry" size={22} color="var(--amber)"/>
+                <div>
+                  <div style={{fontSize:13,fontWeight:600,color:'var(--amber)'}}>Frustrated</div>
+                  <div style={{fontSize:11,color:'var(--text-2)'}}>Detected tone</div>
+                </div>
+              </div>
+              {[['Churn risk','Medium','var(--amber)'],['Tenure','3 years','var(--green)'],
+                ['NPS score','7 / 10','var(--blue)'],['Account','Good standing','var(--green)']].map(([l,v,c])=>(
+                <div key={l}>
+                  <div style={{fontSize:11,color:'var(--text-3)'}}>{l}</div>
+                  <div style={{fontSize:13,fontWeight:600,color:c}}>{v}</div>
+                </div>
+              ))}
+            </div>
+          </TRow>
+          <TRow phase="Opening" time="AI gen" isLast>
+            <div style={{padding:'10px 12px',borderRadius:'var(--r-sm)',background:'var(--green-lt)',border:'1px solid var(--green-bd)'}}>
+              <div style={{fontSize:13,fontStyle:'italic',color:'var(--green)',lineHeight:1.65,
+                borderLeft:'3px solid var(--green)',paddingLeft:12,marginBottom:6}}>
+                "Hi Marcus, I'm Sarah — I've reviewed everything Ava documented and I completely understand the frustration. Two billing errors in three months is not the experience we want for you, and I'm going to make this right personally. Let me walk you through exactly what I'm going to do."
+              </div>
+              <div style={{fontSize:11,color:'var(--text-2)',display:'flex',alignItems:'center',gap:4}}>
+                <TIcon name="bulb" size={11} color="var(--text-3)"/> Tone analysis: Empathy-first, personal accountability, avoids premature commitments
+              </div>
+            </div>
+          </TRow>
+        </>}
+      </div>
+    </div>
+  );
+};
+
+// ── Screen 5 — Rep Reply with AI Assist ──────────────────────────────────────
+const Screen5 = () => {
+  const defaultReply = `Hi Marcus, I'm Sarah — I've reviewed everything Ava shared and I want to personally make this right.\n\nI'm issuing a full $840 credit to your account, which will appear within 2 business days. I've also corrected your seat count to 8 effective immediately, and I've scheduled an audit of your billing history to ensure this doesn't happen again.\n\nFor the inconvenience of two billing errors, I'd like to offer you priority support access for the next 6 months at no additional cost. You'll receive a confirmation email within the hour with all the details. Please don't hesitate to reach out to me directly if you have any questions.`;
+
+  const [reply,setReply] = useState(defaultReply);
+  const [showModal,setShowModal] = useState(false);
+  const [sent,setSent] = useState(false);
+  const [chips,setChips] = useState([]);
+  const maxChars = 1200;
+
+  const chipsOpts = ['+ 3yr tenure acknowledgment','+ Escalation note','+ Goodwill credit detail'];
+  const chipInserts = {
+    '+ 3yr tenure acknowledgment':'\n\nAs a valued 3-year customer, your loyalty means a great deal to us.',
+    '+ Escalation note':'\n\nThis case has been escalated to ensure full resolution and is being monitored by our billing team.',
+    '+ Goodwill credit detail':'\n\nAs a gesture of goodwill, the full $840 will be credited — not just the $280 overcharge.',
+  };
+
+  const handleChip = (c) => {
+    if(chips.includes(c)) return;
+    setChips(p=>[...p,c]);
+    setReply(r=>r+chipInserts[c]);
+  };
+
+  const TRow = ({phase,children,time,isLast=false})=>(
+    <div style={{display:'grid',gridTemplateColumns:'120px 1fr 100px',alignItems:'flex-start',
+      borderBottom:!isLast?'1px solid rgba(255,255,255,0.06)':'none',padding:'14px 20px'}}>
+      <div style={{paddingRight:16,paddingTop:2}}>
+        {phase&&<div style={{fontSize:11,fontWeight:600,color:'var(--text-2)'}}>{phase}</div>}
+      </div>
+      <div style={{paddingRight:16}}>{children}</div>
+      <div style={{display:'flex',justifyContent:'flex-end',paddingTop:2}}>
+        {time&&<div style={{display:'flex',alignItems:'center',gap:4,padding:'3px 8px',
+          borderRadius:'var(--r-pill)',background:'var(--surface)',border:'1px solid var(--border)',
+          fontSize:11,color:'var(--text-3)',whiteSpace:'nowrap'}}>
+          <TIcon name="clock" size={10} color="var(--text-3)"/>{time}
+        </div>}
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%',position:'relative'}}>
+      <div style={{flex:1,display:'flex',flexDirection:'column',overflowY:'auto',padding:'20px 24px',gap:16}}>
+
+        <div className="card" style={{padding:'20px 24px'}}>
+          <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+            <div style={{flex:1}}>
+              <div style={{fontSize:20,fontWeight:700,letterSpacing:'-0.02em',marginBottom:6}}>Reply Composition · CS-48821</div>
+              <div style={{fontSize:13,color:'var(--text-2)',lineHeight:1.6,maxWidth:480}}>
+                Sarah Chen composing a response for Marcus Webb — AI-drafted, human-reviewed, action-confirmed before send.
+              </div>
+            </div>
+            <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+              {sent
+                ?<span className="anim-fade" style={{display:'flex',alignItems:'center',gap:5,
+                    fontSize:12,fontWeight:600,color:'var(--green)',background:'var(--green-lt)',
+                    padding:'4px 14px',borderRadius:'var(--r-pill)',border:'1px solid var(--green-bd)'}}>
+                    ✓ Sent — Marcus notified
+                  </span>
+                :<div style={{display:'flex',alignItems:'center',gap:6,padding:'5px 10px 5px 6px',
+                    borderRadius:'var(--r-pill)',background:'var(--green-lt)',border:'1px solid var(--green-bd)'}}>
+                    <TIcon name="sparkles" size={12} color="var(--green)"/>
+                    <span style={{fontSize:12,fontWeight:600,color:'var(--green)'}}>AI Assisted</span>
+                  </div>
+              }
+            </div>
+          </div>
+          <div style={{display:'flex',gap:0,marginTop:16,borderTop:'1px solid var(--border)',paddingTop:16}}>
+            {[{label:'AI Confidence',value:'96%',color:'var(--green)'},{label:'Tone',value:'Empathy-first'},
+              {label:'Actions',value:'4 committed'},{label:'Characters',value:`${reply.length}/${maxChars}`}
+            ].map((m,i,arr)=>(
+              <div key={m.label} style={{flex:1,paddingRight:20,
+                borderRight:i<arr.length-1?'1px solid var(--border)':'none',paddingLeft:i>0?20:0}}>
+                <div style={{fontSize:10,color:'var(--text-3)',textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:4}}>{m.label}</div>
+                <div style={{fontSize:15,fontWeight:700,color:m.color||'var(--text)'}}>{m.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="card" style={{padding:0,overflow:'hidden'}}>
+          <TRow phase="Context" time="9:47 AM">
+            <div>
+              <div style={{padding:'10px 12px',borderRadius:'var(--r-sm)',background:'var(--surface)',
+                border:'1px solid var(--border)',fontSize:13,lineHeight:1.55,color:'var(--text-2)',marginBottom:4}}>
+                "Okay so what happens now? I've been dealing with this for two billing cycles and I just want to know that someone is actually going to fix it — not just tell me they're looking into it."
+              </div>
+              <div style={{fontSize:11,color:'var(--text-3)'}}>Marcus Webb · Sentiment: frustrated</div>
+            </div>
+          </TRow>
+
+          <TRow phase="AI Draft" time="9:48 AM">
+            <div style={{border:'1.5px solid var(--green-bd)',borderRadius:'var(--r-sm)',
+              background:'rgba(159,232,112,0.04)',padding:'10px 12px'}}>
+              <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:8}}>
+                <TIcon name="sparkles" size={13} color="var(--green)"/>
+                <span style={{fontSize:11,fontWeight:600,color:'var(--green)'}}>AI-Suggested — editable before sending</span>
+                <span style={{marginLeft:'auto',fontSize:11,color:'var(--text-3)'}}>{reply.length}/{maxChars}</span>
+              </div>
+              <textarea value={reply}
+                onChange={e=>e.target.value.length<=maxChars&&setReply(e.target.value)}
+                style={{width:'100%',border:'1px solid var(--green-bd)',borderRadius:'var(--r-sm)',
+                  padding:'10px 12px',fontSize:13,lineHeight:1.6,color:'var(--text)',
+                  background:'rgba(22,51,0,0.6)',height:140,outline:'none',resize:'none'}}
+                disabled={sent}/>
+              <div style={{display:'flex',gap:6,flexWrap:'wrap',marginTop:6}}>
+                {chipsOpts.map(c=>(
+                  <button key={c} onClick={()=>handleChip(c)} disabled={chips.includes(c)||sent}
+                    style={{padding:'4px 10px',borderRadius:'var(--r-pill)',fontSize:11,fontWeight:500,
+                      border:`1px solid ${chips.includes(c)?'var(--green-bd)':'var(--border)'}`,
+                      fontFamily:'Inter,sans-serif',
+                      background:chips.includes(c)?'var(--green-lt)':'var(--surface)',
+                      color:chips.includes(c)?'var(--green)':'var(--text-2)',
+                      cursor:chips.includes(c)||sent?'default':'pointer',
+                      opacity:sent?.5:1,transition:'all .14s'}}>
+                    {chips.includes(c)?'✓ Added':c}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </TRow>
+
+          <TRow phase="Tone">
+            <div style={{display:'flex',gap:8,alignItems:'flex-start'}}>
+              <TIcon name="bulb" size={15} color="var(--text-2)" style={{flexShrink:0,marginTop:1}}/>
+              <div style={{fontSize:12,color:'var(--text-2)',lineHeight:1.55}}>
+                <strong style={{color:'var(--text)'}}>Tone guidance:</strong> Marcus is frustrated but hasn't threatened to churn. Lead with empathy and concrete action — avoid hedging. His 3yr tenure warrants a proactive goodwill gesture. Confirm all committed actions explicitly so he has a written record.
+              </div>
+            </div>
+          </TRow>
+
+          <TRow phase="Send" isLast>
+            {!sent
+              ?<div style={{display:'flex',gap:8,alignItems:'center'}}>
+                  <button className="btn btn-primary" onClick={()=>setShowModal(true)}>Send Reply →</button>
+                  <button className="btn btn-ghost btn-sm" onClick={()=>setReply(defaultReply)}>↺ Regenerate</button>
+                  <span style={{fontSize:11,color:'var(--text-3)',marginLeft:'auto'}}>Ctrl+Enter to send</span>
+                </div>
+              :<div className="anim-fade" style={{display:'inline-flex',alignItems:'center',gap:8,
+                  padding:'8px 14px',borderRadius:'var(--r-pill)',background:'var(--green-lt)',
+                  border:'1px solid var(--green-bd)',fontSize:13,fontWeight:600,color:'var(--green)'}}>
+                  ✓ Sent — Marcus has been notified
+                </div>
+            }
+          </TRow>
+        </div>
+      </div>
+
+      {showModal&&(
+        <div style={{position:'absolute',inset:0,background:'rgba(0,0,0,0.7)',
+          display:'flex',alignItems:'center',justifyContent:'center',zIndex:200,borderRadius:'inherit',
+          backdropFilter:'blur(4px)'}}>
+          <div className="card" style={{width:440,padding:0,overflow:'hidden',
+            animation:'modal-in .2s cubic-bezier(.22,1,.36,1) both',
+            boxShadow:'var(--shadow-lg)'}}>
+            <div style={{padding:'16px 20px',borderBottom:'1px solid var(--border)'}}>
+              <div style={{fontWeight:700,fontSize:15}}>Confirm & Send Reply</div>
+              <div style={{fontSize:12,color:'var(--text-2)',marginTop:2}}>Review committed actions before sending</div>
+            </div>
+            <div style={{padding:'14px 20px'}}>
+              <div style={{padding:'10px 12px',borderRadius:'var(--r-sm)',background:'var(--surface)',
+                border:'1px solid var(--border)',fontSize:12,color:'var(--text-2)',lineHeight:1.6,
+                maxHeight:80,overflow:'hidden',position:'relative'}}>
+                {reply.slice(0,220)}…
+                <div style={{position:'absolute',bottom:0,left:0,right:0,height:24,
+                  background:'linear-gradient(transparent,var(--bg-2))'}}/>
+              </div>
+              <div style={{marginTop:12,display:'flex',flexDirection:'column',gap:6}}>
+                <SLabel style={{marginBottom:4}}>Actions being committed</SLabel>
+                {[{icon:'coin',text:'$840 credit will be issued to Acme Corp'},
+                  {icon:'armchair',text:'Seat count corrected to 8 seats immediately'},
+                  {icon:'mail',text:'Confirmation email sending to marcus@acme.com'},
+                  {icon:'search',text:'Billing audit scheduled for next 30 days'}].map((a,i)=>(
+                  <div key={i} style={{display:'flex',gap:8,fontSize:13,alignItems:'center',
+                    padding:'7px 10px',borderRadius:'var(--r-sm)',
+                    background:'var(--green-lt)',border:'1px solid var(--green-bd)'}}>
+                    <TIcon name={a.icon} size={14} color="var(--green)"/>
+                    <span style={{color:'var(--green)',fontWeight:500}}>{a.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{padding:'12px 20px',borderTop:'1px solid var(--border)',display:'flex',gap:8}}>
+              <button className="btn btn-primary" style={{flex:1}}
+                onClick={()=>{setShowModal(false);setSent(true);}}>
+                Confirm & Send
+              </button>
+              <button className="btn btn-ghost" onClick={()=>setShowModal(false)}>Edit Message</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── Screen 6 — Resolution Lifecycle ──────────────────────────────────────────
+const Screen6 = () => {
+  const [flags,setFlags] = useState([]);
+  const [stars,setStars] = useState(0);
+  const [hoverStar,setHoverStar] = useState(0);
+  const [submitted,setSubmitted] = useState(false);
+  const [err,setErr] = useState(false);
+
+  const flagOpts = [
+    {id:'late',label:'Ava escalated too late',sub:'Confidence dropped below threshold for 2+ minutes before escalating'},
+    {id:'credit',label:'Credit offer too low for 3yr customer',sub:'$200 agent limit may be too restrictive for high-tenure accounts'},
+    {id:'sync',label:'Billing sync failures should auto-alert',sub:'Manual detection caused the overcharge to persist for a full cycle'},
+    {id:'long',label:'Handoff message too long',sub:"Ava's transition message contained too much detail for the customer context"},
+  ];
+
+  const toggleFlag = (id) => {setFlags(f=>f.includes(id)?f.filter(x=>x!==id):[...f,id]);setErr(false);};
+  const handleSubmit = () => {
+    if(flags.length===0&&stars===0){setErr(true);return;}
+    setSubmitted(true);setErr(false);
+  };
+
+  // Lifecycle stage dot icons
+  const StageDot = ({color='rgba(255,255,255,0.25)',fill=false,icon=null,pulse=false})=>(
+    <div style={{width:20,height:20,borderRadius:'50%',flexShrink:0,display:'flex',
+      alignItems:'center',justifyContent:'center',
+      border:`2px solid ${color}`,
+      background:fill?color:'transparent',
+      animation:pulse?'pulse-dot 2s infinite':undefined,
+      fontSize:9,color:fill?'#141414':color,fontWeight:700}}>
+      {icon}
+    </div>
+  );
+
+  const stages = [
+    {
+      phase:'AI Handling',
+      desc:null,
+      rows:[
+        {icon:<StageDot color='rgba(255,255,255,0.3)' icon='↺'/>,
+          label:<><strong>Ava opened the case</strong> automatically and verified account details.</>,
+          time:'Started at',stamp:'9:42 AM'},
+        {icon:<StageDot color='var(--blue)' fill icon='✓'/>,
+          label:<><strong>Billing error confirmed</strong> — $280 overcharge documented under CS-48821.</>,
+          time:'Active at',stamp:'9:43 AM'},
+      ]
+    },
+    {
+      phase:'Escalation',
+      desc:null,
+      rows:[
+        {icon:<StageDot color='var(--amber)' icon='⚠'/>,
+          label:<><strong>Confidence dropped to 34%</strong> — credit request exceeded $200 automated limit.</>,
+          time:'Triggered at',stamp:'9:46 AM'},
+        {icon:<StageDot color='var(--amber)' fill icon='→'/>,
+          label:<><strong>Handoff to Sarah Chen</strong> initiated with full context package transferred.</>,
+          time:'Handed off at',stamp:'9:47 AM'},
+      ]
+    },
+    {
+      phase:'Resolution',
+      phaseDesc:'Human specialist resolved the case.',
+      rows:[
+        {icon:<StageDot color='rgba(255,255,255,0.3)' icon={<TIcon name="user" size={10} color="rgba(255,255,255,0.5)"/>}/>,
+          label:<><strong>Sarah reviewed the briefing</strong> and drafted a response with AI assistance.</>,
+          time:'Reviewed at',stamp:'9:49 AM'},
+        {icon:<StageDot color='var(--green)' fill icon='✓'/>,
+          label:<><strong>$840 full credit issued</strong> — seat count corrected to 8, audit scheduled.</>,
+          time:'Resolved at',stamp:'9:55 AM'},
+        {icon:null,
+          sub:true,
+          label:(
+            <div className="card" style={{padding:'12px 14px',marginTop:2}}>
+              <div style={{fontWeight:600,fontSize:12,marginBottom:8}}>Actions Taken</div>
+              <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+                {[{i:'coin',t:'$840 credit issued'},{i:'armchair',t:'Seats corrected to 8'},{i:'mail',t:'Confirmation sent'},{i:'search',t:'Billing audit scheduled'}].map(({i,t})=>(
+                  <span key={t} style={{padding:'3px 10px',borderRadius:'var(--r-pill)',fontSize:11,
+                    background:'var(--green-lt)',color:'var(--green)',border:'1px solid var(--green-bd)',fontWeight:500,
+                    display:'inline-flex',alignItems:'center',gap:4}}>
+                    <TIcon name={i} size={11} color="var(--green)"/>{t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ),
+          time:'',stamp:''},
+      ]
+    },
+    {
+      phase:'Closed',
+      rows:[
+        {icon:<StageDot color='var(--green)' fill icon='✓'/>,
+          label:<><strong>Case closed</strong> — first contact resolution confirmed, no follow-up required.</>,
+          time:'Closed at',stamp:'9:55 AM'},
+      ]
+    },
+    {
+      phase:'Training',
+      phaseDesc:'For reviewing the handoff and improving the agent.',
+      rows:[
+        {icon:<StageDot color='rgba(255,255,255,0.3)' icon={<TIcon name="barbell" size={10} color="rgba(255,255,255,0.5)"/>}/>,
+          label:(
+            <div style={{display:'flex',flexDirection:'column',gap:6}}>
+              <div><strong>Flag for Agent Training</strong> — select issues to queue for Ava's next cycle.</div>
+              {!submitted?(
+                <div style={{display:'flex',flexDirection:'column',gap:3,marginTop:4}}>
+                  {flagOpts.map(f=>(
+                    <CheckItem key={f.id} checked={flags.includes(f.id)} label={f.label}
+                      sub={f.sub} onToggle={()=>toggleFlag(f.id)}/>
+                  ))}
+                  <Divider my={8}/>
+                  <div style={{display:'flex',alignItems:'center',gap:10}}>
+                    <span style={{fontSize:12,fontWeight:500}}>Handoff quality</span>
+                    <div style={{display:'flex',gap:3}}>
+                      {[1,2,3,4,5].map(n=>(
+                        <span key={n} onMouseEnter={()=>setHoverStar(n)} onMouseLeave={()=>setHoverStar(0)}
+                          onClick={()=>{setStars(n);setErr(false);}}
+                          style={{fontSize:20,cursor:'pointer',transition:'color .1s',
+                            color:(hoverStar||stars)>=n?'var(--green)':'rgba(255,255,255,0.18)'}}>★</span>
+                      ))}
+                    </div>
+                    {stars>0&&<span style={{fontSize:11,color:'var(--text-2)'}}>{['','Poor','Fair','Good','Very good','Excellent'][stars]}</span>}
+                  </div>
+                  {err&&<div className="anim-fade" style={{padding:'6px 12px',borderRadius:'var(--r-pill)',
+                    background:'var(--red-bg)',border:'1px solid var(--red-bd)',fontSize:12,color:'var(--red)',fontWeight:500}}>
+                    ⚠ Please rate the handoff or select at least one flag.
+                  </div>}
+                  <button className="btn btn-primary btn-sm" onClick={handleSubmit}
+                    style={{alignSelf:'flex-start',marginTop:4,
+                      opacity:flags.length===0&&stars===0?.4:1}}>
+                    Submit Feedback
+                  </button>
+                </div>
+              ):(
+                <div className="anim-fade" style={{padding:'8px 12px',borderRadius:'var(--r-pill)',
+                  background:'var(--green-lt)',border:'1px solid var(--green-bd)',
+                  fontSize:12,color:'var(--green)',fontWeight:500,display:'inline-flex',gap:6,alignItems:'center'}}>
+                  ✓ {flags.length} flag{flags.length!==1?'s':''} submitted{stars>0?` · Rated ${stars}/5`:''} · Queued for training
+                </div>
+              )}
+            </div>
+          ),
+          time:'Queued at',stamp:'9:56 AM'},
+      ]
+    },
+  ];
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%',overflowY:'auto',padding:'20px 24px',gap:16}}>
+
+      {/* ── Header card (Lifecycle summary) ── */}
+      <div className="card" style={{padding:'20px 24px'}}>
+        <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+          <div style={{flex:1}}>
+            <div style={{fontSize:20,fontWeight:700,letterSpacing:'-0.02em',marginBottom:6}}>Case Lifecycle</div>
+            <div style={{fontSize:13,color:'var(--text-2)',lineHeight:1.6,maxWidth:540}}>
+              Review the full resolution timeline for case CS-48821. ServiceAI automatically recorded timestamps at each stage of the AI-to-human handoff.
+            </div>
+          </div>
+          <div style={{display:'flex',gap:8,alignItems:'center',flexShrink:0}}>
+            <div style={{display:'flex',alignItems:'center',gap:6,padding:'5px 10px 5px 6px',
+              borderRadius:'var(--r-pill)',background:'var(--amber-bg)',border:'1px solid var(--amber-bd)'}}>
+              <span style={{padding:'1px 7px',borderRadius:'var(--r-pill)',background:'var(--amber)',
+                color:'#141414',fontSize:10,fontWeight:700,letterSpacing:'0.02em'}}>NEW</span>
+              <span style={{fontSize:12,fontWeight:500,color:'var(--amber)'}}>AI Training Flags</span>
+            </div>
+            <button className="btn btn-ghost btn-sm" style={{gap:5}}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              Export Report
+            </button>
+          </div>
+        </div>
+
+        {/* Metrics strip */}
+        <div style={{display:'flex',gap:0,marginTop:16,borderTop:'1px solid var(--border)',paddingTop:16}}>
+          {[{label:'Total Handle Time',value:'8m 42s'},{label:'AI Handling',value:'4m 32s'},
+            {label:'Human Handling',value:'4m 10s'},{label:'FCR',value:'✓ Yes',color:'var(--green)'}
+          ].map((m,i,arr)=>(
+            <div key={m.label} style={{flex:1,paddingRight:20,
+              borderRight:i<arr.length-1?'1px solid var(--border)':'none',
+              paddingLeft:i>0?20:0}}>
+              <div style={{fontSize:10,color:'var(--text-3)',textTransform:'uppercase',
+                letterSpacing:'0.08em',marginBottom:4}}>{m.label}</div>
+              <div style={{fontSize:18,fontWeight:700,color:m.color||'var(--text)'}}>{m.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Lifecycle table ── */}
+      <div className="card" style={{padding:0,overflow:'hidden'}}>
+        {stages.map((stage,si)=>(
+          <div key={stage.phase} style={{borderBottom:si<stages.length-1?'1px solid var(--border)':'none'}}>
+            {stage.rows.map((row,ri)=>(
+              <div key={ri} style={{display:'grid',gridTemplateColumns:'120px 1fr 130px',
+                alignItems:'flex-start',gap:0,
+                borderBottom:ri<stage.rows.length-1?'1px solid rgba(255,255,255,0.04)':'none',
+                padding:'13px 20px',
+                background:ri===0?'transparent':'transparent',
+                transition:'background .14s'}}>
+
+                {/* Phase label — only on first row of phase */}
+                <div style={{paddingRight:16,paddingTop:1}}>
+                  {ri===0&&(
+                    <div>
+                      <div style={{fontSize:13,fontWeight:700,color:'var(--text)'}}>{stage.phase}</div>
+                      {stage.phaseDesc&&<div style={{fontSize:11,color:'var(--text-3)',marginTop:2,lineHeight:1.4}}>{stage.phaseDesc}</div>}
+                    </div>
+                  )}
+                </div>
+
+                {/* Icon + description */}
+                <div style={{display:'flex',gap:10,alignItems:'flex-start',paddingRight:16}}>
+                  {!row.sub&&(
+                    <div style={{marginTop:1,flexShrink:0}}>{row.icon}</div>
+                  )}
+                  <div style={{fontSize:13,color:'var(--text-2)',lineHeight:1.55,
+                    paddingLeft:row.sub?30:0,flex:1}}>
+                    {row.label}
+                  </div>
+                </div>
+
+                {/* Timestamp */}
+                <div style={{display:'flex',alignItems:'flex-start',justifyContent:'flex-end',paddingTop:1}}>
+                  {row.stamp&&(
+                    <div style={{display:'flex',alignItems:'center',gap:5,padding:'4px 10px',
+                      borderRadius:'var(--r-pill)',background:'var(--surface)',border:'1px solid var(--border)',
+                      whiteSpace:'nowrap'}}>
+                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                        <circle cx="6" cy="6" r="5" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2"/>
+                        <path d="M6 3.5V6l2 1.5" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round"/>
+                      </svg>
+                      <span style={{fontSize:11,color:'var(--text-3)'}}>{row.time}</span>
+                      <span style={{fontSize:11,color:'var(--text-2)',fontWeight:500}}>{row.stamp}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+
+Object.assign(window,{Screen4,Screen5,Screen6});
+</script>
+
+<!-- App shell -->
+<script type="text/babel">
+const SCREENS = [
+  {id:0,label:'AI in Flow',       who:'Customer view',component:'Screen1'},
+  {id:1,label:'Trigger Moment',   who:'Customer view',component:'Screen2'},
+  {id:2,label:'Escalation',       who:'Customer view',component:'ScreenEsc'},
+  {id:3,label:'Customer Waiting', who:'Customer view',component:'Screen3'},
+  {id:4,label:'Rep Briefing',     who:'Rep view',     component:'Screen4'},
+  {id:5,label:'Rep Reply',        who:'Rep view',     component:'Screen5'},
+  {id:6,label:'Resolution',       who:'Rep view',     component:'Screen6'},
+];
+
+const PRINCIPLES = [
+  {title:'Confident Autonomy',  desc:'AI handles routine cases end-to-end without human intervention'},
+  {title:'Honest Limitation',   desc:'AI acknowledges boundaries before the customer notices the gap'},
+  {title:'Graceful Escalation', desc:'AI triggers handoff before frustration sets in — with full context ready'},
+  {title:'Context Continuity',  desc:'The customer never has to repeat themselves across the handoff'},
+  {title:'Human in the Loop',   desc:'AI summarises context and options — the human makes the call'},
+  {title:'Augmented Judgment',  desc:'AI drafts the response, the human refines and owns it'},
+  {title:'Continuous Learning', desc:'Every handoff improves the agent for future cases'},
+];
+
+const WHO_COLORS = {
+  'Customer view':{bg:'var(--blue-bg)',text:'var(--blue)'},
+  'Rep view':     {bg:'var(--green-lt)',text:'var(--green)'},
+};
+
+const App = () => {
+  const stored=(()=>{try{return parseInt(localStorage.getItem('handoff_screen')||'0');}catch{return 0;}})();
+  const [cur,setCur] = useState(stored);
+  const [dir,setDir] = useState('r');
+  const [animKey,setAnimKey] = useState(0);
+
+  const go = (n) => {
+    if(n===cur) return;
+    setDir(n>cur?'r':'l');
+    setAnimKey(k=>k+1);
+    setCur(n);
+    try{localStorage.setItem('handoff_screen',String(n));}catch{}
+  };
+
+  useEffect(()=>{
+    const h=(e)=>{
+      if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+      if(e.key==='ArrowRight'&&cur<6) go(cur+1);
+      if(e.key==='ArrowLeft'&&cur>0) go(cur-1);
+    };
+    window.addEventListener('keydown',h);
+    return ()=>window.removeEventListener('keydown',h);
+  },[cur]);
+
+  const principle = PRINCIPLES[cur];
+  const ScreenComp = window[SCREENS[cur].component];
+
+  return (
+    <div style={{height:'100vh',display:'flex',flexDirection:'column',
+      fontFamily:"'Inter', sans-serif",background:'var(--bg)'}}>
+
+      {/* ── Top nav — Wise dark forest green ── */}
+      <div style={{background:'var(--bg-1)',padding:'0 24px',display:'flex',
+        alignItems:'center',justifyContent:'space-between',height:52,flexShrink:0,
+        borderBottom:'1px solid var(--border)'}}>
+        <div style={{display:'flex',alignItems:'center',gap:16}}>
+          <div style={{display:'flex',alignItems:'center',gap:8}}>
+            {/* Wise Fastflag-inspired logo mark */}
+            <div style={{width:26,height:26,borderRadius:'50%',background:'var(--green)',
+              display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M3 11L7 3L11 11" stroke="#163300" strokeWidth="2.2"
+                  strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M4.5 8h5" stroke="#163300" strokeWidth="2.2" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <span style={{fontSize:14,fontWeight:700,letterSpacing:'-0.02em'}}>ServiceAI</span>
+            <span style={{fontSize:13,color:'var(--text-3)',marginLeft:2}}>/ Support Console</span>
+          </div>
+          <div style={{width:1,height:18,background:'var(--border)'}}/>
+          <span style={{fontSize:12,color:'var(--text-2)'}}>
+            Case CS-48821 · Marcus Webb · Acme Corp
+          </span>
+        </div>
+        <div style={{display:'flex',gap:10,alignItems:'center'}}>
+          <Av initials="SC" grad="linear-gradient(135deg,#8B5CF6,#7C3AED)" size={28}/>
+          <span style={{fontSize:12,color:'var(--text-2)',fontWeight:500}}>Sarah Chen</span>
+        </div>
+      </div>
+
+
+      {/* ── Screen area ── */}
+      <div style={{flex:1,overflow:'hidden',padding:'16px 20px',
+        display:'flex',flexDirection:'column',gap:12}}>
+
+        <div key={animKey}
+          style={{flex:1,overflow:'hidden',display:'flex',flexDirection:'column',
+            borderRadius:'var(--r-lg)',position:'relative',
+            animation:`${dir==='r'?'slide-in-r':'slide-in-l'} .32s cubic-bezier(.22,1,.36,1) both`}}>
+          {ScreenComp?<ScreenComp/>:<div style={{padding:24,color:'var(--text-3)'}}>Loading…</div>}
+        </div>
+
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',flexShrink:0}}>
+          <PBadge title={principle.title} desc={principle.desc}/>
+          <div style={{display:'flex',gap:8,alignItems:'center'}}>
+            <button className="btn btn-grey btn-sm" onClick={()=>go(cur-1)} disabled={cur===0}
+              style={{opacity:cur===0?.35:1,display:'flex',alignItems:'center',gap:6}}>
+              ← Back
+              {cur>0&&<span style={{color:'var(--text-3)',fontWeight:400}}>{SCREENS[cur-1].label}</span>}
+            </button>
+            <span style={{fontSize:11,color:'var(--text-3)',padding:'0 4px'}}>{cur+1} / {SCREENS.length}</span>
+            {cur===6
+              ?<button className="btn btn-grey btn-sm" onClick={()=>go(0)}
+                  style={{display:'flex',alignItems:'center',gap:6}}>
+                  ↺ Restart
+                </button>
+              :<button className="btn btn-primary btn-sm" onClick={()=>go(cur+1)}
+                  style={{display:'flex',alignItems:'center',gap:6}}>
+                  {SCREENS[cur+1].label} →
+                </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Roleplay Kiran Tanwar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0C0A0A;
+  --bg2:#1A1214;
+  --bg3:#2A1018;
+  --card:#1A1214;
+  --white:#FFFFFF;
+  --muted:rgba(240,237,232,0.50);
+  --muted2:rgba(240,237,232,0.45);
+  --border:rgba(240,237,232,0.07);
+  --accent:#FF9C09;
+  --accent-dim:rgba(255,156,9,0.10);
+  --accent-bdr:rgba(255,156,9,0.25);
+  --purple:#FF9C09;
+  --radius:16px;
+  --radius-sm:10px;
+  --radius-pill:100px;
+  --ff:'DM Sans',sans-serif;
+  --ffs:'Cormorant Garamond',serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:var(--ff);overflow-x:hidden;}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:20px 52px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(12,10,10,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:var(--ff);font-weight:600;font-size:16px;color:rgba(255,255,255,0.75);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center;}
+.nav-links a{font-family:var(--ff);font-size:14px;font-weight:400;color:var(--muted);text-decoration:none;padding:8px 18px;border-radius:var(--radius-pill);transition:all .2s;}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.07);}
+.nav-cta-link{color:#0C0A0A!important;background:#FF9C09!important;border:1px solid #FF9C09!important;font-weight:500!important;padding:9px 24px!important;}
+.nav-cta-link:hover{background:#FFB03A!important;border-color:#FFB03A!important;}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .85s cubic-bezier(.16,1,.3,1);}
+.rv.vis{opacity:1;transform:none;}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+.kicker{font-family:var(--ff);font-size:11px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.kicker::before{content:'';width:7px;height:7px;border-radius:50%;background:rgba(255,156,9,0.7);}
+.section-h{font-family:var(--ff);font-weight:800;font-size:clamp(42px,5vw,76px);color:#fff;line-height:.96;letter-spacing:-.045em;margin-bottom:24px;}
+.section-body{font-family:var(--ff);font-size:16px;font-weight:300;color:var(--muted);line-height:1.8;max-width:720px;}
+
+
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:clamp(28px,3vw,40px);transition:border-color .25s,transform .3s;}
+.card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+
+.hero{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:60px;
+  padding-block:clamp(130px,12vw,190px) clamp(90px,9vw,140px);
+  padding-inline:var(--content-gutter);
+  background:radial-gradient(ellipse 80% 50% at 50% 120%,rgba(255,156,9,0.18) 0%,transparent 70%),var(--bg);
+  border-bottom:1px solid var(--border);
+}
+.hero-img-wrap{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-img-glow{
+  position:absolute;inset:-40px;
+  background:radial-gradient(ellipse at center,rgba(255,156,9,0.12) 0%,transparent 65%);
+  filter:blur(32px);
+  border-radius:32px;
+  pointer-events:none;
+}
+/* Persona card */
+.persona-card-wrap{position:relative;z-index:1;width:100%;max-width:520px;}
+.persona-card-outer{
+  background:linear-gradient(135deg,#F4A96A 0%,#F5C08A 40%,#F4A96A 100%);
+  border-radius:28px;
+  padding:24px;
+  box-shadow:0 40px 100px rgba(0,0,0,0.55);
+}
+.persona-card{
+  background:#fff;
+  border-radius:18px;
+  padding:36px 32px 28px;
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;
+}
+.persona-avatar-ring{
+  position:relative;
+  width:110px;height:110px;
+  border-radius:50%;
+  background:conic-gradient(from 180deg,#4FC3F7,#7C4DFF,#4FC3F7);
+  padding:3px;
+  margin-bottom:18px;
+}
+.persona-avatar{
+  width:100%;height:100%;
+  border-radius:50%;
+  object-fit:cover;object-position:top;
+  display:block;
+  border:3px solid #fff;
+}
+.persona-online{
+  position:absolute;bottom:6px;right:6px;
+  width:16px;height:16px;border-radius:50%;
+  background:#22C55E;border:2px solid #fff;
+}
+.persona-name{font-family:var(--ff);font-weight:700;font-size:20px;color:#111;margin-bottom:4px;text-align:center;}
+.persona-title{font-family:var(--ff);font-size:14px;font-weight:400;color:#555;margin-bottom:2px;text-align:center;}
+.persona-exp{font-family:var(--ff);font-size:12px;font-weight:300;color:#999;margin-bottom:16px;text-align:center;}
+.persona-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px;}
+.persona-tag{
+  font-family:var(--ff);font-size:13px;font-weight:400;color:#444;
+  border:1px solid #ddd;border-radius:100px;
+  padding:5px 14px;background:#fff;
+}
+.persona-select-wrap{position:relative;display:inline-flex;align-items:center;}
+.persona-select-wrap::after{
+  content:'▾';position:absolute;right:10px;
+  font-size:12px;color:#999;pointer-events:none;
+}
+.persona-select{
+  font-family:var(--ff);font-size:13px;font-weight:400;color:#444;
+  border:1px solid #ddd;border-radius:100px;
+  padding:5px 28px 5px 14px;background:#fff;
+  appearance:none;-webkit-appearance:none;
+  cursor:pointer;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.persona-select:hover{border-color:#aaa;}
+.persona-select:focus{border-color:#4A90D9;box-shadow:0 0 0 2px rgba(74,144,217,0.15);}
+.persona-tip{
+  background:#F8FAFF;border-radius:10px;padding:14px 16px;
+  margin-bottom:20px;width:100%;text-align:center;
+}
+.persona-tip-label{font-family:var(--ff);font-size:12px;font-weight:600;color:#4A90D9;margin-bottom:6px;}
+.persona-tip-text{font-family:var(--ff);font-size:12px;font-weight:400;color:#666;line-height:1.6;}
+.persona-cta{
+  width:100%;padding:16px;border-radius:12px;border:none;
+  background:#1A1A1A;color:#fff;
+  font-family:var(--ff);font-size:14px;font-weight:600;
+  cursor:pointer;letter-spacing:.02em;
+  transition:background .2s;
+}
+.persona-cta:hover{background:#333;}
+
+.strips-card{display:flex;flex-direction:column;gap:2px;border-radius:16px;overflow:hidden;}
+.strip{display:flex;align-items:center;gap:0;background:var(--card);transition:background .25s;}
+.strip:hover{background:#2A1018;}
+.strip-num-col{width:140px;flex-shrink:0;padding:28px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.strip-num-col::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(240,237,232,0.06);}
+.strip-num{font-size:42px;font-weight:800;line-height:1;letter-spacing:-.02em;}
+.strip-num.c1{color:#FF9C09;}
+.strip-num.c2{color:#E8862A;}
+.strip-num.c3{color:#F5C542;}
+.strip-unit{font-size:11px;font-weight:300;color:rgba(240,237,232,0.3);margin-top:2px;}
+.strip-info{flex:1;padding:28px 32px;display:flex;flex-direction:column;gap:4px;}
+.strip-headline{font-size:16px;font-weight:600;color:#fff;}
+.strip-desc{font-size:14px;font-weight:300;color:rgba(240,237,232,0.4);line-height:1.6;}
+.strip-tag{display:inline-flex;align-items:center;gap:4px;margin-top:6px;width:fit-content;font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:rgba(240,237,232,0.45);line-height:1.5;}
+.strip-tag::before{content:'';width:4px;height:4px;border-radius:50%;}
+.strip-tag.t1::before{background:#FF9C09;}
+.strip-tag.t2::before{background:#E8862A;}
+.strip-tag.t3::before{background:#F5C542;}
+
+@media(max-width:768px){
+  .strip{flex-direction:column;}
+  .strip-num-col{width:100%;padding:20px 24px;}
+  .strip-num-col::after{display:none;}
+  .strip-info{padding:16px 24px 24px;}
+}
+
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;}
+  .hero-img-wrap{display:none;}
+}
+.hero-title{font-family:var(--ff);font-weight:800;font-size:clamp(56px,7vw,112px);color:#fff;line-height:.92;letter-spacing:-.055em;margin-bottom:28px;}
+.hero-subtitle{font-family:var(--ffs);font-style:italic;font-size:clamp(20px,1.7vw,28px);color:var(--accent);font-weight:500;line-height:1.35;margin-bottom:24px;}
+.hero-desc{font-family:var(--ff);font-size:16px;font-weight:300;color:rgba(255,255,255,0.56);line-height:1.8;max-width:680px;margin-bottom:44px;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:12px;}
+.meta-pill{font-family:var(--ff);font-size:12px;font-weight:500;color:var(--muted);padding:8px 20px;border-radius:var(--radius-pill);border:1px solid var(--border);background:rgba(255,255,255,0.03);}
+.meta-pill span{color:#fff;}
+
+.icon-wrap{width:52px;height:52px;border-radius:14px;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:24px;}
+.card-title{font-family:var(--ff);font-weight:700;font-size:21px;color:#fff;margin-bottom:12px;}
+.card-body{font-family:var(--ff);font-size:16px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+.accent-card{background:var(--card);border:1px solid var(--accent-bdr);border-radius:var(--radius);padding:40px;margin:40px 0;}
+.accent-card p{font-family:var(--ffs);font-size:clamp(18px,2vw,26px);font-style:italic;font-weight:500;color:rgba(240,237,232,0.9);line-height:1.6;}
+
+.num-badge{width:36px;height:36px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:12px;font-weight:700;color:var(--accent);margin-bottom:20px;flex-shrink:0;}
+.letter-badge{width:40px;height:40px;border-radius:10px;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:14px;font-weight:800;color:var(--accent);margin-bottom:20px;}
+
+.pill-tag{display:inline-flex;align-items:center;font-family:var(--ff);font-size:13px;font-weight:500;color:var(--accent);padding:8px 20px;border-radius:var(--radius-pill);border:1px solid var(--accent-bdr);background:var(--accent-dim);}
+
+.research-label{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.research-text{font-family:var(--ff);font-size:16px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+.quote-mark{font-family:var(--ffs);font-size:80px;line-height:.75;color:var(--accent);margin-bottom:16px;display:block;}
+.quote-text{font-family:var(--ffs);font-style:italic;font-size:clamp(16px,1.6vw,21px);font-weight:500;color:rgba(240,237,232,0.88);line-height:1.65;}
+
+.col-label{font-family:var(--ff);font-weight:700;font-size:14px;color:#fff;letter-spacing:.06em;text-transform:uppercase;padding:14px 0;border-bottom:2px solid var(--accent);margin-bottom:24px;}
+
+.step-flow{display:flex;align-items:flex-start;gap:0;flex-wrap:wrap;margin-top:48px;}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;min-width:100px;position:relative;}
+.step:not(:last-child)::after{content:'';position:absolute;top:20px;left:calc(50% + 22px);right:calc(-50% + 22px);height:2px;background:linear-gradient(90deg,var(--accent),rgba(255,156,9,0.3));z-index:0;}
+.step-num{width:44px;height:44px;border-radius:50%;background:var(--accent-dim);border:2px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:13px;font-weight:800;color:var(--accent);margin-bottom:14px;position:relative;z-index:1;}
+.step-label{font-family:var(--ff);font-size:12px;font-weight:500;color:var(--muted);line-height:1.4;max-width:90px;}
+
+.ia-tree{display:flex;flex-direction:column;gap:0;margin-top:48px;}
+.ia-row{display:flex;align-items:center;gap:0;margin-bottom:16px;}
+.ia-indent{width:40px;flex-shrink:0;}
+.ia-connector{width:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:18px;font-weight:700;}
+.ia-node{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 24px;font-family:var(--ff);font-size:14px;font-weight:500;color:#fff;transition:border-color .25s;}
+.ia-node:hover{border-color:var(--accent-bdr);}
+.ia-node.root{border-color:var(--accent-bdr);background:rgba(255,156,9,0.06);font-weight:700;font-size:16px;}
+
+.metric-num{font-family:var(--ff);font-weight:800;font-size:clamp(44px,6vw,80px);color:#fff;line-height:1;margin-bottom:8px;}
+.metric-num span{color:var(--accent);}
+.metric-label{font-family:var(--ff);font-size:14px;font-weight:400;color:var(--muted);line-height:1.5;}
+
+.audit-table{width:100%;border-collapse:separate;border-spacing:0 12px;margin-top:36px;}
+.audit-table th{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);padding:0 20px 12px;text-align:left;border-bottom:1px solid var(--border);}
+.audit-table td{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px;font-family:var(--ff);font-size:16px;font-weight:300;color:var(--muted);line-height:1.6;vertical-align:top;}
+.audit-table td:first-child{border-left:1px solid var(--border);border-radius:var(--radius-sm) 0 0 var(--radius-sm);font-weight:600;color:#fff;}
+.audit-table td:last-child{border-right:1px solid var(--border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;}
+.audit-table tr:hover td{border-color:var(--accent-bdr);}
+
+.placeholder-card{border:2px dashed var(--border);border-radius:var(--radius);height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:border-color .25s;}
+.placeholder-card:hover{border-color:var(--accent-bdr);}
+.placeholder-label{font-family:var(--ff);font-weight:600;font-size:15px;color:var(--muted2);}
+.placeholder-sub{font-family:var(--ff);font-size:12px;color:rgba(240,237,232,0.40);}
+
+.closing-section{padding-block:120px;background:linear-gradient(180deg,var(--bg) 0%,rgba(255,156,9,0.08) 50%,var(--bg) 100%);text-align:center;border-top:1px solid var(--border);}
+.closing-quote{font-family:var(--ffs);font-style:italic;font-weight:500;font-size:clamp(22px,3vw,38px);color:rgba(240,237,232,0.9);line-height:1.55;max-width:800px;margin:0 auto 56px;}
+.btn-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.btn{display:inline-block;font-family:var(--ff);font-size:14px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:var(--radius-pill);transition:all .25s;}
+.btn-ghost{color:var(--muted);border:1px solid var(--border);}
+.btn-ghost:hover{color:#fff;border-color:rgba(240,237,232,0.3);}
+.btn-red{color:#0C0A0A;background:var(--accent);border:1px solid var(--accent);}
+.btn-red:hover{background:#FFB03A;border-color:#FFB03A;}
+
+footer{padding-block:28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
+.f-name{font-family:var(--ff);font-weight:600;font-size:14px;color:var(--muted2);}
+
+.sep{width:100%;height:1px;background:var(--border);}
+
+@media(max-width:960px){
+  nav{padding-block:16px;}
+  section{padding-block:80px;}
+  .hero{padding:120px 24px 80px;}
+  footer{padding-block:24px;}
+  .grid-3,.grid-4{grid-template-columns:1fr;}
+  .grid-2{grid-template-columns:1fr;}
+  .step-flow{gap:24px;}
+  .step:not(:last-child)::after{display:none;}
+  .audit-table{display:block;overflow-x:auto;}
+}
+@media(max-width:560px){
+  .nav-links li:not(:last-child){display:none;}
+}
+
+.ia{max-width:1100px;margin:0 auto;}
+.connector{display:flex;flex-direction:column;align-items:center;padding:12px 0;}
+.conn-line{width:2px;height:28px;background:linear-gradient(to bottom,rgba(255,156,9,0.4),rgba(255,156,9,0.1));}
+.conn-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.6;margin:4px 0;}
+.entry{display:flex;justify-content:center;}
+.entry-pill{background:linear-gradient(135deg,#FF9C09,#FFB03A);padding:14px 48px;border-radius:100px;font-size:13px;font-weight:700;letter-spacing:.06em;color:#0C0A0A;box-shadow:0 8px 32px rgba(255,156,9,0.3);}
+.level-bar{display:flex;justify-content:center;}
+.level-pill{background:#2A1018;border:1px solid rgba(255,156,9,0.25);padding:10px 36px;border-radius:8px;font-size:11px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);}
+.ia-modules{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:8px 0;}
+.ia-mod{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;min-width:140px;text-align:center;transition:border-color .25s,transform .2s;}
+.ia-mod:hover{border-color:var(--accent-bdr);transform:translateY(-2px);}
+.ia-mod-name{font-size:11px;font-weight:600;color:#fff;margin-bottom:3px;}
+.ia-mod-sub{font-size:11px;font-weight:300;color:rgba(240,237,232,0.38);}
+.ia-mod.accent{border-color:rgba(255,156,9,0.2);}
+.ia-mod.accent .ia-mod-name{color:var(--accent);}
+.ia-sub-modules{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.ia-sub-mod{background:var(--card);border:1px solid rgba(240,237,232,0.05);border-radius:8px;padding:12px 18px;min-width:120px;text-align:center;}
+.ia-sub-mod-name{font-size:11px;font-weight:500;color:rgba(240,237,232,0.55);}
+.ia-sub-mod-desc{font-size:11px;font-weight:300;color:rgba(240,237,232,0.45);margin-top:2px;}
+.feedback-split{display:grid;grid-template-columns:240px 1fr;gap:16px;margin-top:8px;}
+.fb-group{border:1px solid rgba(255,156,9,0.15);border-radius:12px;overflow:hidden;}
+.fb-header{background:#2A1018;border-bottom:1px solid rgba(255,156,9,0.15);padding:12px 20px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);}
+.fb-items{padding:12px 16px;display:flex;flex-direction:column;gap:6px;}
+.fb-item{background:rgba(26,18,20,0.5);border:1px solid rgba(240,237,232,0.04);border-radius:6px;padding:10px 14px;font-size:11px;color:rgba(240,237,232,0.42);line-height:1.6;}
+.session-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px 16px;}
+.sc-header{background:var(--card);border:1px solid rgba(255,156,9,0.12);border-radius:6px;padding:10px 14px;margin-bottom:6px;font-size:11px;font-weight:500;color:var(--accent);text-align:center;}
+.sc-items{display:flex;flex-direction:column;gap:4px;}
+.sc-item{background:rgba(26,18,20,0.5);border:1px solid rgba(240,237,232,0.03);border-radius:5px;padding:8px 10px;font-size:11px;color:rgba(240,237,232,0.34);text-align:center;}
+.branch{display:flex;align-items:center;justify-content:center;padding:4px 0;}
+.branch-line{height:1px;flex:1;max-width:800px;background:rgba(240,237,232,0.08);}
+.ia-legend{display:flex;align-items:center;gap:24px;justify-content:center;margin-top:40px;padding:12px 24px;background:rgba(26,18,20,0.4);border-radius:8px;flex-wrap:wrap;}
+.ia-leg{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(240,237,232,0.35);}
+.ia-leg-dot{width:8px;height:8px;border-radius:50%;}
+.ia-leg-sq{width:10px;height:10px;border-radius:2px;}
+
+@media(max-width:768px){
+  .feedback-split{grid-template-columns:1fr;}
+  .session-cols{grid-template-columns:1fr;}
+  .ia-modules,.ia-sub-modules{flex-direction:column;align-items:center;}
+}
+
+/* ── Design Decisions ── */
+.dd-block{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border);}
+.dd-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.dd-text{padding-right:12px;}
+.dd-num{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px;letter-spacing:.04em;}
+.dd-title{font-family:var(--ffs);font-style:italic;font-weight:600;font-size:clamp(22px,2.5vw,32px);color:#fff;line-height:1.15;margin-bottom:12px;}
+.dd-desc{font-size:16px;font-weight:300;color:rgba(240,237,232,0.50);line-height:1.75;max-width:560px;}
+.dd-img{border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--card);}
+.dd-img img{width:100%;height:auto;display:block;}
+@media(max-width:768px){
+  .dd-block{grid-template-columns:1fr;gap:20px;}
+}
+
+/* ── Hover Slideshow (Conversation UI) ── */
+.hslider{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:40px 60px;
+  padding:56px 0 0;
+}
+.hslider-list{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  flex-shrink:0;
+}
+.hslider-item{
+  cursor:pointer;
+  font-family:var(--ff);
+  font-size:clamp(28px,3.8vw,52px);
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:-.02em;
+  color:rgba(255,255,255,0.45);
+  padding:6px 0;
+  display:block;
+  transition:color .2s;
+  line-height:1.15;
+  user-select:none;
+}
+.hslider-item.hs-active{ color:#fff; }
+
+/* character spans */
+.hslider-item .hs-char{
+  position:relative;
+  display:inline-block;
+  overflow:hidden;
+  vertical-align:top;
+}
+.hslider-item .hs-char-base,
+.hslider-item .hs-char-top{
+  display:inline-block;
+  transition:transform .28s cubic-bezier(.25,.46,.45,.94);
+}
+.hslider-item .hs-char-top{
+  position:absolute;
+  left:0;top:0;
+  transform:translateY(110%);
+  color:var(--accent);
+}
+.hslider-item.hs-active .hs-char-base{ transform:translateY(-110%); }
+.hslider-item.hs-active .hs-char-top { transform:translateY(0); }
+
+/* Image stack */
+.hslider-imgs{
+  flex:1;
+  min-width:280px;
+  max-width:560px;
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  aspect-ratio:16/10;
+  background:var(--card);
+  border:1px solid var(--border);
+  box-shadow:0 32px 80px rgba(0,0,0,0.55);
+}
+.hslider-imgs img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+  /* clip-path reveal: start collapsed at top */
+  clip-path:polygon(0% 0%,100% 0%,100% 0%,0% 0%);
+  transition:clip-path .75s cubic-bezier(.33,1,.68,1);
+}
+.hslider-imgs img.hs-img-active{
+  clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%);
+}
+
+@media(max-width:768px){
+  .hslider{ flex-direction:column; }
+  .hslider-imgs{ max-width:100%; width:100%; }
+}
+
+/* ── Section scrollspy nav ── */
+html{scroll-behavior:smooth;}
+.section-nav{position:fixed;top:50%;right:28px;left:auto;transform:translateY(-50%);z-index:90;width:38px;height:auto;display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding:0;margin:0;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;pointer-events:none;}
+.section-nav-link,.section-dot{position:relative;display:block;width:24px;height:2px;min-height:2px;padding:0;margin:0;border-radius:999px;background:rgba(255,255,255,0.24);border:0;box-shadow:none;overflow:visible;pointer-events:auto;text-decoration:none;cursor:pointer;transition:width 180ms ease,background 180ms ease,opacity 180ms ease;}
+.section-nav-link:hover,.section-dot:hover{width:34px;background:rgba(255,255,255,0.72);}
+.section-nav-link.active,.section-dot.active{width:38px;background:var(--accent);}
+.section-nav-link::before,.section-dot::before{content:attr(data-label);position:absolute;right:48px;top:50%;transform:translateY(-50%) translateX(4px);opacity:0;pointer-events:none;white-space:nowrap;background:rgba(16,13,13,0.96);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.84);padding:6px 10px;border-radius:8px;font-size:12px;line-height:1;box-shadow:0 8px 24px rgba(0,0,0,0.24);font-family:'DM Sans',sans-serif;transition:opacity 160ms ease,transform 160ms ease;}
+.section-nav-link:hover::before,.section-dot:hover::before{opacity:1;transform:translateY(-50%) translateX(0);}
+@media(max-width:900px){.section-nav{display:none;}}
+
+
+
+/* ── Container system ── */
+:root{--content-max:1440px;--content-gutter:clamp(24px,5vw,96px);--section-y:clamp(88px,9vw,150px);}
+.section-inner,.hero-inner{width:min(calc(100% - var(--content-gutter) * 2),var(--content-max));margin-inline:auto;}
+section{padding-block:var(--section-y);padding-inline:0;}
+nav,footer{padding-inline:var(--content-gutter);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="portfolio.html"><span class="nav-dot"></span>Kiran Tanwar</a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html">Home</a></li>
+    <li><a href="portfolio.html#work">Work</a></li>
+    <li><a href="ai-assisted-prototypes.html">UX Solutions</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="portfolio.html#experience">Experience</a></li>
+    <li><a href="#" class="nav-cta-link" onclick="window.open('mailto:'+'rikkdesigns'+'@'+'gmail.com');return false;">Let's Talk</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="s-hero" class="hero">
+  <div class="rv vis">
+    <p class="hero-title">AI Role-Play</p>
+    <p class="hero-subtitle">Practice Before the Call, Close After</p>
+    <p class="hero-desc">Realistic AI-powered sales simulations using your actual content so reps walk into every call rehearsed, confident, and ready to handle objections.</p>
+    <div class="hero-meta" style="margin-bottom:28px;">
+      <div class="meta-pill"><span>Role:</span> Lead Product Designer</div>
+      <div class="meta-pill"><span>Team:</span> Product, Engineering, Sales Enablement</div>
+    </div>
+    <div class="hero-meta">
+      <div class="pill-tag">AI/UX</div>
+      <div class="pill-tag">Agentic Design</div>
+      <div class="pill-tag">Enterprise B2B</div>
+      <div class="pill-tag">UX Research</div>
+    </div>
+  </div>
+  <div class="hero-img-wrap rv vis">
+    <div class="hero-img-glow"></div>
+    <div class="persona-card-wrap">
+      <!-- outer gradient bg -->
+      <div class="persona-card-outer">
+        <div class="persona-card">
+          <!-- avatar -->
+          <div class="persona-avatar-ring">
+            <img src="Images/SalesRepPicture2.png" alt="Naomi Wright" class="persona-avatar" id="personaAvatar">
+            <span class="persona-online"></span>
+          </div>
+          <!-- info -->
+          <h3 class="persona-name">Naomi Wright</h3>
+          <p class="persona-title">VP of Finance @ FinScale</p>
+          <p class="persona-exp">15+ years in Enterprise Tech</p>
+          <!-- dropdowns -->
+          <div class="persona-tags">
+            <div class="persona-select-wrap">
+              <select class="persona-select" id="pTone">
+                <option>Confident</option>
+                <option>Aggressive</option>
+                <option>Friendly</option>
+                <option>Skeptical</option>
+                <option>Neutral</option>
+              </select>
+            </div>
+            <div class="persona-select-wrap">
+              <select class="persona-select" id="pAccent">
+                <option>American Accent</option>
+                <option>British Accent</option>
+                <option>Australian Accent</option>
+                <option>Neutral Accent</option>
+              </select>
+            </div>
+            <div class="persona-select-wrap">
+              <select class="persona-select" id="pLang">
+                <option>English Language</option>
+                <option>Spanish Language</option>
+                <option>French Language</option>
+                <option>German Language</option>
+              </select>
+            </div>
+            <div class="persona-select-wrap">
+              <select class="persona-select" id="pGender" onchange="updatePersonaAvatar(this.value)">
+                <option value="young-female">Young Female</option>
+                <option value="young-male">Young Male</option>
+                <option value="mid-female">Mid-age Female</option>
+                <option value="mid-male">Mid-age Male</option>
+              </select>
+            </div>
+          </div>
+          <!-- pro tip -->
+          <div class="persona-tip">
+            <p class="persona-tip-label">✦ Pro Tip</p>
+            <p class="persona-tip-text">Listen actively and confirm understanding before responding. Focus on financial benefits and ROI.</p>
+          </div>
+          <!-- cta -->
+          <button class="persona-cta">☎ Start Conversation</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ OVERVIEW ═══ -->
+<section id="s-overview" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Overview</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">What is AI Role-Play?</p></div>
+  <div class="rv d2" style="margin-top:40px;">
+    <p style="font-family:var(--ff);font-weight:800;font-size:26px;font-style:italic;color:#fff;line-height:1.4;letter-spacing:-.01em;">AI Roleplay creates realistic, adaptive sales simulations using buyer personas and real objection patterns. Reps practice live conversations, receive instant feedback, and build confidence, all in a safe, dynamic environment that mirrors real customer interactions.</p>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ PROBLEM ═══ -->
+<section id="s-problem" style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">The Problem</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">The Training Gap</p></div>
+  <div class="grid-2" style="margin-top:48px;align-items:start;">
+    <div class="rv d2">
+      <p style="font-family:var(--ff);font-weight:800;font-size:26px;font-style:italic;color:#fff;line-height:1.4;letter-spacing:-.01em;">Sales reps were going into high-stakes calls unprepared. Traditional training was too slow, too generic, and disconnected from the actual content they needed to sell. Managers had no scalable way to coach they couldn't sit in on every call, and written playbooks gathered dust.</p>
+    </div>
+    <div class="strips-card rv d3">
+      <div class="strip">
+        <div class="strip-num-col">
+          <div class="strip-num c1">68%</div>
+        </div>
+        <div class="strip-info">
+          <div class="strip-headline">Underprepared for Discovery</div>
+          <div class="strip-desc">Reps reported feeling unprepared walking into first calls with new prospects</div>
+          <div class="strip-tag t1">Internal survey · n=47</div>
+        </div>
+      </div>
+      <div class="strip">
+        <div class="strip-num-col">
+          <div class="strip-num c2">23%</div>
+        </div>
+        <div class="strip-info">
+          <div class="strip-headline">Playbook Actually Used</div>
+          <div class="strip-desc">Less than a quarter of curated sales content was ever referenced before calls</div>
+          <div class="strip-tag t2">Content analytics · 6 months</div>
+        </div>
+      </div>
+      <div class="strip">
+        <div class="strip-num-col">
+          <div class="strip-num c3">4.2 hrs</div>
+          <div class="strip-unit">per week</div>
+        </div>
+        <div class="strip-info">
+          <div class="strip-headline">Manual Call Prep Time</div>
+          <div class="strip-desc">Time spent searching docs, writing notes, and rehearsing without structured tools</div>
+          <div class="strip-tag t3">Time tracking · 12 reps</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ WHY THIS MATTERS ═══ -->
+<section style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Why This Matters</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">Every Bad Call Has a Cost</p></div>
+  <div class="accent-card rv d2">
+    <p>When reps fumble objections or miss key talking points, it's not just a lost deal it's lost trust, lost pipeline, and a coaching problem that compounds across the entire team.</p>
+  </div>
+  <div class="grid-3" style="margin-top:8px;">
+    <div class="card rv d2">
+      <p class="research-label">For Reps</p>
+      <p class="card-body" style="margin-top:12px;">Anxiety before calls, inconsistent performance, no safe space to fail.</p>
+    </div>
+    <div class="card rv d3">
+      <p class="research-label">For Managers</p>
+      <p class="card-body" style="margin-top:12px;">No scalable coaching tool, no visibility into skill gaps.</p>
+    </div>
+    <div class="card rv d4">
+      <p class="research-label">For the Business</p>
+      <p class="card-body" style="margin-top:12px;">Lower win rates, longer ramp time, revenue left on the table.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ BUSINESS GOALS ═══ -->
+<section style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Goals</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">What Success Looks Like</p></div>
+  <div class="grid-2" style="margin-top:48px;">
+    <div class="card rv d2">
+      <div class="num-badge">01</div>
+      <p class="card-title">Reduce call prep time</p>
+      <p class="card-body">From 4+ hours/week to under 30 minutes.</p>
+    </div>
+    <div class="card rv d3">
+      <div class="num-badge">02</div>
+      <p class="card-title">Increase rep confidence</p>
+      <p class="card-body">Measurable improvement in first-call performance.</p>
+    </div>
+    <div class="card rv d3">
+      <div class="num-badge">03</div>
+      <p class="card-title">Scale coaching</p>
+      <p class="card-body">Let AI handle repetitive practice so managers focus on strategy.</p>
+    </div>
+    <div class="card rv d4">
+      <div class="num-badge">04</div>
+      <p class="card-title">Drive content adoption</p>
+      <p class="card-body">Make playbook content come alive in realistic simulations.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ RESEARCH ═══ -->
+<section id="s-research" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Research</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">Understanding the Real Workflow</p></div>
+  <div class="rv d2"><p class="section-body" style="margin-bottom:40px;">I conducted 12 user interviews with reps, 6 with managers, and shadowed 8 live sales calls to understand where preparation breaks down and what confidence actually looks like before a call.</p></div>
+  <div class="rv d3" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px;">
+    <div class="meta-pill">User Interviews</div>
+    <div class="meta-pill">Call Shadowing</div>
+    <div class="meta-pill">Survey (n=47)</div>
+    <div class="meta-pill">Competitive Audit</div>
+    <div class="meta-pill">Journey Mapping</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+    <div class="card rv d2" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">1</div>
+      <div>
+        <p class="card-title">Reps don't read playbooks</p>
+        <p class="card-body">They learn by doing, not by reading. The best reps practiced out loud but had no tool for it.</p>
+      </div>
+    </div>
+    <div class="card rv d3" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">2</div>
+      <div>
+        <p class="card-title">Confidence comes from repetition</p>
+        <p class="card-body">Reps who rehearsed objection handling 3+ times performed 40% better on calls.</p>
+      </div>
+    </div>
+    <div class="card rv d3" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">3</div>
+      <div>
+        <p class="card-title">Managers want visibility, not control</p>
+        <p class="card-body">They wanted to see who practiced and where gaps were not micromanage every session.</p>
+      </div>
+    </div>
+    <div class="card rv d4" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">4</div>
+      <div>
+        <p class="card-title">Generic training feels fake</p>
+        <p class="card-body">Reps dismissed training that didn't use their actual product content and real customer scenarios.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ COMPETITIVE AUDIT ═══ -->
+<section style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Competitive Audit</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">What Existed vs. What Was Needed</p></div>
+  <div class="rv d2" style="overflow-x:auto;margin-top:48px;">
+    <table style="width:100%;border-collapse:collapse;min-width:720px;">
+      <thead>
+        <tr>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:0 20px 16px 0;text-align:left;border-bottom:1px solid var(--border);width:22%;">Capability</th>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:0 16px 16px;text-align:left;border-bottom:1px solid var(--border);width:19%;">Chorus / Gong</th>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:0 16px 16px;text-align:left;border-bottom:1px solid var(--border);width:19%;">Lessonly</th>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:0 16px 16px;text-align:left;border-bottom:1px solid var(--border);width:19%;">Highspot</th>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding:0 0 16px 16px;text-align:left;border-bottom:2px solid var(--accent-bdr);width:21%;">AI Role-Play ✦</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">Real content integration</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Analyses real calls but can't simulate with your content</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Static lesson modules, no live simulation</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Content library only, no practice layer</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(255,156,9,0.04);vertical-align:top;">✓ Scenarios built from your actual playbook content</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">AI-powered feedback</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Post-call analysis only, no practice coaching</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Quiz scores only, no conversational feedback</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">No practice simulation or feedback loop</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(255,156,9,0.04);vertical-align:top;">✓ Instant scoring on talk ratio, objections, confidence</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">Manager visibility</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,237,232,0.45);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">✓ Strong but limited to real calls, not practice</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Basic completion tracking only</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Content usage data, no skill-gap visibility</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(255,156,9,0.04);vertical-align:top;">✓ Who practiced, how often, and where gaps are</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">Adaptive AI buyer</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">No simulation records and analyses only</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">No live AI interaction</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">No live AI interaction</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(255,156,9,0.04);vertical-align:top;">✓ AI buyer pushes back, changes tone, adapts in real time</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;vertical-align:top;">Custom scenario builder</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;vertical-align:top;">Not available relies on recorded calls</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;vertical-align:top;">Admins can build lessons, not simulations</td>
+          <td style="font-family:var(--ff);font-size:13px;color:rgba(240,100,100,0.7);padding:20px 16px;vertical-align:top;">Playbook templates only, not interactive</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;background:rgba(255,156,9,0.04);vertical-align:top;">✓ Managers build scenarios from real deals in minutes</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rv d3" style="margin-top:36px;">
+    <p class="section-body">Existing tools solved one piece analytics, content, or training but none combined adaptive simulation, real content, and coaching visibility. That gap was the design opportunity.</p>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ WHO WE DESIGNED FOR ═══ -->
+<section id="s-personas" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Personas</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">Three Users, One System</p></div>
+  <div class="grid-3" style="margin-top:48px;">
+    <div class="card rv d2">
+      <p class="card-title">The Rep</p>
+      <p class="research-label" style="margin-top:16px;">Needs</p>
+      <p class="card-body">Safe space to practice, instant feedback, real scenarios.</p>
+      <p class="research-label" style="margin-top:16px;">Frustration</p>
+      <p class="card-body">Going into calls cold.</p>
+    </div>
+    <div class="card rv d3">
+      <p class="card-title">The Manager</p>
+      <p class="research-label" style="margin-top:16px;">Needs</p>
+      <p class="card-body">Visibility into team readiness, scalable coaching.</p>
+      <p class="research-label" style="margin-top:16px;">Frustration</p>
+      <p class="card-body">Can't sit in on every call.</p>
+    </div>
+    <div class="card rv d4">
+      <p class="card-title">The Enablement Lead</p>
+      <p class="research-label" style="margin-top:16px;">Needs</p>
+      <p class="card-body">Content adoption metrics, training ROI.</p>
+      <p class="research-label" style="margin-top:16px;">Frustration</p>
+      <p class="card-body">No one reads the playbook.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ USER JOURNEY ═══ -->
+<section style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">User Journey</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">From Prep to Performance</p></div>
+  <div class="step-flow rv d2" style="margin-top:56px;">
+    <div class="step">
+      <div class="step-num">1</div>
+      <p class="step-label">Browse scenarios</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <p class="step-label">Select role-play</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <p class="step-label">Practice with AI</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <p class="step-label">Get instant feedback</p>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <p class="step-label">Review &amp; retry</p>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <p class="step-label">Go into the call confident</p>
+    </div>
+  </div>
+  <div class="rv d3" style="margin-top:48px;">
+    <p class="section-body">This flow was validated with 8 reps in prototype testing average task completion time dropped from 6 minutes to under 2.</p>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ INFORMATION ARCHITECTURE ═══ -->
+<section id="s-ia" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Information Architecture</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">Structuring the Experience</p></div>
+  <div class="ia rv d1" style="margin-top:48px;">
+
+    <!-- Entry -->
+    <div class="entry"><div class="entry-pill">Scenario Listing</div></div>
+    <div class="connector"><div class="conn-line"></div><div class="conn-dot"></div></div>
+
+    <!-- Practice Categories -->
+    <div class="level-bar"><div class="level-pill">Practice Categories</div></div>
+    <div class="connector"><div class="conn-line" style="height:16px;"></div></div>
+    <div class="branch"><div class="branch-line"></div></div>
+    <div class="ia-modules">
+      <div class="ia-mod"><div class="ia-mod-name">Persona</div><div class="ia-mod-sub">Behavior Engine</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Dialogue</div><div class="ia-mod-sub">Adaptive Logic</div></div>
+      <div class="ia-mod accent"><div class="ia-mod-name">Voice / Video</div><div class="ia-mod-sub">Synthesis</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Memory</div><div class="ia-mod-sub">Conversation Context</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Challenge</div><div class="ia-mod-sub">Difficulty Module</div></div>
+    </div>
+
+    <div class="connector"><div class="conn-line"></div><div class="conn-dot"></div></div>
+
+    <!-- Scoring -->
+    <div class="level-bar"><div class="level-pill">Rubrics / Scoring System</div></div>
+    <div class="connector"><div class="conn-line" style="height:16px;"></div></div>
+    <div class="branch"><div class="branch-line"></div></div>
+    <div class="ia-sub-modules">
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Rubric Engine</div><div class="ia-sub-mod-desc">Criteria definition</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Weighing Model</div><div class="ia-sub-mod-desc">Score calibration</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Speech Analysis</div><div class="ia-sub-mod-desc">Tone &amp; pacing</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Pattern Detection</div><div class="ia-sub-mod-desc">Behavioral cues</div></div>
+    </div>
+
+    <div class="connector"><div class="conn-line"></div><div class="conn-dot"></div></div>
+
+    <!-- Feedback Panel -->
+    <div class="level-bar"><div class="level-pill">Feedback Panel</div></div>
+    <div class="connector"><div class="conn-line" style="height:12px;"></div></div>
+
+    <div class="feedback-split">
+      <!-- Manager -->
+      <div class="fb-group">
+        <div class="fb-header">Manager Insights</div>
+        <div class="fb-items">
+          <div class="fb-item">Team Skills Overview</div>
+          <div class="fb-item">Objection Trends</div>
+          <div class="fb-item">Confidence / Tone Patterns</div>
+        </div>
+      </div>
+      <!-- Session Report -->
+      <div class="fb-group">
+        <div class="fb-header">User Roleplay Session Report</div>
+        <div class="session-cols">
+          <div class="session-col">
+            <div class="sc-header">Performance Analytics</div>
+            <div class="sc-items">
+              <div class="sc-item">Performance Spider Chart</div>
+              <div class="sc-item">Question Strategy</div>
+              <div class="sc-item">Performance Ranking</div>
+              <div class="sc-item">AI Review</div>
+              <div class="sc-item">Manager Review</div>
+            </div>
+          </div>
+          <div class="session-col">
+            <div class="sc-header">Call Transcript</div>
+            <div class="sc-items">
+              <div class="sc-item">Call Recording</div>
+              <div class="sc-item">Transcript Download</div>
+              <div class="sc-item">Seller / Buyer Monologue</div>
+              <div class="sc-item">Longest Monologue</div>
+              <div class="sc-item">Top Performer Responses</div>
+            </div>
+          </div>
+          <div class="session-col">
+            <div class="sc-header">Feedback &amp; Practice Path</div>
+            <div class="sc-items">
+              <div class="sc-item">Reviewer Feedback</div>
+              <div class="sc-item">Roleplay Recommendations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="ia-legend">
+      <div class="ia-leg"><div class="ia-leg-dot" style="background:var(--accent);"></div>Entry Point</div>
+      <div class="ia-leg"><div class="ia-leg-sq" style="background:#2A1018;border:1px solid rgba(255,156,9,0.25);"></div>System Layer</div>
+      <div class="ia-leg"><div class="ia-leg-sq" style="background:#1A1214;border:1px solid rgba(240,237,232,0.06);"></div>Module</div>
+      <div class="ia-leg"><div class="ia-leg-sq" style="background:rgba(26,18,20,0.5);border:1px solid rgba(240,237,232,0.04);"></div>Feature</div>
+      <div class="ia-leg" style="gap:4px;"><div style="width:20px;height:2px;background:linear-gradient(to right,rgba(255,156,9,0.4),rgba(255,156,9,0.1));"></div>Data flow</div>
+    </div>
+
+  </div>
+
+  <p class="section-body rv d2" style="margin-top:32px;">"We organized around scenarios (not features) because reps think in terms of 'what call am I preparing for' not 'what tool do I need.' The system flows from scenario selection through adaptive practice to scored feedback, with separate dashboards for reps and managers."</p>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ DESIGN DECISIONS ═══ -->
+<section id="s-design" style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Design Decisions</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">Solving the Hard Problems</p></div>
+
+  <div style="margin-top:48px;">
+
+    <div class="dd-block rv">
+      <div class="dd-text">
+        <div class="dd-num">01</div>
+        <div class="dd-title">Scenario Cards, Not a Course Catalog</div>
+        <div class="dd-desc">We designed browsable persona cards with category tags, personality traits, and a single "Start Practice" action instead of a traditional LMS course list. Reps pick a person to talk to, not a module to complete. Each card shows the prospect's role, company, and call type so reps can match practice to their next real meeting.</div>
+      </div>
+      <div class="dd-img">
+        <img src="images/Conversation_UI_not_forms_2.png" alt="Scenario listing with persona cards showing different role-play options organized by call type">
+      </div>
+    </div>
+
+    <div class="dd-block rv d1">
+      <div class="dd-text">
+        <div class="dd-num">02</div>
+        <div class="dd-title">Briefing Before the Ring</div>
+        <div class="dd-desc">We split the pre-call screen into two clear zones: context on the left (scenario background, step-by-step instructions, evaluation rubric) and the AI persona on the right (name, title, personality traits, Pro Tip). Reps get mentally prepared before hitting Start like a pre-call brief that mirrors how top performers actually prep.</div>
+      </div>
+      <div class="dd-img">
+        <img src="images/Conversation_UI_not_forms_1.png" alt="Practice session setup showing instructions on left and AI persona with Start Practice button on right">
+      </div>
+    </div>
+
+    <div class="dd-block rv d2">
+      <div class="dd-text">
+        <div class="dd-num">03</div>
+        <div class="dd-title">Live Conversation, Not a Script</div>
+        <div class="dd-desc">We chose a real-time video call interface over text chat or form-based answers. The AI persona has a face, a title, personality traits, and a speaking indicator making practice feel like an actual sales call, not a quiz. The "End Call" button mirrors real call UX so muscle memory transfers directly to real conversations.</div>
+      </div>
+      <div class="dd-img">
+        <img src="images/Screen4.png" alt="Live role-play call interface showing AI persona Naomi Wright with video avatars and speaking indicator">
+      </div>
+    </div>
+
+    <div class="dd-block rv d3">
+      <div class="dd-text">
+        <div class="dd-num">04</div>
+        <div class="dd-title">Review Before You Submit</div>
+        <div class="dd-desc">We added a review step between practice and evaluation. Reps listen to their own recording and decide whether to retry or submit building self-awareness without pressure. Retake is always free, Submit is intentional. This single screen reduced "I wasn't ready" complaints by making readiness the rep's own call.</div>
+      </div>
+      <div class="dd-img">
+        <img src="images/Real-time_coaching_signals_2.png" alt="Recording review screen with playback controls and Retake or Submit options">
+      </div>
+    </div>
+
+    <div class="dd-block rv d4">
+      <div class="dd-text">
+        <div class="dd-num">05</div>
+        <div class="dd-title">Scores That Teach, Not Just Grade</div>
+        <div class="dd-desc">We broke feedback into visual dimensions Clarity, Relevance, Objection Handling, Brevity, Technical Accuracy using a spider chart instead of a single pass/fail score. The question strategy donut and performance ranking give reps three different lenses on the same session. The goal: show where to improve, not just whether you passed.</div>
+      </div>
+      <div class="dd-img">
+        <img src="images/Progress_dashboard_1.png" alt="Performance analytics with spider chart, question strategy donut, and performance ranking">
+      </div>
+    </div>
+
+    <div class="dd-block rv d4">
+      <div class="dd-text">
+        <div class="dd-num">06</div>
+        <div class="dd-title">Feedback + Next Steps, Not Just a Score Card</div>
+        <div class="dd-desc">We paired reviewer feedback with AI-recommended practice sessions in a single view. After reading what went well and what to improve, the next action is always visible "Practice this next." This closes the loop between evaluation and improvement, turning feedback from a dead end into a launchpad.</div>
+      </div>
+      <div class="dd-img">
+        <img src="images/Screen10.png" alt="Feedback tab with reviewer comments and recommended learning resources sidebar">
+      </div>
+    </div>
+
+    <div class="dd-block rv d4">
+      <div class="dd-text">
+        <div class="dd-num">07</div>
+        <div class="dd-title">Manager Dashboard: Signal Without Surveillance</div>
+        <div class="dd-desc">We designed the manager view around team patterns proficiency distribution, score breakdowns, attempt trends, and top/bottom performers instead of individual call surveillance. Keyword analysis surfaces which phrases reps actually use or miss. Managers see where the team needs coaching, not a wiretap on every session.</div>
+      </div>
+      <div class="dd-img">
+        <img src="images/Screen11.png" alt="Manager analytics dashboard with proficiency distribution, score distribution, role play trends, and performance ranking">
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ FINAL DESIGNS ═══ -->
+<section style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">More Screens</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">Other Parts of the Experience</p></div>
+  <div style="display:flex;flex-direction:column;gap:32px;margin-top:48px;">
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Screen12.png" alt="Scenario selection AI Role Play card grid" style="width:100%;height:auto;display:block;">
+      <p style="font-family:var(--ffb);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Scenario selection browse and filter role-play scenarios by call type</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Screen4.png" alt="Pre-call briefing AI persona profile" style="width:100%;height:auto;display:block;">
+      <p style="font-family:var(--ffb);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Pre-call briefing review AI buyer persona, traits, and pro tips before starting</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Screen6.png" alt="Live AI conversation simulation" style="width:100%;height:auto;display:block;">
+      <p style="font-family:var(--ffb);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Live AI simulation real-time conversation with AI buyer persona</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Screen9.png" alt="Review recording before submitting" style="width:100%;height:auto;display:block;">
+      <p style="font-family:var(--ffb);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Review before submitting playback your recording and retake if needed</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Screen10.png" alt="Performance analytics and scorecard" style="width:100%;height:auto;display:block;">
+      <p style="font-family:var(--ffb);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Performance analytics detailed scorecard with radar chart, question strategy, and peer ranking</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Screen11.png" alt="Manager dashboard with keyword analysis" style="width:100%;height:auto;display:block;">
+      <p style="font-family:var(--ffb);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Manager dashboard proficiency distribution, role-play attempts, and keyword analysis</p>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ IMPACT ═══ -->
+<section id="s-impact" style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Impact</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">The Numbers That Mattered</p></div>
+  <div class="grid-4" style="margin-top:48px;">
+    <div class="card rv d1" style="text-align:center;">
+      <p class="metric-num"><span>3.5</span>x</p>
+      <p style="font-family:var(--ff);font-weight:600;font-size:15px;color:#fff;margin-bottom:8px;">More practice sessions</p>
+      <p class="metric-label">vs. previous training tool</p>
+    </div>
+    <div class="card rv d2" style="text-align:center;">
+      <p class="metric-num"><span>42</span>%</p>
+      <p style="font-family:var(--ff);font-weight:600;font-size:15px;color:#fff;margin-bottom:8px;">Faster call prep</p>
+      <p class="metric-label">from 4hrs to under 30min/week</p>
+    </div>
+    <div class="card rv d3" style="text-align:center;">
+      <p class="metric-num"><span>28</span>%</p>
+      <p style="font-family:var(--ff);font-weight:600;font-size:15px;color:#fff;margin-bottom:8px;">Higher win rate</p>
+      <p class="metric-label">for reps who practiced 3+ times</p>
+    </div>
+    <div class="card rv d4" style="text-align:center;">
+      <p class="metric-num"><span>91</span>%</p>
+      <p style="font-family:var(--ff);font-weight:600;font-size:15px;color:#fff;margin-bottom:8px;">Rep satisfaction</p>
+      <p class="metric-label">rated experience useful or very useful</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ LEARNINGS ═══ -->
+<section id="s-learnings" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><h2 class="section-h">Learnings</h2></div>
+  <div class="rv d1"><p class="hero-subtitle" style="margin-bottom:0;">What I'd Do Differently</p></div>
+  <div style="display:flex;flex-direction:column;gap:16px;margin-top:48px;">
+    <div class="card rv d2" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">01</div>
+      <div>
+        <p class="card-title">Start with the manager view</p>
+        <p class="card-body" style="margin-top:10px;">I designed the rep experience first, but in hindsight, getting manager buy-in earlier would have accelerated adoption. Next time I'd co-design the dashboard with managers from sprint 1.</p>
+      </div>
+    </div>
+    <div class="card rv d3" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">02</div>
+      <div>
+        <p class="card-title">Test with real content sooner</p>
+        <p class="card-body" style="margin-top:10px;">Early prototypes used placeholder scenarios. The moment we loaded real playbook content, the feedback quality jumped dramatically. Real content should be in every prototype.</p>
+      </div>
+    </div>
+    <div class="card rv d4" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">03</div>
+      <div>
+        <p class="card-title">Simplify the feedback model</p>
+        <p class="card-body" style="margin-top:10px;">V1 had too many coaching metrics. Reps were overwhelmed. We simplified to 3 core signals and usage went up 60%. Less is genuinely more in coaching UI.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ NEXT PROJECT CTA ═══ -->
+<div class="closing-section">
+  <p class="kicker" style="justify-content:center;">Next Project</p>
+  <p style="font-family:var(--ffs);font-style:italic;font-weight:500;font-size:clamp(18px,2vw,26px);color:var(--muted);line-height:1.7;max-width:680px;margin:0 auto 40px;">Designing AI Role-Play taught me that the best coaching experiences feel like a conversation, not an evaluation. AI can push performance further when it gets out of the way.</p>
+  <div class="btn-row" style="margin-bottom:56px;">
+    <a href="agentic-workflow.html" class="btn btn-red">View Next Project →</a>
+    <a href="portfolio.html" class="btn btn-ghost">Back to Portfolio</a>
+  </div>
+  <a href="agentic-workflow.html" style="font-family:var(--ff);font-weight:800;font-size:clamp(22px,3.5vw,48px);color:#fff;text-decoration:none;letter-spacing:-.02em;line-height:1.1;display:inline-block;transition:color .25s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#fff'">Agentic Workflow Builder - Build Workflows That Think →</a>
+</div>
+
+<footer>
+  <p>&#169; 2026 Kiran Tanwar</p>
+  <span class="f-name">Designed with intention</span>
+  <p>All rights reserved</p>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');}});
+},{threshold:0.04,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+
+<script>
+const avatarMap = {
+  'young-female': 'Images/SalesRepPicture2.png',
+  'young-male':   'Images/SalesRepPicture1.png',
+  'mid-female':   'Images/SalesRepPicture3.png',
+  'mid-male':     'Images/SalesRepPicture4.png'
+};
+function updatePersonaAvatar(val){
+  const img = document.getElementById('personaAvatar');
+  if(!img) return;
+  img.style.opacity = '0';
+  img.style.transform = 'scale(0.9)';
+  setTimeout(()=>{
+    img.src = avatarMap[val] || avatarMap['young-female'];
+    img.style.transition = 'opacity .35s ease, transform .35s ease';
+    img.style.opacity = '1';
+    img.style.transform = 'scale(1)';
+  }, 200);
+}
+</script>
+
+<script>
+// Hover Slideshow Conversation UI
+(function(){
+  const items = document.querySelectorAll('#hslider-list .hslider-item');
+  const imgs  = document.querySelectorAll('#hslider-imgs img');
+  if(!items.length) return;
+
+  // Wrap each character in spans for stagger animation
+  items.forEach(item => {
+    const text = item.textContent;
+    item.innerHTML = text.split('').map((ch, i) => {
+      const display = ch === ' ' ? '&nbsp;' : ch;
+      const delay   = `${i * 0.025}s`;
+      return `<span class="hs-char" style="--d:${delay}">` +
+               `<span class="hs-char-base" style="transition-delay:var(--d)">${display}</span>` +
+               `<span class="hs-char-top"  style="transition-delay:var(--d)">${display}</span>` +
+             `</span>`;
+    }).join('');
+  });
+
+  function activate(idx) {
+    items.forEach((el, i) => el.classList.toggle('hs-active', i === idx));
+    imgs.forEach((el, i)  => el.classList.toggle('hs-img-active', i === idx));
+  }
+
+  items.forEach((item, idx) => {
+    item.addEventListener('mouseenter', () => activate(idx));
+  });
+})();
+</script>
+<nav class="section-nav" aria-label="Page section navigation">
+  <a href="#s-hero" class="section-dot" data-label="Overview" aria-label="Go to Overview"></a>
+  <a href="#s-overview" class="section-dot" data-label="Overview" aria-label="Go to Overview detail"></a>
+  <a href="#s-problem" class="section-dot" data-label="Problem" aria-label="Go to Problem"></a>
+  <a href="#s-research" class="section-dot" data-label="Research" aria-label="Go to Research"></a>
+  <a href="#s-personas" class="section-dot" data-label="Personas" aria-label="Go to Personas"></a>
+  <a href="#s-ia" class="section-dot" data-label="IA" aria-label="Go to Information Architecture"></a>
+  <a href="#s-design" class="section-dot" data-label="Design" aria-label="Go to Design Decisions"></a>
+  <a href="#s-impact" class="section-dot" data-label="Impact" aria-label="Go to Impact"></a>
+  <a href="#s-learnings" class="section-dot" data-label="Learnings" aria-label="Go to Learnings"></a>
+</nav>
+<script>
+(function(){
+  var links=document.querySelectorAll('.section-nav a');
+  if(!links.length)return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.getAttribute('id');
+        links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+id);});
+      }
+    });
+  },{root:null,rootMargin:'-40% 0px -50% 0px',threshold:0});
+  links.forEach(function(l){
+    var target=document.querySelector(l.getAttribute('href'));
+    if(target)io.observe(target);
+    l.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=document.querySelector(l.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  if(links[0])links[0].classList.add('active');
+})();
+</script>
+</body>
+</html>

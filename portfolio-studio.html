@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Design Studio — Kiran Tanwar</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --dark:#1A1A2E;
+  --teal:#B1E4E3;
+  --purple:#7B6BAA;
+  --bg:#F8F8FA;
+  --border:rgba(26,26,46,0.10);
+  --ff:'Outfit',sans-serif;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--ff);}
+
+/* ── Top Bar ── */
+.topbar{
+  height:52px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  gap:12px;
+  z-index:100;
+  position:relative;
+}
+.tb-left{display:flex;align-items:center;gap:10px;}
+.tb-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);}
+.tb-title{font-weight:600;font-size:14px;color:var(--dark);}
+.tb-badge{
+  font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--purple);background:rgba(177,228,227,0.2);
+  border:1px solid rgba(177,228,227,0.5);
+  padding:3px 10px;border-radius:100px;
+}
+.tb-right{display:flex;align-items:center;gap:8px;}
+
+.btn{
+  font-family:var(--ff);font-size:12px;font-weight:500;cursor:pointer;
+  padding:7px 16px;border-radius:100px;border:none;outline:none;
+  transition:all .2s;display:inline-flex;align-items:center;gap:6px;
+  text-decoration:none;
+}
+.btn-sync{background:var(--teal);color:var(--dark);}
+.btn-sync:hover{opacity:.85;transform:translateY(-1px);}
+.btn-open{background:rgba(26,26,46,0.06);color:var(--dark);border:1px solid var(--border);}
+.btn-open:hover{background:rgba(26,26,46,0.1);}
+
+/* ── Layout ── */
+.studio{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  height:calc(100vh - 52px);
+}
+.pane{
+  position:relative;
+  overflow:hidden;
+  border-right:1px solid var(--border);
+}
+.pane:last-child{border-right:none;}
+
+.pane-label{
+  position:absolute;top:12px;left:12px;z-index:10;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);
+  border:1px solid var(--border);border-radius:100px;
+  padding:4px 14px;font-size:11px;font-weight:500;
+  color:var(--dark);letter-spacing:.04em;
+  display:flex;align-items:center;gap:6px;
+}
+.pane-label .dot{width:6px;height:6px;border-radius:50%;}
+.dot-teal{background:var(--teal);}
+.dot-purple{background:var(--purple);}
+
+iframe{width:100%;height:100%;border:none;}
+
+/* ── Toast ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--dark);color:#fff;
+  font-size:13px;font-weight:400;
+  padding:10px 22px;border-radius:100px;
+  transition:transform .3s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;z-index:999;
+  display:flex;align-items:center;gap:8px;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast-icon{width:16px;height:16px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--dark);}
+
+/* ── Sync Modal ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(26,26,46,0.4);backdrop-filter:blur(4px);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:#fff;border-radius:20px;padding:36px;
+  max-width:520px;width:calc(100% - 40px);
+  box-shadow:0 40px 80px rgba(26,26,46,0.15);
+}
+.modal h2{font-size:20px;font-weight:600;color:var(--dark);margin-bottom:8px;}
+.modal p{font-size:14px;font-weight:300;color:rgba(26,26,46,0.6);line-height:1.6;margin-bottom:20px;}
+.prompt-box{
+  background:var(--bg);border:1px solid var(--border);border-radius:12px;
+  padding:16px;font-size:13px;line-height:1.7;color:var(--dark);
+  margin-bottom:20px;white-space:pre-wrap;
+}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;}
+.btn-copy{background:var(--teal);color:var(--dark);font-size:13px;}
+.btn-cancel{background:transparent;color:rgba(26,26,46,0.5);font-size:13px;border:1px solid var(--border);}
+
+/* ── Divider handle ── */
+.divider{
+  position:absolute;left:50%;top:0;bottom:0;
+  width:4px;transform:translateX(-50%);
+  background:var(--border);cursor:col-resize;z-index:50;
+  transition:background .2s;
+}
+.divider:hover{background:var(--teal);}
+
+/* Resizable */
+.studio.resizing{cursor:col-resize;user-select:none;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-dot"></div>
+    <span class="tb-title">Portfolio Design Studio</span>
+    <span class="tb-badge">Kiran Tanwar</span>
+  </div>
+  <div class="tb-right">
+    <a class="btn btn-open" href="https://www.figma.com/design/4dKmdBken7sfp4wy0vCF1X" target="_blank">
+      ↗ Open in Figma
+    </a>
+    <button class="btn btn-open" onclick="reloadPreview()">
+      ↺ Refresh Preview
+    </button>
+    <button class="btn btn-sync" onclick="openSyncModal()">
+      ⟳ Sync Figma → HTML
+    </button>
+  </div>
+</div>
+
+<!-- STUDIO -->
+<div class="studio" id="studio">
+
+  <!-- LEFT: Figma -->
+  <div class="pane" id="pane-left">
+    <div class="pane-label">
+      <span class="dot dot-purple"></span>Figma — Edit here
+    </div>
+    <iframe
+      id="figma-frame"
+      src="https://www.figma.com/embed?embed_host=studio&url=https://www.figma.com/design/4dKmdBken7sfp4wy0vCF1X"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider" id="divider"></div>
+
+  <!-- RIGHT: Live HTML -->
+  <div class="pane" id="pane-right">
+    <div class="pane-label">
+      <span class="dot dot-teal"></span>Live HTML Preview
+    </div>
+    <iframe
+      id="preview-frame"
+      src="portfolio.html"
+      loading="lazy">
+    </iframe>
+  </div>
+
+</div>
+
+<!-- SYNC MODAL -->
+<div class="modal-overlay" id="syncModal" onclick="closeSyncModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h2>⟳ Sync Figma → HTML</h2>
+    <p>After making edits in Figma, paste this prompt into Claude to sync your changes back to <code>portfolio.html</code>:</p>
+    <div class="prompt-box" id="syncPrompt">I've made edits to my Figma portfolio file (https://www.figma.com/design/4dKmdBken7sfp4wy0vCF1X). Please read the updated design from Figma using get_design_context and sync the changes back into my portfolio.html file on the Desktop. Update any text content, colors, or layout changes I made.</div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="closeSyncModal()">Cancel</button>
+      <button class="btn btn-copy" onclick="copyPrompt()">Copy Prompt</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon">✓</div>
+  <span id="toast-msg">Prompt copied to clipboard!</span>
+</div>
+
+<script>
+// ── Reload preview pane ──
+function reloadPreview() {
+  const f = document.getElementById('preview-frame');
+  f.src = f.src;
+  showToast('Preview refreshed');
+}
+
+// ── Sync modal ──
+function openSyncModal() {
+  document.getElementById('syncModal').classList.add('open');
+}
+function closeSyncModal(e) {
+  if(!e || e.target === document.getElementById('syncModal'))
+    document.getElementById('syncModal').classList.remove('open');
+}
+async function copyPrompt() {
+  const txt = document.getElementById('syncPrompt').innerText;
+  try {
+    await navigator.clipboard.writeText(txt);
+    showToast('Prompt copied! Paste it into Claude.');
+    closeSyncModal();
+  } catch {
+    showToast('Select & copy the text manually');
+  }
+}
+
+// ── Toast ──
+let toastTimer;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+// ── Drag-to-resize ──
+const divider = document.getElementById('divider');
+const studio = document.getElementById('studio');
+const paneLeft = document.getElementById('pane-left');
+let dragging = false, startX = 0, startW = 0;
+
+divider.addEventListener('mousedown', e => {
+  dragging = true;
+  startX = e.clientX;
+  startW = paneLeft.offsetWidth;
+  studio.classList.add('resizing');
+});
+document.addEventListener('mousemove', e => {
+  if(!dragging) return;
+  const dx = e.clientX - startX;
+  const totalW = studio.offsetWidth;
+  const newLeftPct = Math.min(80, Math.max(20, ((startW + dx) / totalW) * 100));
+  studio.style.gridTemplateColumns = `${newLeftPct}% ${100 - newLeftPct}%`;
+});
+document.addEventListener('mouseup', () => {
+  dragging = false;
+  studio.classList.remove('resizing');
+});
+
+// ── Keyboard shortcut: R = refresh ──
+document.addEventListener('keydown', e => {
+  if(e.key === 'r' && !e.metaKey && !e.ctrlKey && document.activeElement.tagName !== 'INPUT') reloadPreview();
+});
+</script>
+</body>
+</html>

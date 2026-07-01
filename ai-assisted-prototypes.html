@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Assisted Design Prototypes - Kiran Tanwar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0C0A0A;
+  --bg2:#1A1214;
+  --bg3:#2A1008;
+  --card:#1A1214;
+  --white:#FFFFFF;
+  --muted:rgba(240,237,232,0.50);
+  --muted2:rgba(240,237,232,0.45);
+  --border:rgba(240,237,232,0.07);
+  --accent:#FF9C09;
+  --accent-dim:rgba(255,156,9,0.10);
+  --accent-bdr:rgba(255,156,9,0.25);
+  --radius:16px;
+  --radius-sm:10px;
+  --radius-pill:100px;
+  --ff:'DM Sans',sans-serif;
+  --ffs:'Cormorant Garamond',serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:var(--ff);overflow-x:hidden;}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding-block:20px;display:flex;align-items:center;justify-content:space-between;background:rgba(12,10,10,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--ff);font-weight:600;font-size:16px;color:rgba(255,255,255,0.75);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.6);}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center;}
+.nav-links a{font-family:var(--ff);font-size:14px;font-weight:400;color:var(--muted);text-decoration:none;padding:8px 18px;border-radius:var(--radius-pill);transition:all .2s;}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.07);}
+.nav-links a.active{color:#fff;font-weight:600;}
+.nav-cta-link{color:#0C0A0A!important;background:var(--accent)!important;border:1px solid var(--accent)!important;font-weight:500!important;padding:9px 24px!important;}
+.nav-cta-link:hover{background:#FFB340!important;border-color:#FFB340!important;}
+
+/* ── Reveal ── */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .85s cubic-bezier(.16,1,.3,1);}
+.rv.vis{opacity:1;transform:none;}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* ── Typography ── */
+.kicker{font-family:var(--ff);font-size:11px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.kicker::before{content:'';width:7px;height:7px;border-radius:50%;background:rgba(255,156,9,0.7);}
+.section-h{font-family:var(--ff);font-weight:800;font-size:clamp(32px,5vw,56px);color:#fff;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px;}
+.section-body{font-family:var(--ff);font-size:16px;font-weight:300;color:var(--muted);line-height:1.8;max-width:720px;}
+
+/* ── Layout ── */
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+
+/* ── Base card ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:36px;transition:border-color .25s,transform .3s;}
+.card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.icon-wrap{width:48px;height:48px;border-radius:14px;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;margin-bottom:24px;}
+.card-title{font-family:var(--ff);font-weight:700;font-size:18px;color:#fff;margin-bottom:10px;}
+.card-body{font-family:var(--ff);font-size:15px;font-weight:300;color:var(--muted);line-height:1.7;}
+.num-badge{width:36px;height:36px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:12px;font-weight:700;color:var(--accent);margin-bottom:20px;flex-shrink:0;}
+
+/* ── Hero ── */
+.hero{padding:140px 52px 100px;background:radial-gradient(ellipse 80% 50% at 50% 110%,rgba(255,156,9,0.14) 0%,transparent 70%),var(--bg);border-bottom:1px solid var(--border);}
+.hero-title{font-family:var(--ff);font-weight:800;font-size:clamp(52px,9vw,100px);color:#fff;line-height:1;letter-spacing:-.03em;margin-bottom:24px;}
+.hero-subtitle{font-family:var(--ffs);font-style:italic;font-size:clamp(18px,2.2vw,28px);color:var(--accent);font-weight:500;margin-bottom:28px;line-height:1.4;max-width:680px;}
+.hero-desc{font-family:var(--ff);font-size:17px;font-weight:300;color:var(--muted);line-height:1.75;max-width:680px;margin-bottom:32px;}
+.hero-body{font-family:var(--ff);font-size:15px;font-weight:300;color:rgba(240,237,232,0.38);line-height:1.75;max-width:640px;margin-bottom:40px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;}
+.pill-tag{display:inline-flex;align-items:center;font-family:var(--ff);font-size:12px;font-weight:500;color:var(--accent);padding:7px 18px;border-radius:var(--radius-pill);border:1px solid var(--accent-bdr);background:var(--accent-dim);}
+
+/* ── Quote accent block ── */
+.accent-block{border-left:3px solid var(--accent);padding-left:28px;margin:40px 0;}
+.accent-block p{font-family:var(--ffs);font-style:italic;font-size:clamp(18px,2vw,26px);font-weight:500;color:rgba(240,237,232,0.88);line-height:1.65;}
+
+/* ── Process cards (numbered) ── */
+.process-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;transition:border-color .25s,transform .3s;display:flex;flex-direction:column;gap:0;}
+.process-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.process-num{font-family:var(--ff);font-size:11px;font-weight:700;letter-spacing:.10em;color:var(--accent);margin-bottom:14px;text-transform:uppercase;}
+.process-title{font-family:var(--ff);font-weight:700;font-size:17px;color:#fff;margin-bottom:10px;line-height:1.2;}
+.process-body{font-family:var(--ff);font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+/* ── Project cards ── */
+.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:48px;}
+.proj-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s,transform .3s;display:flex;flex-direction:column;}
+.proj-card:hover{border-color:var(--accent-bdr);transform:translateY(-6px);}
+
+/* Replace placeholder-thumb with a real screenshot img tag when available */
+.proj-thumb{height:220px;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.proj-thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(255,156,9,0.08) 0%,transparent 70%);}
+.proj-thumb-label{font-family:var(--ff);font-size:12px;font-weight:600;color:rgba(240,237,232,0.25);letter-spacing:.06em;text-transform:uppercase;position:relative;z-index:1;}
+.proj-thumb-sub{font-family:var(--ff);font-size:11px;font-weight:300;color:rgba(240,237,232,0.15);position:relative;z-index:1;}
+
+.proj-body{padding:28px;display:flex;flex-direction:column;flex:1;}
+.proj-type{font-family:var(--ff);font-size:10px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.proj-title{font-family:var(--ff);font-weight:700;font-size:19px;color:#fff;margin-bottom:10px;line-height:1.2;}
+.proj-problem{font-family:var(--ff);font-size:14px;font-weight:300;color:var(--muted);line-height:1.65;margin-bottom:16px;}
+.proj-meta{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.proj-meta-row{display:flex;gap:8px;align-items:flex-start;}
+.proj-meta-label{font-family:var(--ff);font-size:11px;font-weight:600;color:rgba(240,237,232,0.35);text-transform:uppercase;letter-spacing:.06em;min-width:90px;padding-top:1px;}
+.proj-meta-val{font-family:var(--ff);font-size:13px;font-weight:300;color:rgba(240,237,232,0.55);line-height:1.5;}
+.proj-outcome{font-family:var(--ff);font-size:13px;font-weight:400;color:rgba(255,156,9,0.75);line-height:1.55;padding-top:12px;border-top:1px solid var(--border);margin-bottom:20px;flex:1;}
+.proj-cta{display:inline-flex;align-items:center;gap:8px;font-family:var(--ff);font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;padding:10px 20px;border-radius:var(--radius-pill);border:1px solid var(--accent-bdr);background:var(--accent-dim);transition:all .25s;align-self:flex-start;}
+.proj-cta:hover{background:rgba(255,156,9,0.18);border-color:var(--accent);}
+.proj-cta svg{transition:transform .2s;}
+.proj-cta:hover svg{transform:translateX(3px);}
+
+/* ── Value cards ── */
+.value-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;transition:border-color .25s,transform .3s;}
+.value-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.value-title{font-family:var(--ff);font-weight:700;font-size:17px;color:#fff;margin-bottom:10px;}
+.value-body{font-family:var(--ff);font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+/* ── Design judgment ── */
+.judgment-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:36px;transition:border-color .25s,transform .3s;}
+.judgment-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+
+/* ── Closing ── */
+.closing-section{padding-block:120px;background:linear-gradient(180deg,var(--bg) 0%,rgba(255,156,9,0.07) 50%,var(--bg) 100%);text-align:center;border-top:1px solid var(--border);}
+.btn-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.btn{display:inline-block;font-family:var(--ff);font-size:14px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:var(--radius-pill);transition:all .25s;}
+.btn-primary{color:#0C0A0A;background:var(--accent);border:1px solid var(--accent);}
+.btn-primary:hover{background:#FFB340;border-color:#FFB340;}
+.btn-ghost{color:var(--muted);border:1px solid var(--border);}
+.btn-ghost:hover{color:#fff;border-color:rgba(240,237,232,0.3);}
+
+/* ── Footer ── */
+footer{padding-block:28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
+.f-name{font-family:var(--ff);font-weight:600;font-size:14px;color:var(--muted2);}
+
+/* ── UX Solution Lab Hero ── */
+.solution-hero{padding-inline:0;background:radial-gradient(ellipse 55% 60% at 8% 50%,rgba(255,156,9,0.05) 0%,transparent 65%),var(--bg);}
+.solution-hero-inner{width:min(calc(100% - var(--content-gutter) * 2),1440px);margin-inline:auto;padding-block:150px 110px;display:grid;grid-template-columns:minmax(420px,.9fr) minmax(520px,1fr);gap:clamp(64px,7vw,120px);align-items:center;}
+.solution-hero-copy{max-width:620px;}
+.sol-title{font-family:var(--ff);font-weight:800;font-size:clamp(52px,7vw,96px);line-height:.92;letter-spacing:-.055em;color:#fff;max-width:620px;margin-bottom:32px;}
+.sol-subtitle{font-family:var(--ff);font-size:clamp(18px,1.7vw,24px);line-height:1.35;font-weight:500;color:rgba(255,255,255,0.82);max-width:580px;margin-bottom:20px;}
+.sol-body{font-family:var(--ff);font-size:16px;line-height:1.85;color:rgba(255,255,255,0.52);max-width:560px;}
+
+/* Flow card */
+.hero-flow-card{width:100%;max-width:680px;min-height:360px;padding:34px;border-radius:28px;background:rgba(26,18,20,0.78);border:1px solid rgba(255,255,255,0.08);box-shadow:0 30px 80px rgba(0,0,0,0.28);}
+.flow-cf-label{font-family:var(--ff);font-size:9px;letter-spacing:.22em;color:rgba(240,237,232,0.20);text-transform:lowercase;display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.flow-cf-label::before,.flow-cf-label::after{content:'';flex:1;height:1px;background:rgba(240,237,232,0.06);}
+.flow-card-title{font-family:var(--ff);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,237,232,0.35);margin-bottom:24px;}
+
+/* Snake rows */
+.flow-snake{display:flex;flex-direction:column;gap:0;}
+.flow-row{display:flex;align-items:stretch;gap:0;}
+.flow-row-rev{flex-direction:row-reverse;padding-top:36px;}
+
+/* Steps */
+.flow-step{flex:1;min-width:0;min-height:84px;display:flex;flex-direction:column;justify-content:center;gap:8px;background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px;}
+.flow-step-num{font-family:var(--ff);font-size:11px;font-weight:700;letter-spacing:.12em;color:#FF9C09;}
+.flow-step-label{font-family:var(--ff);font-size:15px;line-height:1.25;font-weight:700;color:rgba(255,255,255,0.9);}
+.flow-step-active{background:rgba(255,156,9,0.08);border-color:rgba(255,156,9,0.45);box-shadow:0 0 0 1px rgba(255,156,9,0.12),0 16px 40px rgba(255,156,9,0.08);}
+
+/* Arrows */
+.flow-arr{width:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;}
+.flow-arr::after{content:'';display:block;width:16px;height:1px;background:rgba(240,237,232,0.16);}
+.flow-arr::before{content:'';position:absolute;right:1px;width:0;height:0;border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;border-left:5px solid rgba(240,237,232,0.16);}
+.flow-row-rev .flow-arr::before{right:auto;left:1px;border-left:none;border-right:5px solid rgba(240,237,232,0.16);}
+
+/* Early Testing badge */
+.flow-step-val{position:relative;}
+.early-badge{position:absolute;top:-40px;left:50%;transform:translateX(-50%);font-family:var(--ff);font-size:11px;font-weight:600;color:#FF9C09;border:1px dashed rgba(255,156,9,0.50);background:rgba(255,156,9,0.08);padding:4px 10px;border-radius:999px;white-space:nowrap;}
+.early-badge::after{content:'';position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);width:1px;height:14px;background:rgba(255,156,9,0.24);}
+
+@media(max-width:1100px){
+  .solution-hero-inner{grid-template-columns:1fr;gap:48px;padding:120px 32px 80px;}
+  .sol-title{font-size:clamp(44px,8vw,72px);}
+  .hero-flow-card{max-width:100%;overflow-x:auto;}
+}
+@media(max-width:700px){
+  .solution-hero-inner{padding:100px 20px 60px;}
+  .flow-row,.flow-row-rev{flex-direction:column;gap:8px;}
+  .flow-row-rev{flex-direction:column;padding-top:8px;}
+  .flow-arr{width:auto;height:20px;transform:rotate(90deg);}
+  .flow-arr::before{right:auto;left:50%;transform:translateX(-50%);}
+  .flow-row-rev .flow-arr::before{left:50%;border-right:none;border-left:5px solid rgba(240,237,232,0.16);}
+  .early-badge{top:auto;bottom:calc(100% + 10px);}
+}
+
+/* ── Compact value list ── */
+.value-list{display:flex;flex-direction:column;gap:0;max-width:860px;}
+.value-row{display:flex;align-items:baseline;gap:12px;padding:16px 0;border-bottom:1px solid var(--border);}
+.value-row:last-child{border-bottom:none;}
+.value-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:2px;}
+.value-name{font-family:var(--ff);font-weight:600;font-size:15px;color:#fff;white-space:nowrap;flex-shrink:0;}
+.value-sep{font-family:var(--ff);font-size:15px;color:rgba(240,237,232,0.2);flex-shrink:0;}
+.value-desc{font-family:var(--ff);font-size:14px;font-weight:300;color:var(--muted);line-height:1.6;}
+
+/* ── Responsive ── */
+@media(max-width:960px){
+  nav{padding-block:16px;}
+  section{padding-block:80px;}
+  .hero{padding:120px 24px 80px;}
+  .closing-section{padding-block:80px;}
+  .grid-3,.grid-4{grid-template-columns:1fr 1fr;}
+  .grid-2{grid-template-columns:1fr;}
+  footer{padding-block:24px;}
+}
+@media(max-width:768px){
+  .grid-3,.grid-4,.grid-2{grid-template-columns:1fr;}
+  .proj-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .flow-row{flex-direction:column;gap:0;align-items:center;}
+  .flow-arrow{width:auto;height:36px;transform:rotate(90deg);}
+  .flow-row--reverse{flex-direction:column-reverse;}
+  .flow-down{padding-right:0;align-items:center;}
+  .value-row{flex-wrap:wrap;}
+  .value-name{white-space:normal;}
+}
+@media(max-width:560px){
+  .nav-links li:not(:last-child){display:none;}
+  .hero-title{font-size:clamp(40px,12vw,60px);}
+}
+
+/* ── Section scrollspy nav ── */
+html{scroll-behavior:smooth;}
+.section-nav{position:fixed;top:50%;right:28px;left:auto;transform:translateY(-50%);z-index:90;width:38px;height:auto;display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding:0;margin:0;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;pointer-events:none;}
+.section-nav-link,.section-dot{position:relative;display:block;width:24px;height:2px;min-height:2px;padding:0;margin:0;border-radius:999px;background:rgba(255,255,255,0.24);border:0;box-shadow:none;overflow:visible;pointer-events:auto;text-decoration:none;cursor:pointer;transition:width 180ms ease,background 180ms ease,opacity 180ms ease;}
+.section-nav-link:hover,.section-dot:hover{width:34px;background:rgba(255,255,255,0.72);}
+.section-nav-link.active,.section-dot.active{width:38px;background:var(--accent);}
+.section-nav-link::before,.section-dot::before{content:attr(data-label);position:absolute;right:48px;top:50%;transform:translateY(-50%) translateX(4px);opacity:0;pointer-events:none;white-space:nowrap;background:rgba(16,13,13,0.96);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.84);padding:6px 10px;border-radius:8px;font-size:12px;line-height:1;box-shadow:0 8px 24px rgba(0,0,0,0.24);font-family:'DM Sans',sans-serif;transition:opacity 160ms ease,transform 160ms ease;}
+.section-nav-link:hover::before,.section-dot:hover::before{opacity:1;transform:translateY(-50%) translateX(0);}
+@media(max-width:900px){.section-nav{display:none;}}
+
+
+
+/* ── Container system ── */
+:root{--content-max:1440px;--content-gutter:clamp(24px,5vw,96px);--section-y:clamp(88px,9vw,150px);}
+.section-inner,.hero-inner{width:min(calc(100% - var(--content-gutter) * 2),var(--content-max));margin-inline:auto;}
+section{padding-block:var(--section-y);padding-inline:0;}
+nav,footer{padding-inline:var(--content-gutter);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span class="nav-dot"></span>Kiran Tanwar</a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html">Home</a></li>
+    <li><a href="portfolio.html#work">Work</a></li>
+    <li><a href="ai-assisted-prototypes.html" class="active">UX Solutions</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="portfolio.html#experience">Experience</a></li>
+    <li><a href="#" class="nav-cta-link" onclick="window.open('mailto:'+'rikkdesigns'+'@'+'gmail.com');return false;">Let's Talk</a></li>
+  </ul>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 1. PROJECT GRID (first section)                -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="s-lab" class="solution-hero">
+<div class="solution-hero-inner">
+
+  <!-- Left: copy -->
+  <div class="solution-hero-copy">
+    <div class="rv vis"><p class="kicker">UX Solutions</p></div>
+    <div class="rv vis d1"><h1 class="sol-title">UX Solution Lab</h1></div>
+    <div class="rv vis d2">
+      <p class="sol-subtitle">Turning complex product problems into AI prototypes that test experiences before Figma or production.</p>
+      <p class="sol-body">These are AI-assisted UX solutions I build to validate interaction logic, decision points, and user behavior early. They help reduce ambiguity, align teams faster, and make better product decisions before investing in full design or development.</p>
+    </div>
+  </div>
+
+  <!-- Right: flow card -->
+  <div class="rv vis d3 hero-flow-card">
+    <div class="flow-cf-label">cross-functional collaboration</div>
+    <p class="flow-card-title">AI-assisted design flow</p>
+
+    <div class="flow-snake">
+      <!-- Row 1 → -->
+      <div class="flow-row">
+        <div class="flow-step">
+          <span class="flow-step-num">01</span>
+          <span class="flow-step-label">Research</span>
+        </div>
+        <div class="flow-arr"></div>
+        <div class="flow-step">
+          <span class="flow-step-num">02</span>
+          <span class="flow-step-label">Problem Framing</span>
+        </div>
+        <div class="flow-arr"></div>
+        <div class="flow-step">
+          <span class="flow-step-num">03</span>
+          <span class="flow-step-label">Ideation</span>
+        </div>
+      </div>
+
+      <!-- Row 2 ← reversed -->
+      <div class="flow-row flow-row-rev">
+        <div class="flow-step flow-step-active">
+          <span class="flow-step-num">04</span>
+          <span class="flow-step-label">AI Prototype</span>
+        </div>
+        <div class="flow-arr"></div>
+        <div class="flow-step flow-step-val" style="position:relative;padding-top:36px;">
+          <span class="early-badge">Early Testing</span>
+          <span class="flow-step-num">05</span>
+          <span class="flow-step-label">Validation / Review</span>
+        </div>
+        <div class="flow-arr"></div>
+        <div class="flow-step">
+          <span class="flow-step-num">06</span>
+          <span class="flow-step-label">Final Design / Handoff</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-grid" style="grid-column:1/-1;margin-top:72px;margin-bottom:80px;">
+
+    <!-- Card 1: Agent Handoff UX -->
+    <!-- Replace href="#" with the prototype URL when available -->
+    <!-- Replace .proj-thumb with an <img> tag when a screenshot is ready -->
+    <div class="proj-card rv d1">
+      <div class="proj-thumb">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+        <p class="proj-thumb-label">Agent Handoff UX Prototype</p>
+        <p class="proj-thumb-sub">Interactive experiment</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-type">Vibe-coded interaction prototype</p>
+        <p class="proj-title">Agent Handoff UX</p>
+        <p class="proj-problem">When AI agents escalate to humans, the handoff often feels abrupt, unclear, or low-trust.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="proj-meta-label">Use case</span><span class="proj-meta-val">Sales reps, support agents, and human-in-the-loop workflows</span></div>
+          <div class="proj-meta-row"><span class="proj-meta-label">Tested</span><span class="proj-meta-val">How much context the human needs, what the AI should summarize, and how users understand control transfer</span></div>
+        </div>
+        <p class="proj-outcome">Helped validate the handoff logic before moving into detailed Figma design.</p>
+        <button onclick="openExperiment('Agent Handoff UX/index.html')" class="proj-cta" style="cursor:pointer;border:none;background:none;font:inherit;padding:0;">View Experiment <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Card 2: AI Roleplay Feedback Flow -->
+    <!-- Replace href="#" with live prototype link -->
+    <div class="proj-card rv d2">
+      <div class="proj-thumb">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <p class="proj-thumb-label">AI Roleplay Feedback Flow</p>
+        <p class="proj-thumb-sub">Interactive experiment</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-type">AI-assisted prototype</p>
+        <p class="proj-title">AI Roleplay Feedback Flow</p>
+        <p class="proj-problem">Sales reps need feedback after practice, but too much feedback can feel overwhelming.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="proj-meta-label">Use case</span><span class="proj-meta-val">Sales training and coaching workflows</span></div>
+          <div class="proj-meta-row"><span class="proj-meta-label">Tested</span><span class="proj-meta-val">How to structure scores, coaching notes, and next-step suggestions after a roleplay</span></div>
+        </div>
+        <p class="proj-outcome">Helped explore feedback hierarchy before detailed UI design.</p>
+        <a href="#" class="proj-cta">View Experiment <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Card 3: AI Workflow Error Recovery -->
+    <div class="proj-card rv d1">
+      <div class="proj-thumb">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <p class="proj-thumb-label">AI Workflow Error Recovery</p>
+        <p class="proj-thumb-sub">Interactive experiment</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-type">Vibe-coded interaction model</p>
+        <p class="proj-title">AI Workflow Error Recovery</p>
+        <p class="proj-problem">When agentic workflows fail, users need to understand what happened and how to recover.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="proj-meta-label">Use case</span><span class="proj-meta-val">Workflow automation and agentic systems</span></div>
+          <div class="proj-meta-row"><span class="proj-meta-label">Tested</span><span class="proj-meta-val">Failure states, reasoning logs, retry actions, and user control</span></div>
+        </div>
+        <p class="proj-outcome">Helped clarify how much system reasoning should be visible.</p>
+        <a href="#" class="proj-cta">View Experiment <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Card 4: AI Confidence & Source Preview -->
+    <div class="proj-card rv d2">
+      <div class="proj-thumb">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <p class="proj-thumb-label">AI Confidence & Source Preview</p>
+        <p class="proj-thumb-sub">Interactive experiment</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-type">AI trust pattern prototype</p>
+        <p class="proj-title">AI Confidence & Source Preview</p>
+        <p class="proj-problem">Users hesitate to trust AI answers when they cannot see the source or confidence.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="proj-meta-label">Use case</span><span class="proj-meta-val">AI assistants and enterprise search</span></div>
+          <div class="proj-meta-row"><span class="proj-meta-label">Tested</span><span class="proj-meta-val">How to show source, confidence, and reasoning without increasing cognitive load</span></div>
+        </div>
+        <p class="proj-outcome">Helped evaluate trust signals before adding them to core flows.</p>
+        <a href="#" class="proj-cta">View Experiment <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Card 5: Prompt Library Interaction Model -->
+    <div class="proj-card rv d1">
+      <div class="proj-thumb">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <p class="proj-thumb-label">Prompt Library Interaction Model</p>
+        <p class="proj-thumb-sub">Interactive experiment</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-type">Interaction prototype</p>
+        <p class="proj-title">Prompt Library Interaction Model</p>
+        <p class="proj-problem">Users need reusable prompts, but prompt libraries can become difficult to browse and manage.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="proj-meta-label">Use case</span><span class="proj-meta-val">Sales enablement and AI assistant workflows</span></div>
+          <div class="proj-meta-row"><span class="proj-meta-label">Tested</span><span class="proj-meta-val">Saving, browsing, categorizing, and reusing prompts inside a B2B workflow</span></div>
+        </div>
+        <p class="proj-outcome">Helped test whether prompts should behave like content, templates, or shortcuts.</p>
+        <a href="#" class="proj-cta">View Experiment <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+    </div>
+
+    <!-- Card 6: Deal Risk Signal UX -->
+    <div class="proj-card rv d2">
+      <div class="proj-thumb">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,156,9,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <p class="proj-thumb-label">Deal Risk Signal UX</p>
+        <p class="proj-thumb-sub">Interactive experiment</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-type">Decision-support prototype</p>
+        <p class="proj-title">Deal Risk Signal UX</p>
+        <p class="proj-problem">AI-generated deal risk can help reps, but poorly timed alerts can create noise.</p>
+        <div class="proj-meta">
+          <div class="proj-meta-row"><span class="proj-meta-label">Use case</span><span class="proj-meta-val">Sales intelligence and pipeline workflows</span></div>
+          <div class="proj-meta-row"><span class="proj-meta-label">Tested</span><span class="proj-meta-val">When risk should appear, how it should be explained, and what action the rep should take</span></div>
+        </div>
+        <p class="proj-outcome">Helped explore a better balance between signal, explanation, and action.</p>
+        <a href="#" class="proj-cta">View Experiment <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+    </div>
+
+  </div><!-- /proj-grid -->
+
+</div><!-- /solution-hero-inner -->
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 2. WHY THIS EXISTS                             -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="s-context" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Context</p></div>
+  <div class="rv d1"><h2 class="section-h">Why I started building before wireframing</h2></div>
+  <div class="accent-block rv d2">
+    <p>Instead of waiting until high-fidelity design, I use vibe-coded prototypes to make the idea tangible early. This helps stakeholders, engineers, and champion users react to the actual experience before we spend more time designing or building the wrong thing.</p>
+  </div>
+</div>
+</section>
+
+
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 6. DESIGN JUDGMENT                             -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="s-judgment" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Design judgment</p></div>
+  <div class="rv d1"><h2 class="section-h">Where my role matters most</h2></div>
+  <div class="rv d2" style="margin-top:16px;">
+    <p class="section-body">AI can help generate interfaces, code, and variations quickly. But the value still comes from product judgment: choosing the right problem, deciding what to test, identifying what users need to trust, and knowing when a prototype is strong enough to move forward.</p>
+    <p class="section-body" style="margin-top:16px;">This page reflects how I use AI as a design partner — not to skip thinking, but to make thinking visible earlier.</p>
+  </div>
+  <div class="grid-4" style="margin-top:48px;">
+    <div class="judgment-card rv d1">
+      <div class="icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <p class="card-title">Problem framing</p>
+      <p class="card-body">Choosing the right user problem before generating anything.</p>
+    </div>
+    <div class="judgment-card rv d2">
+      <div class="icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 9h.01"/><path d="M15 9h.01"/><path d="M9.5 15a3.5 3.5 0 0 0 5 0"/></svg>
+      </div>
+      <p class="card-title">Interaction judgment</p>
+      <p class="card-body">Deciding what needs to be clicked, tested, explained, or controlled.</p>
+    </div>
+    <div class="judgment-card rv d3">
+      <div class="icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><path d="M8 15h0"/><path d="M16 15h0"/></svg>
+      </div>
+      <p class="card-title">AI behavior design</p>
+      <p class="card-body">Defining what AI should do, suggest, summarize, or hand off.</p>
+    </div>
+    <div class="judgment-card rv d4">
+      <div class="icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <p class="card-title">Stakeholder alignment</p>
+      <p class="card-body">Using prototypes to make decisions easier across product, design, and engineering.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 7. CLOSING CTA                                 -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="closing-section">
+  <div class="rv">
+    <p class="kicker" style="justify-content:center;">Early validation</p>
+    <h2 class="section-h rv d1" style="font-size:clamp(28px,4vw,52px);max-width:760px;margin:0 auto 24px;">This is how I reduce ambiguity before design gets expensive.</h2>
+    <p class="section-body rv d2" style="margin:0 auto 40px;text-align:center;max-width:580px;">For me, vibe coding is not about replacing design craft. It is a way to move from discussion to interaction faster — so teams can test ideas, challenge assumptions, and make better product decisions earlier.</p>
+    <div class="btn-row rv d3">
+      <a href="#" class="btn btn-primary" onclick="document.querySelector('.proj-grid').scrollIntoView({behavior:'smooth'});return false;">Explore Experiments</a>
+      <a href="portfolio.html#work" class="btn btn-ghost">Back to Work</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&#169; 2026 Kiran Tanwar</p>
+  <span class="f-name">Designed with intention</span>
+  <p>All rights reserved</p>
+</footer>
+
+<script>
+const io = new IntersectionObserver(function(entries){
+  entries.forEach(function(x){ if(x.isIntersecting) x.target.classList.add('vis'); });
+}, {threshold:0.06, rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+</script>
+<nav class="section-nav" aria-label="Page section navigation">
+  <a href="#s-lab" class="section-dot" data-label="Lab" aria-label="Go to UX Solution Lab"></a>
+  <a href="#s-context" class="section-dot" data-label="Context" aria-label="Go to Context"></a>
+  <a href="#s-judgment" class="section-dot" data-label="Judgment" aria-label="Go to Design Judgment"></a>
+</nav>
+<script>
+(function(){
+  var links=document.querySelectorAll('.section-nav a');
+  if(!links.length)return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.getAttribute('id');
+        links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+id);});
+      }
+    });
+  },{root:null,rootMargin:'-40% 0px -50% 0px',threshold:0});
+  links.forEach(function(l){
+    var target=document.querySelector(l.getAttribute('href'));
+    if(target)io.observe(target);
+    l.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=document.querySelector(l.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  if(links[0])links[0].classList.add('active');
+})();
+</script>
+<!-- ── Experiment Modal ── -->
+<div id="experiment-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.82);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+  <div style="position:relative;width:min(1200px,94vw);height:min(820px,88vh);background:#0D0D0D;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 40px 120px rgba(0,0,0,0.6);display:flex;flex-direction:column;">
+    <!-- Modal header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.07);flex-shrink:0;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:rgba(240,237,232,0.5);letter-spacing:.04em;text-transform:uppercase;">Experiment</span>
+        <span id="experiment-modal-title" style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#fff;"></span>
+      </div>
+      <button onclick="closeExperiment()" style="width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(240,237,232,0.6);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- iframe -->
+    <iframe id="experiment-iframe" src="" style="flex:1;width:100%;border:none;" allow="fullscreen"></iframe>
+  </div>
+</div>
+
+<script>
+function openExperiment(src) {
+  const modal = document.getElementById('experiment-modal');
+  document.getElementById('experiment-iframe').src = src;
+  document.getElementById('experiment-modal-title').textContent = 'Agent Handoff UX';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeExperiment() {
+  const modal = document.getElementById('experiment-modal');
+  modal.style.display = 'none';
+  document.getElementById('experiment-iframe').src = '';
+  document.body.style.overflow = '';
+}
+document.getElementById('experiment-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeExperiment();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeExperiment();
+});
+</script>
+</body>
+</html>

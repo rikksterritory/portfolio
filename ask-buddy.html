@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ask Buddy - Kiran Tanwar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0C0A0A;
+  --bg2:#1A1214;
+  --bg3:#2A1018;
+  --card:#1A1214;
+  --white:#FFFFFF;
+  --muted:rgba(240,237,232,0.50);
+  --muted2:rgba(240,237,232,0.45);
+  --border:rgba(240,237,232,0.07);
+  --accent:#10B981;
+  --accent-dim:rgba(16,185,129,0.10);
+  --accent-bdr:rgba(16,185,129,0.25);
+  --radius:16px;
+  --radius-sm:10px;
+  --radius-pill:100px;
+  --ff:'DM Sans',sans-serif;
+  --ffs:'Cormorant Garamond',serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:var(--ff);overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding-block:20px;display:flex;align-items:center;justify-content:space-between;background:rgba(12,10,10,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--ff);font-weight:600;font-size:16px;color:rgba(255,255,255,0.75);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.6);}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center;}
+.nav-links a{font-family:var(--ff);font-size:13px;font-weight:400;color:var(--muted);text-decoration:none;padding:8px 18px;border-radius:var(--radius-pill);transition:all .2s;}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.07);}
+.nav-cta-link{color:#0C0A0A!important;background:#10B981!important;border:1px solid #10B981!important;font-weight:500!important;padding:9px 24px!important;}
+.nav-cta-link:hover{background:#34D399!important;border-color:#34D399!important;}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .85s cubic-bezier(.16,1,.3,1);}
+.rv.vis{opacity:1;transform:none;}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+.kicker{font-family:var(--ff);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.kicker::before{content:'';width:7px;height:7px;border-radius:50%;background:rgba(16,185,129,0.7);}
+.section-h{font-family:var(--ff);font-weight:800;font-size:clamp(42px,5vw,76px);color:#fff;line-height:.96;letter-spacing:-.045em;margin-bottom:24px;}
+.section-body{font-family:var(--ff);font-size:16px;font-weight:300;color:var(--muted);line-height:1.8;max-width:720px;}
+
+
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:clamp(28px,3vw,40px);transition:border-color .25s,transform .3s;}
+.card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+
+.hero{display:grid;grid-template-columns:minmax(420px,.9fr) minmax(480px,1fr);align-items:center;gap:clamp(56px,7vw,100px);padding-block:clamp(130px,12vw,190px) clamp(90px,9vw,140px);padding-inline:var(--content-gutter);background:radial-gradient(ellipse 80% 50% at 50% 120%,rgba(16,185,129,0.18) 0%,transparent 70%),var(--bg);border-bottom:1px solid var(--border);}
+.hero-img-wrap{position:relative;display:flex;align-items:center;justify-content:center;}
+.hero-img-glow{position:absolute;inset:-40px;background:radial-gradient(ellipse at center,rgba(16,185,129,0.12) 0%,transparent 65%);filter:blur(32px);border-radius:32px;pointer-events:none;}
+
+.hero-title{font-family:var(--ff);font-weight:800;font-size:clamp(56px,7vw,112px);color:#fff;line-height:.92;letter-spacing:-.055em;margin-bottom:28px;}
+.hero-subtitle{font-family:var(--ffs);font-style:italic;font-size:clamp(20px,1.7vw,28px);color:var(--accent);font-weight:500;line-height:1.35;margin-bottom:24px;}
+.hero-desc{font-family:var(--ff);font-size:16px;font-weight:300;color:rgba(255,255,255,0.56);line-height:1.8;max-width:680px;margin-bottom:44px;}
+.hero-meta{display:flex;flex-wrap:wrap;gap:12px;}
+.meta-pill{font-family:var(--ff);font-size:12px;font-weight:500;color:var(--muted);padding:8px 20px;border-radius:var(--radius-pill);border:1px solid var(--border);background:rgba(255,255,255,0.03);}
+.meta-pill span{color:#fff;}
+.pill-tag{display:inline-flex;align-items:center;font-family:var(--ff);font-size:13px;font-weight:500;color:var(--accent);padding:8px 20px;border-radius:var(--radius-pill);border:1px solid var(--accent-bdr);background:var(--accent-dim);}
+
+.icon-wrap{width:52px;height:52px;border-radius:14px;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:24px;}
+.card-title{font-family:var(--ff);font-weight:700;font-size:18px;color:#fff;margin-bottom:12px;}
+.card-body{font-family:var(--ff);font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;}
+
+.accent-card{background:var(--card);border:1px solid var(--accent-bdr);border-radius:var(--radius);padding:40px;margin:40px 0;}
+.accent-card p{font-family:var(--ffs);font-size:clamp(18px,2vw,26px);font-style:italic;font-weight:500;color:rgba(240,237,232,0.9);line-height:1.6;}
+
+.num-badge{width:36px;height:36px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:12px;font-weight:700;color:var(--accent);margin-bottom:20px;flex-shrink:0;}
+.letter-badge{width:40px;height:40px;border-radius:10px;background:var(--accent-dim);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:14px;font-weight:800;color:var(--accent);margin-bottom:20px;}
+
+.research-label{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.quote-mark{font-family:var(--ffs);font-size:80px;line-height:.75;color:var(--accent);margin-bottom:16px;display:block;}
+.quote-text{font-family:var(--ffs);font-style:italic;font-size:clamp(16px,1.6vw,21px);font-weight:500;color:rgba(240,237,232,0.88);line-height:1.65;}
+
+.strips-card{display:flex;flex-direction:column;gap:2px;border-radius:16px;overflow:hidden;}
+.strip{display:flex;align-items:center;background:var(--card);transition:background .25s;}
+.strip:hover{background:#2A1018;}
+.strip-num-col{width:140px;flex-shrink:0;padding:28px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.strip-num-col::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(240,237,232,0.06);}
+.strip-num{font-size:42px;font-weight:800;line-height:1;letter-spacing:-.02em;}
+.strip-num.c1{color:#10B981;}
+.strip-num.c2{color:#E8862A;}
+.strip-num.c3{color:#F5C542;}
+.strip-icon{font-size:32px;}
+.strip-unit{font-size:11px;font-weight:300;color:rgba(240,237,232,0.3);margin-top:2px;}
+.strip-info{flex:1;padding:28px 32px;display:flex;flex-direction:column;gap:4px;}
+.strip-headline{font-size:15px;font-weight:600;color:#fff;}
+.strip-desc{font-size:12px;font-weight:300;color:rgba(240,237,232,0.4);line-height:1.5;}
+.strip-tag{display:inline-flex;align-items:center;gap:4px;margin-top:6px;width:fit-content;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,237,232,0.45);}
+.strip-tag::before{content:'';width:4px;height:4px;border-radius:50%;}
+.strip-tag.t1::before{background:#10B981;}
+.strip-tag.t2::before{background:#E8862A;}
+.strip-tag.t3::before{background:#F5C542;}
+
+.step-flow{display:flex;align-items:flex-start;gap:0;flex-wrap:wrap;margin-top:48px;}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;min-width:100px;position:relative;}
+.step:not(:last-child)::after{content:'';position:absolute;top:20px;left:calc(50% + 22px);right:calc(-50% + 22px);height:2px;background:linear-gradient(90deg,var(--accent),rgba(16,185,129,0.3));z-index:0;}
+.step-num{width:44px;height:44px;border-radius:50%;background:var(--accent-dim);border:2px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-size:13px;font-weight:800;color:var(--accent);margin-bottom:14px;position:relative;z-index:1;}
+.step-label{font-family:var(--ff);font-size:12px;font-weight:500;color:var(--muted);line-height:1.4;max-width:90px;}
+
+/* IA components */
+.ia{max-width:1100px;margin:0 auto;}
+.connector{display:flex;flex-direction:column;align-items:center;padding:12px 0;}
+.conn-line{width:2px;height:28px;background:linear-gradient(to bottom,rgba(16,185,129,0.4),rgba(16,185,129,0.1));}
+.conn-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.6;margin:4px 0;}
+.entry{display:flex;justify-content:center;}
+.entry-pill{background:linear-gradient(135deg,#10B981,#34D399);padding:14px 48px;border-radius:100px;font-size:13px;font-weight:700;letter-spacing:.06em;color:#0C0A0A;box-shadow:0 8px 32px rgba(16,185,129,0.3);}
+.level-bar{display:flex;justify-content:center;}
+.level-pill{background:#0A2A1A;border:1px solid rgba(16,185,129,0.25);padding:10px 36px;border-radius:8px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+.ia-modules{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:8px 0;}
+.ia-mod{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;min-width:140px;text-align:center;transition:border-color .25s,transform .2s;}
+.ia-mod:hover{border-color:var(--accent-bdr);transform:translateY(-2px);}
+.ia-mod-name{font-size:11px;font-weight:600;color:#fff;margin-bottom:3px;}
+.ia-mod-sub{font-size:11px;font-weight:300;color:rgba(240,237,232,0.38);}
+.ia-sub-modules{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.ia-sub-mod{background:var(--card);border:1px solid rgba(240,237,232,0.05);border-radius:8px;padding:12px 18px;min-width:120px;text-align:center;}
+.ia-sub-mod-name{font-size:11px;font-weight:500;color:rgba(240,237,232,0.55);}
+.ia-sub-mod-desc{font-size:11px;font-weight:300;color:rgba(240,237,232,0.45);margin-top:2px;}
+.branch{display:flex;align-items:center;justify-content:center;padding:4px 0;}
+.branch-line{height:1px;flex:1;max-width:800px;background:rgba(240,237,232,0.08);}
+
+/* AI Guidance special layer */
+.ai-layer{
+  border:1px solid var(--accent-bdr);
+  border-radius:14px;
+  background:rgba(16,185,129,0.05);
+  padding:24px 28px;
+  position:relative;
+  overflow:hidden;
+  margin:0 auto;
+  max-width:840px;
+}
+.ai-layer::before{
+  content:'';position:absolute;inset:-1px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(16,185,129,0.15),transparent 60%);
+  pointer-events:none;
+}
+.ai-layer-label{font-family:var(--ff);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.ai-layer-label::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);}
+.ai-layer-title{font-family:var(--ff);font-weight:700;font-size:17px;color:#fff;margin-bottom:6px;}
+.ai-layer-desc{font-family:var(--ff);font-size:13px;font-weight:300;color:var(--muted);line-height:1.65;margin-bottom:16px;}
+.ai-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.ai-pill{font-family:var(--ff);font-size:11px;font-weight:500;color:var(--accent);padding:5px 14px;border-radius:var(--radius-pill);border:1px solid var(--accent-bdr);background:rgba(16,185,129,0.06);}
+
+.ia-legend{display:flex;align-items:center;gap:24px;justify-content:center;margin-top:40px;padding:12px 24px;background:rgba(26,18,20,0.4);border-radius:8px;flex-wrap:wrap;}
+.ia-leg{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(240,237,232,0.35);}
+.ia-leg-dot{width:8px;height:8px;border-radius:50%;}
+.ia-leg-sq{width:10px;height:10px;border-radius:2px;}
+
+/* Design decisions */
+.dd-block{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border);}
+.dd-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.dd-text{padding-right:12px;}
+.dd-num{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px;letter-spacing:.04em;}
+.dd-title{font-family:var(--ffs);font-style:italic;font-weight:600;font-size:clamp(22px,2.5vw,32px);color:#fff;line-height:1.15;margin-bottom:12px;}
+.dd-desc{font-size:14px;font-weight:300;color:rgba(240,237,232,0.50);line-height:1.75;}
+.dd-img{border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--card);}
+
+/* Placeholder */
+.placeholder-card{border:2px dashed var(--border);border-radius:var(--radius);height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;transition:border-color .25s;}
+.placeholder-card:hover{border-color:var(--accent-bdr);}
+.placeholder-label{font-family:var(--ff);font-weight:600;font-size:15px;color:var(--muted2);}
+.placeholder-sub{font-family:var(--ff);font-size:12px;color:rgba(240,237,232,0.40);}
+
+/* Metric */
+.metric-num{font-family:var(--ff);font-weight:800;font-size:clamp(44px,6vw,80px);color:#fff;line-height:1;margin-bottom:8px;}
+.metric-num span{color:var(--accent);}
+.metric-label{font-family:var(--ff);font-size:14px;font-weight:400;color:var(--muted);line-height:1.5;}
+
+/* Chat mock */
+.chat-mock{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;}
+.chat-mock::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 100%,rgba(16,185,129,0.06),transparent);pointer-events:none;}
+.chat-header{font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.chat-header::before{content:'';width:5px;height:5px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.5);}
+.chat-prompt{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-family:var(--ff);font-size:12px;font-weight:500;color:var(--muted);cursor:default;transition:border-color .25s;}
+.chat-prompt:hover{border-color:var(--accent-bdr);color:#fff;}
+
+/* Closing */
+.closing-section{padding-block:120px;background:linear-gradient(180deg,var(--bg) 0%,rgba(16,185,129,0.08) 50%,var(--bg) 100%);text-align:center;border-top:1px solid var(--border);}
+.btn-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.btn{display:inline-block;font-family:var(--ff);font-size:14px;font-weight:600;text-decoration:none;padding:14px 32px;border-radius:var(--radius-pill);transition:all .25s;}
+.btn-ghost{color:var(--muted);border:1px solid var(--border);}
+.btn-ghost:hover{color:#fff;border-color:rgba(240,237,232,0.3);}
+.btn-red{color:#0C0A0A;background:var(--accent);border:1px solid var(--accent);}
+.btn-red:hover{background:#34D399;border-color:#34D399;}
+
+footer{padding-block:28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);}
+footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
+.f-name{font-family:var(--ff);font-weight:600;font-size:14px;color:var(--muted2);}
+.sep{width:100%;height:1px;background:var(--border);}
+
+@media(max-width:960px){
+  nav{padding-block:16px;}
+  section{padding-block:80px;}
+  .hero{padding:120px 24px 80px;grid-template-columns:1fr;}
+  .hero-img-wrap{display:none;}
+  footer{padding-block:24px;}
+  .closing-section{padding-block:80px;}
+  .grid-3,.grid-4{grid-template-columns:1fr;}
+  .grid-2{grid-template-columns:1fr;}
+  .step-flow{gap:24px;}
+  .step:not(:last-child)::after{display:none;}
+  .ia-modules,.ia-sub-modules{flex-direction:column;align-items:center;}
+}
+@media(max-width:768px){
+  .dd-block{grid-template-columns:1fr;gap:20px;}
+  .strip{flex-direction:column;}
+  .strip-num-col{width:100%;padding:20px 24px;}
+  .strip-num-col::after{display:none;}
+  .strip-info{padding:16px 24px 24px;}
+}
+@media(max-width:560px){
+  .nav-links li:not(:last-child){display:none;}
+}
+
+/* ── Section scrollspy nav ── */
+html{scroll-behavior:smooth;}
+.section-nav{position:fixed;top:50%;right:28px;left:auto;transform:translateY(-50%);z-index:90;width:38px;height:auto;display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding:0;margin:0;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;pointer-events:none;}
+.section-nav-link,.section-dot{position:relative;display:block;width:24px;height:2px;min-height:2px;padding:0;margin:0;border-radius:999px;background:rgba(255,255,255,0.24);border:0;box-shadow:none;overflow:visible;pointer-events:auto;text-decoration:none;cursor:pointer;transition:width 180ms ease,background 180ms ease,opacity 180ms ease;}
+.section-nav-link:hover,.section-dot:hover{width:34px;background:rgba(255,255,255,0.72);}
+.section-nav-link.active,.section-dot.active{width:38px;background:var(--accent);}
+.section-nav-link::before,.section-dot::before{content:attr(data-label);position:absolute;right:48px;top:50%;transform:translateY(-50%) translateX(4px);opacity:0;pointer-events:none;white-space:nowrap;background:rgba(16,13,13,0.96);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.84);padding:6px 10px;border-radius:8px;font-size:12px;line-height:1;box-shadow:0 8px 24px rgba(0,0,0,0.24);font-family:'DM Sans',sans-serif;transition:opacity 160ms ease,transform 160ms ease;}
+.section-nav-link:hover::before,.section-dot:hover::before{opacity:1;transform:translateY(-50%) translateX(0);}
+@media(max-width:900px){.section-nav{display:none;}}
+
+
+
+/* ── Container system ── */
+:root{--content-max:1440px;--content-gutter:clamp(24px,5vw,96px);--section-y:clamp(88px,9vw,150px);}
+.section-inner,.hero-inner{width:min(calc(100% - var(--content-gutter) * 2),var(--content-max));margin-inline:auto;}
+section{padding-block:var(--section-y);padding-inline:0;}
+nav,footer{padding-inline:var(--content-gutter);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span class="nav-dot"></span>Kiran Tanwar</a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html">Home</a></li>
+    <li><a href="portfolio.html#work">Work</a></li>
+    <li><a href="ai-assisted-prototypes.html">UX Solutions</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="portfolio.html#experience">Experience</a></li>
+    <li><a href="#" class="nav-cta-link" onclick="window.open('mailto:'+'rikkdesigns'+'@'+'gmail.com');return false;">Let's Talk</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ 1. HERO ═══ -->
+<section id="s-hero" class="hero">
+  <div class="rv vis">
+    <p class="kicker">Case Study · GTM Buddy</p>
+    <p class="hero-title">Ask Buddy</p>
+    <p class="hero-subtitle">Real-Time AI Guidance for Sales Teams</p>
+    <p class="hero-desc">An AI-powered sales assistant that helps reps find accurate answers, write stronger responses, handle objections, and move deals forward using deal context, buyer engagement, and approved sales content.</p>
+    <div class="hero-meta" style="margin-bottom:20px;">
+      <div class="meta-pill"><span>Role:</span> Product Designer</div>
+      <div class="meta-pill"><span>Type:</span> Enterprise SaaS, Integrated AI, Sales Enablement</div>
+      <div class="meta-pill"><span>Team:</span> Product, Data Science, Engineering, Frontend</div>
+    </div>
+    <div class="hero-meta" style="margin-top:12px;">
+      <div class="pill-tag">AI/UX</div>
+      <div class="pill-tag">Sales Enablement</div>
+      <div class="pill-tag">Enterprise B2B</div>
+      <div class="pill-tag">GenAI Assistant</div>
+    </div>
+  </div>
+  <div class="hero-img-wrap rv vis">
+    <div class="hero-img-glow"></div>
+    <div style="width:100%;max-width:480px;">
+      <div class="chat-mock">
+        <div class="chat-header">Ask Buddy · Active</div>
+        <div class="chat-prompt" style="display:flex;align-items:center;gap:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>Write a follow-up email for this deal</div>
+        <div class="chat-prompt" style="display:flex;align-items:center;gap:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /></svg>Handle a pricing objection</div>
+        <div class="chat-prompt" style="display:flex;align-items:center;gap:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" /><rect x="9" y="3" width="6" height="4" rx="2" /><line x1="9" y1="12" x2="9.01" y2="12" /><line x1="13" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="9.01" y2="16" /><line x1="13" y1="16" x2="15" y2="16" /></svg>Summarize this deal for my manager</div>
+        <div class="chat-prompt" style="display:flex;align-items:center;gap:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3l0 7h6l-8 11l0 -7h-6l8 -11" /></svg>Suggest next-best action</div>
+        <div style="margin-top:4px;padding:10px 0 0;border-top:1px solid var(--border);font-family:var(--ff);font-size:10px;color:rgba(240,237,232,0.2);letter-spacing:.04em;">Powered by deal context · buyer signals · approved content</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2. OVERVIEW ═══ -->
+<section id="s-overview" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Overview</p></div>
+  <div class="rv d1"><h2 class="section-h">What is Ask Buddy?</h2></div>
+  <div class="rv d2" style="margin-top:20px;">
+    <p style="font-family:var(--ff);font-weight:800;font-size:26px;font-style:italic;color:#fff;line-height:1.4;letter-spacing:-.01em;">Ask Buddy is a real-time AI guidance system that helps sales reps respond faster and more confidently. It uses deal context, buyer engagement, CRM activity, and sales content to generate accurate, bite-sized answers inside the rep's workflow.</p>
+  </div>
+  <div class="grid-2" style="margin-top:48px;">
+    <div class="card rv d1">
+      <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg></div>
+      <p class="card-title">Email Responses</p>
+      <p class="card-body">Write pitches, follow-ups, and objection-handling responses using deal context and approved messaging.</p>
+    </div>
+    <div class="card rv d2">
+      <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3l0 7h6l-8 11l0 -7h-6l8 -11" /></svg></div>
+      <p class="card-title">Next-Best Actions</p>
+      <p class="card-body">Recommend content, messaging, and social proof based on deal stage, buyer, and context.</p>
+    </div>
+    <div class="card rv d3">
+      <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" /><path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" /><path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" /><path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" /><path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" /><path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" /></svg></div>
+      <p class="card-title">Knowledge Extraction</p>
+      <p class="card-body">Capture rep and CRM conversations to surface FAQs and turn tribal knowledge into reusable guidance.</p>
+    </div>
+    <div class="card rv d4">
+      <div class="icon-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7" /><polyline points="14 7 21 7 21 14" /></svg></div>
+      <p class="card-title">Everboarding</p>
+      <p class="card-body">Generate coaching notes and keep reps aligned with best practices as the product and process evolve.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 3. PROBLEM ═══ -->
+<section id="s-problem" style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">The Problem</p></div>
+  <div class="rv d1"><h2 class="section-h">Reps Were Searching Instead of Selling</h2></div>
+  <div class="grid-2" style="margin-top:48px;align-items:start;">
+    <div class="rv d2">
+      <p style="font-family:var(--ff);font-weight:800;font-size:26px;font-style:italic;color:#fff;line-height:1.4;letter-spacing:-.01em;">Sales reps were spending too much time switching between tools, searching for the right content, and asking managers for answers. This slowed responses, created inconsistent messaging, and increased the risk of sending outdated or incorrect information.</p>
+    </div>
+    <div class="strips-card rv d3">
+      <div class="strip">
+        <div class="strip-num-col">
+          <div class="strip-num c1">6+</div>
+          <div class="strip-unit">tools</div>
+        </div>
+        <div class="strip-info">
+          <div class="strip-headline">Too Many Tools</div>
+          <div class="strip-desc">Reps searched across Slack, Notion, decks, CMS, and old emails to find one answer</div>
+          <div class="strip-tag t1">User interviews · n=15+</div>
+        </div>
+      </div>
+      <div class="strip">
+        <div class="strip-num-col">
+          <div class="strip-num c2" style="font-size:30px;text-align:center;">3x</div>
+          <div class="strip-unit">slower</div>
+        </div>
+        <div class="strip-info">
+          <div class="strip-headline">Slow Responses</div>
+          <div class="strip-desc">Time pressure made it harder to respond accurately during live calls and emails</div>
+          <div class="strip-tag t2">Workflow observation</div>
+        </div>
+      </div>
+      <div class="strip">
+        <div class="strip-num-col">
+          <div class="strip-num c3">60%</div>
+          <div class="strip-unit">of reps</div>
+        </div>
+        <div class="strip-info">
+          <div class="strip-headline">Inconsistent Messaging</div>
+          <div class="strip-desc">Teams followed different narratives, even for the same product or objection type</div>
+          <div class="strip-tag t3">Content audit findings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 4. WHY THIS MATTERS ═══ -->
+<section style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Why This Matters</p></div>
+  <div class="rv d1"><h2 class="section-h">Scattered Knowledge Slows Down Deals</h2></div>
+  <div class="accent-card rv d2">
+    <p>When sales knowledge is scattered, reps lose confidence and managers become the fallback for repeated questions. The business impact is slower deal movement, weaker consistency, and missed chances to respond at the right moment.</p>
+  </div>
+  <div class="grid-4" style="margin-top:8px;">
+    <div class="card rv d2">
+      <p class="research-label">For SDRs</p>
+      <p class="card-body" style="margin-top:12px;">They need quick, accurate answers while handling inbound and outbound conversations under time pressure.</p>
+    </div>
+    <div class="card rv d3">
+      <p class="research-label">For Account Executives</p>
+      <p class="card-body" style="margin-top:12px;">They need contextual guidance to handle objections, personalize messaging, and move deals forward.</p>
+    </div>
+    <div class="card rv d4">
+      <p class="research-label">For Sales Managers</p>
+      <p class="card-body" style="margin-top:12px;">They need consistency across reps without answering the same questions repeatedly at scale.</p>
+    </div>
+    <div class="card rv d4">
+      <p class="research-label">For Enablement Teams</p>
+      <p class="card-body" style="margin-top:12px;">They need a way to scale best practices and keep content useful inside daily selling workflows.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 5. BUSINESS GOALS ═══ -->
+<section style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Goals</p></div>
+  <div class="rv d1"><h2 class="section-h">What Success Looks Like</h2></div>
+  <div class="grid-2" style="margin-top:48px;">
+    <div class="card rv d2">
+      <div class="num-badge">01</div>
+      <p class="card-title">Instant Contextual Answers</p>
+      <p class="card-body">Help reps get accurate answers without searching across multiple tools or waiting on a manager.</p>
+    </div>
+    <div class="card rv d3">
+      <div class="num-badge">02</div>
+      <p class="card-title">Consistent Messaging</p>
+      <p class="card-body">Make sure reps use aligned, approved, and persona-aware messaging across all conversations.</p>
+    </div>
+    <div class="card rv d3">
+      <div class="num-badge">03</div>
+      <p class="card-title">Reduced Search Friction</p>
+      <p class="card-body">Bring relevant content and guidance into the selling workflow instead of forcing reps to leave it.</p>
+    </div>
+    <div class="card rv d4">
+      <div class="num-badge">04</div>
+      <p class="card-title">Scalable Best Practices</p>
+      <p class="card-body">Help teams turn tribal knowledge, coaching notes, and FAQs into reusable, evergreen guidance.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 6. RESEARCH ═══ -->
+<section id="s-research" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Research</p></div>
+  <div class="rv d1"><h2 class="section-h">Understanding How Reps Search, Respond, and Sell</h2></div>
+  <div class="rv d2"><p class="section-body" style="margin-bottom:40px;">I started with product discovery to understand where reps lose time and confidence. We studied how SDRs, AEs, managers, and enablement leaders search for answers, respond to buyers, and use content across deals.</p></div>
+  <div class="rv d3" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px;">
+    <div class="meta-pill">Rep Interviews</div>
+    <div class="meta-pill">Content Audit</div>
+    <div class="meta-pill">Competitive Audit</div>
+    <div class="meta-pill">Workflow Observation</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:56px;">
+    <div class="card rv d2" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">1</div>
+      <div>
+        <p class="card-title">Rep Interviews</p>
+        <p class="card-body">Spoke with SDRs and AEs to understand where they lose time, confidence, and accuracy. Interviews focused on real moments in email writing, live calls, and deal updates.</p>
+      </div>
+    </div>
+    <div class="card rv d3" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">2</div>
+      <div>
+        <p class="card-title">Content Audit</p>
+        <p class="card-body">Mapped scattered sales content across decks, CMS, Notion, and internal knowledge sources to understand what existed, how it was structured, and how hard it was to find.</p>
+      </div>
+    </div>
+    <div class="card rv d3" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">3</div>
+      <div>
+        <p class="card-title">Competitive Audit</p>
+        <p class="card-body">Evaluated Gong, Highspot, Seismic, Mindtickle, and emerging AI tools to map what existed, where the gaps were, and what reps actually needed that no tool was delivering.</p>
+      </div>
+    </div>
+    <div class="card rv d4" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">4</div>
+      <div>
+        <p class="card-title">Workflow Observation</p>
+        <p class="card-body">Watched reps navigate deals, emails, calls, and content search moments to understand the real friction points - the workarounds, tab-switching habits, and invisible cognitive load.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="rv d2"><p class="hero-subtitle" style="margin-bottom:32px;">What They Told Us</p></div>
+  <div class="grid-2" style="gap:16px;">
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+      <p class="research-label" style="margin-bottom:4px;">Reps Said</p>
+      <div class="card rv d1">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">I waste so much time finding answers across Slack, Notion, and decks.</p>
+      </div>
+      <div class="card rv d2">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">I'm never sure if the content is updated or approved.</p>
+      </div>
+      <div class="card rv d3">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">I need quick responses during live calls and emails, not a search bar.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+      <p class="research-label" style="margin-bottom:4px;">Managers Said</p>
+      <div class="card rv d1">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">Consistency is a huge problem. Reps say different things for the same product.</p>
+      </div>
+      <div class="card rv d2">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">Content exists everywhere, but nobody can find it fast.</p>
+      </div>
+      <div class="card rv d3">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">We need a way to scale best practices across teams without being the fallback.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 7. COMPETITIVE AUDIT ═══ -->
+<section style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Competitive Audit</p></div>
+  <div class="rv d1"><h2 class="section-h">What Existed vs. What Was Needed</h2></div>
+  <div class="rv d2"><p class="section-body" style="margin-bottom:48px;">Most sales enablement tools helped with content storage, coaching, or AI-generated responses. But the opportunity for Ask Buddy was to combine search, deal context, persona-aware messaging, and workflow-embedded guidance into one assistant.</p></div>
+
+  <div class="rv d2" style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;min-width:900px;">
+      <thead>
+        <tr>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:0 20px 16px 0;text-align:left;border-bottom:1px solid var(--border);width:18%;">Capability</th>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:0 16px 16px;text-align:left;border-bottom:1px solid var(--border);width:17%;">Highspot</th>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:0 16px 16px;text-align:left;border-bottom:1px solid var(--border);width:17%;">Seismic</th>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:0 16px 16px;text-align:left;border-bottom:1px solid var(--border);width:17%;">Mindtickle</th>
+          <th style="font-family:var(--ff);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding:0 0 16px 16px;text-align:left;border-bottom:2px solid var(--accent-bdr);width:31%;">GTM Buddy Ask Buddy ✦</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">Context-based Answers</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Supports content discovery, but answers depend on available content structure.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Strong enablement content layer, but contextual assistance can feel limited.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Focuses more on learning and readiness than live selling answers.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(16,185,129,0.04);vertical-align:top;">✓ Uses deal context, buyer engagement, and sales content to generate relevant answers.</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">Deal-aware Suggestions</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Helps surface content, but not always tied to deal stage or buyer context.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Offers some AI assistance, but guidance may not fully reflect deal movement.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Limited support for deal-specific next-best actions.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(16,185,129,0.04);vertical-align:top;">✓ Suggests messaging, content, and next-best actions based on the active deal.</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">Persona-based Messaging</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Content can be organized by persona, but response generation is limited.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Persona context may depend on manual setup and content tagging.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Less focused on buyer-persona-specific sales messaging.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(16,185,129,0.04);vertical-align:top;">✓ Generates messaging using buyer persona, objections, and sales context.</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">Auto-generated FAQs</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Mostly depends on manually maintained content.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Can support knowledge discovery, but not always auto-published from rep conversations.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Limited compared to sales-content intelligence systems.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(16,185,129,0.04);vertical-align:top;">✓ Captures rep/CRM conversations and turns tribal knowledge into reusable FAQs.</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;border-bottom:1px solid var(--border);vertical-align:top;">AI-powered Email Responses</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Can assist with AI writing, but may not be deeply deal-aware.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Supports AI-generated content, but can feel separated from live deal workflow.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;border-bottom:1px solid var(--border);vertical-align:top;">Can support AI learning responses, but less focused on active deal communication.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;border-bottom:1px solid var(--accent-bdr);background:rgba(16,185,129,0.04);vertical-align:top;">✓ Generates ready-to-send sales emails using deal, persona, and content context.</td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--ff);font-size:14px;font-weight:600;color:#fff;padding:20px 20px 20px 0;vertical-align:top;">Workflow-embedded Guidance</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;vertical-align:top;">Strong content platform, but reps may still need to search.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;vertical-align:top;">Helpful enablement ecosystem, but guidance can sit outside daily rep flow.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:20px 16px;vertical-align:top;">Strong training orientation, but less embedded in live selling moments.</td>
+          <td style="font-family:var(--ff);font-size:13px;color:var(--accent);font-weight:600;padding:20px 0 20px 16px;background:rgba(16,185,129,0.04);vertical-align:top;">✓ Brings guidance directly into the rep's daily sales workflow.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rv d3" style="margin-top:36px;">
+    <p class="section-body">Existing tools solved parts of the problem - content access, training, or AI writing. Ask Buddy's opportunity was to connect all three: instant answers, contextual guidance, and consistent messaging inside the sales workflow.</p>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 8. PERSONAS ═══ -->
+<section id="s-personas" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Personas</p></div>
+  <div class="rv d1"><h2 class="section-h">Three Roles, One AI Guidance System</h2></div>
+  <div class="rv d2"><p class="section-body" style="margin-bottom:48px;">Ask Buddy needed to support the people who ask questions, act on answers, and manage consistency across the team. Each role shaped how the assistant surfaced content, generated responses, and built trust.</p></div>
+  <div class="grid-3">
+    <div class="card rv d2">
+      <p class="card-title">SDR</p>
+      <p class="research-label" style="margin-top:16px;">Core Job</p>
+      <p class="card-body">Handles inbound and outbound conversations where speed and accuracy are equally important.</p>
+      <p class="research-label" style="margin-top:16px;">Key Need</p>
+      <p class="card-body">Quick answers, ready-to-send email drafts, and confidence during live prospecting conversations.</p>
+      <p class="research-label" style="margin-top:16px;">Frustration</p>
+      <p class="card-body">Searching across multiple tools for answers that should be instant and already approved.</p>
+    </div>
+    <div class="card rv d3">
+      <p class="card-title">Account Executive</p>
+      <p class="research-label" style="margin-top:16px;">Core Job</p>
+      <p class="card-body">Manages active deals through objections, follow-ups, personalized messaging, and closing conversations.</p>
+      <p class="research-label" style="margin-top:16px;">Key Need</p>
+      <p class="card-body">Deal-aware answers, objection handling, persona-based messaging, and next-best-action recommendations.</p>
+      <p class="research-label" style="margin-top:16px;">Frustration</p>
+      <p class="card-body">Generic AI output that doesn't reflect the deal, the buyer, or the stage they're actually in.</p>
+    </div>
+    <div class="card rv d4">
+      <p class="card-title">Sales Manager / Team Lead</p>
+      <p class="research-label" style="margin-top:16px;">Core Job</p>
+      <p class="card-body">Maintains team consistency, provides coaching, and ensures reps are using approved messaging.</p>
+      <p class="research-label" style="margin-top:16px;">Key Need</p>
+      <p class="card-body">A centralized source of truth, visibility into rep questions, and consistent messaging across the team.</p>
+      <p class="research-label" style="margin-top:16px;">Frustration</p>
+      <p class="card-body">Answering the same questions repeatedly and having no scalable way to spread best practices.</p>
+    </div>
+  </div>
+  <div class="rv d3" style="margin-top:36px;">
+    <p class="section-body">These roles helped define how Ask Buddy should deliver fast answers, maintain consistency, reduce manager dependency, and support accurate customer communication across the sales funnel.</p>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 9. USER JOURNEY ═══ -->
+<section style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">User Journey</p></div>
+  <div class="rv d1"><h2 class="section-h">From Question to Confident Response</h2></div>
+  <div class="step-flow rv d2">
+    <div class="step"><div class="step-num">1</div><p class="step-label">Working on email, call, or deal</p></div>
+    <div class="step"><div class="step-num">2</div><p class="step-label">Rep asks Ask Buddy a question</p></div>
+    <div class="step"><div class="step-num">3</div><p class="step-label">Reads deal, buyer, content context</p></div>
+    <div class="step"><div class="step-num">4</div><p class="step-label">AI generates answer or email draft</p></div>
+    <div class="step"><div class="step-num">5</div><p class="step-label">Rep reviews and edits</p></div>
+    <div class="step"><div class="step-num">6</div><p class="step-label">Applies answer in workflow</p></div>
+    <div class="step"><div class="step-num">7</div><p class="step-label">Ask Buddy captures knowledge</p></div>
+    <div class="step"><div class="step-num">8</div><p class="step-label">Manager sees patterns and gaps</p></div>
+    <div class="step"><div class="step-num">9</div><p class="step-label">Team improves messaging over time</p></div>
+  </div>
+  <div class="rv d3" style="margin-top:48px;">
+    <p class="section-body">The journey was designed to reduce search pressure. Instead of forcing reps to leave their workflow, Ask Buddy brings guidance into the moment when they need it most.</p>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 10. INFORMATION ARCHITECTURE ═══ -->
+<section id="s-ia" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Information Architecture</p></div>
+  <div class="rv d1"><h2 class="section-h">Structuring an AI Guidance System</h2></div>
+  <div class="rv d2"><p class="section-body" style="margin-bottom:48px;">The IA was structured around how reps move from uncertainty to action: ask a question, receive a contextual response, validate the source, apply the answer, and reuse the knowledge later.</p></div>
+
+  <div class="ia rv d2">
+
+    <div class="entry"><div class="entry-pill">Ask Buddy Entry Point</div></div>
+    <div class="connector"><div class="conn-line"></div><div class="conn-dot"></div></div>
+
+    <div class="level-bar"><div class="level-pill">Prompt Starters</div></div>
+    <div class="connector"><div class="conn-line" style="height:16px;"></div></div>
+    <div class="branch"><div class="branch-line"></div></div>
+    <div class="ia-modules">
+      <div class="ia-mod"><div class="ia-mod-name">Email Writing</div><div class="ia-mod-sub">Pitches, follow-ups</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Objection Handling</div><div class="ia-mod-sub">Pricing, timing, risk</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Deal Summaries</div><div class="ia-mod-sub">Context snapshots</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Content Recommendations</div><div class="ia-mod-sub">Decks, case studies</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Follow-up Drafts</div><div class="ia-mod-sub">Post-call outreach</div></div>
+    </div>
+
+    <div class="connector"><div class="conn-line"></div><div class="conn-dot"></div></div>
+
+    <div class="level-bar"><div class="level-pill">Conversation Interface</div></div>
+    <div class="connector"><div class="conn-line" style="height:16px;"></div></div>
+    <div class="branch"><div class="branch-line"></div></div>
+    <div class="ia-sub-modules">
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Ask a Question</div><div class="ia-sub-mod-desc">Free input</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Refine Output</div><div class="ia-sub-mod-desc">Edit and improve</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Copy and Apply</div><div class="ia-sub-mod-desc">Use in workflow</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Continue Thread</div><div class="ia-sub-mod-desc">Follow-up questions</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Source View</div><div class="ia-sub-mod-desc">Where it came from</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Feedback Signal</div><div class="ia-sub-mod-desc">Rate the answer</div></div>
+    </div>
+
+    <div class="connector"><div class="conn-line"></div><div class="conn-dot"></div></div>
+
+    <!-- AI Guidance Layer - special treatment -->
+    <div class="ai-layer rv d2">
+      <div class="ai-layer-label">Core Intelligence Layer</div>
+      <div class="ai-layer-title">AI Guidance Layer - Context + Content + Reasoning</div>
+      <div class="ai-layer-desc">The core intelligence layer reads the rep's question, understands deal context, retrieves approved content, applies buyer and persona logic, and generates a usable answer with confidence. Making this layer visible - not hidden - was the most important IA decision.</div>
+      <div class="ai-pills">
+        <span class="ai-pill">Reads rep question</span>
+        <span class="ai-pill">Understands deal context</span>
+        <span class="ai-pill">Retrieves approved content</span>
+        <span class="ai-pill">Applies persona logic</span>
+        <span class="ai-pill">Generates answer</span>
+        <span class="ai-pill">Shows confidence</span>
+        <span class="ai-pill">Cites source</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="conn-line"></div><div class="conn-dot"></div></div>
+
+    <div class="level-bar"><div class="level-pill">Deal Context Layer + Content Knowledge Base</div></div>
+    <div class="connector"><div class="conn-line" style="height:16px;"></div></div>
+    <div class="branch"><div class="branch-line"></div></div>
+    <div class="ia-sub-modules">
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Account Info</div><div class="ia-sub-mod-desc">Company, industry</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Opportunity Data</div><div class="ia-sub-mod-desc">Stage, value, risk</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Buyer Signals</div><div class="ia-sub-mod-desc">Engagement, intent</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Approved Playbooks</div><div class="ia-sub-mod-desc">Sales narratives</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">FAQs + Case Studies</div><div class="ia-sub-mod-desc">Validated knowledge</div></div>
+      <div class="ia-sub-mod"><div class="ia-sub-mod-name">Decks + Docs</div><div class="ia-sub-mod-desc">Approved assets</div></div>
+    </div>
+
+    <div class="connector"><div class="conn-line"></div><div class="conn-dot"></div></div>
+
+    <div class="level-bar"><div class="level-pill">Knowledge Capture + Manager Insights</div></div>
+    <div class="connector"><div class="conn-line" style="height:16px;"></div></div>
+    <div class="ia-modules">
+      <div class="ia-mod"><div class="ia-mod-name">Repeated Questions</div><div class="ia-mod-sub">FAQ generation</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Useful Answers</div><div class="ia-mod-sub">Reusable knowledge</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Content Gaps</div><div class="ia-mod-sub">What reps can't find</div></div>
+      <div class="ia-mod"><div class="ia-mod-name">Coaching Patterns</div><div class="ia-mod-sub">Manager insights</div></div>
+    </div>
+
+    <div class="ia-legend" style="margin-top:32px;">
+      <div class="ia-leg"><div class="ia-leg-dot" style="background:var(--accent);"></div>Entry Point</div>
+      <div class="ia-leg"><div class="ia-leg-sq" style="background:#2A1018;border:1px solid rgba(16,185,129,0.25);"></div>System Layer</div>
+      <div class="ia-leg"><div class="ia-leg-sq" style="background:#1A1214;border:1px solid rgba(240,237,232,0.06);"></div>Module</div>
+      <div class="ia-leg"><div class="ia-leg-sq" style="background:rgba(26,18,20,0.5);border:1px solid rgba(240,237,232,0.04);"></div>Feature</div>
+      <div class="ia-leg"><div class="ia-leg-dot" style="background:var(--accent);opacity:.4;border:1px solid var(--accent-bdr);"></div>AI Layer</div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 11. DESIGN DECISIONS ═══ -->
+<section id="s-design" style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Design Decisions</p></div>
+  <div class="rv d1"><h2 class="section-h">Solving the Hard Problems</h2></div>
+
+  <div style="margin-top:48px;">
+
+    <div class="dd-block rv">
+      <div class="dd-text">
+        <div class="dd-num">01</div>
+        <div class="dd-title">Prompt Starters Before Blank Input</div>
+        <div class="dd-desc">A blank chat box can feel unclear, so we added suggested prompts for common sales moments. This helped reps understand what Ask Buddy could do and start faster without having to figure out the right question.</div>
+      </div>
+      <div class="dd-img">
+        <img src="Images/Ask buddy Images/Prompt Starter.png" alt="Ask Buddy prompt starters showing suggested questions for common selling moments" style="width:100%;height:auto;display:block;border-radius:0;">
+      </div>
+    </div>
+
+    <div class="dd-block rv d1">
+      <div class="dd-text">
+        <div class="dd-num">02</div>
+        <div class="dd-title">Guidance Inside the Workflow</div>
+        <div class="dd-desc">Instead of making reps search another content library, Ask Buddy was designed to sit close to sales tasks like emails, calls, and deal updates. The goal was to reduce switching and keep reps moving without ever leaving their context.</div>
+      </div>
+      <div class="dd-img">
+        <img src="Images/Ask buddy Images/Ask Buddy Add Source Drop down.png" alt="Ask Buddy interface with source panel open alongside the chat" style="width:100%;height:auto;display:block;border-radius:0;">
+      </div>
+    </div>
+
+    <div class="dd-block rv d2">
+      <div class="dd-text">
+        <div class="dd-num">03</div>
+        <div class="dd-title">Contextual Answers, Not Generic AI Copy</div>
+        <div class="dd-desc">Ask Buddy needed to respond with deal-aware guidance, not generic AI output. We prioritized buyer context, content sources, objections, and sales stage to make answers more usable and closer to what reps would actually send.</div>
+      </div>
+      <div class="dd-img">
+        <img src="Images/Ask buddy Images/Ask Buddy Reasoing Thinking _ Got your Query.png" alt="Ask Buddy responding with contextual answer and thinking confirmation" style="width:100%;height:auto;display:block;border-radius:0;">
+      </div>
+    </div>
+
+    <div class="dd-block rv d3">
+      <div class="dd-text">
+        <div class="dd-num">04</div>
+        <div class="dd-title">Ready-to-Use, But Editable</div>
+        <div class="dd-desc">Reps needed speed, but not loss of control. Email drafts, talk tracks, and objection responses were designed to be reviewed and edited before sending - giving speed without removing judgment from the rep.</div>
+      </div>
+      <div class="dd-img">
+        <img src="Images/Ask buddy Images/Ask Buddy Added Source Drop.png" alt="Ask Buddy showing added sources panel with files and URLs alongside the chat" style="width:100%;height:auto;display:block;border-radius:0;">
+      </div>
+    </div>
+
+    <div class="dd-block rv d4">
+      <div class="dd-text">
+        <div class="dd-num">05</div>
+        <div class="dd-title">Content Trust Signals</div>
+        <div class="dd-desc">Because reps worried about outdated content, the experience needed to show where answers came from and whether the source was approved or current. Transparency about sources made the AI feel more trustworthy, not less.</div>
+      </div>
+      <div class="dd-img">
+        <img src="Images/Ask buddy Images/Ask Buddy Add Source Pop Up.png" alt="Add Webpages as Source modal showing URL inputs with include and exclude tabs" style="width:100%;height:auto;display:block;border-radius:0;">
+      </div>
+    </div>
+
+    <div class="dd-block rv d4">
+      <div class="dd-text">
+        <div class="dd-num">06</div>
+        <div class="dd-title">Knowledge Capture as a Byproduct</div>
+        <div class="dd-desc">Repeated rep questions were not just support requests. We treated them as signals to identify content gaps, generate FAQs, and improve enablement over time - turning daily usage into a knowledge engine for the team.</div>
+      </div>
+      <div class="dd-img">
+        <img src="Images/Ask buddy Images/Call Details Expand.png" alt="Call details panel expanded showing opportunity name, sales stage, participants, and call summary" style="width:100%;height:auto;display:block;border-radius:0;">
+      </div>
+    </div>
+
+    <div class="dd-block rv d4">
+      <div class="dd-text">
+        <div class="dd-num">07</div>
+        <div class="dd-title">Manager Visibility Without Micromanagement</div>
+        <div class="dd-desc">Managers needed to understand what reps were struggling with, but not review every interaction. We designed insights around patterns, gaps, and recurring questions - not individual chat logs - so the view felt like coaching, not surveillance.</div>
+      </div>
+      <div class="dd-img">
+        <img src="Images/Ask buddy Images/Ask Buddy Projects Dashboard.png" alt="Ask Buddy Projects dashboard showing active users, queries, project usage, and top categories" style="width:100%;height:auto;display:block;border-radius:0;">
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 12. OTHER DESIGN ═══ -->
+<section style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Other Design</p></div>
+  <div class="rv d1"><h2 class="section-h">Exploring the Full Ask Buddy Experience</h2></div>
+  <div class="rv d2"><p class="section-body" style="margin-bottom:48px;">Beyond the core chat experience, I explored supporting screens that helped reps ask better questions, use AI responses safely, and helped managers understand where the team needed better guidance.</p></div>
+
+  <div style="display:flex;flex-direction:column;gap:32px;">
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Prompt Starter.png" alt="Ask Buddy prompt starters showing suggested questions for common selling moments" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Prompt Starters - suggested prompts surfaced before the rep types, reducing blank-input anxiety and showing what Ask Buddy can do</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Ask Buddy Desktop - Sources.png" alt="Ask Buddy desktop layout showing Sources panel, Chat with verified answer, and Popular Agents sidebar" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Desktop Layout — Full View - three-panel experience with Sources on the left, Chat in the center, and Popular Agents on the right for fast access</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Ask Buddy Reasoing Model Selection Drop down.png" alt="Model selection dropdown open showing Instant and Thinking options" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Reasoning Model Selector - lets reps choose between Instant mode for quick answers and Thinking mode for deeper analysis</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Ask Buddy Reasoing Thinking Model generating.png" alt="Ask Buddy in Thinking mode showing a Thinking status while processing the query" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Thinking Model — Generating - live status shown while the model works through a more complex reasoning request</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Ask Buddy Reasoing Thinking Model selected.png" alt="Ask Buddy with Thinking model selected in input bar after receiving a response" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Thinking Model — Selected - model mode persists in the input bar so reps always know which reasoning depth is active</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Ask Buddy Reasoing Thinking Model expand.png" alt="Thinking model with expanded Activity panel showing step-by-step reasoning trace" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Reasoning Trace — Expanded - the Activity panel surfaces each thinking step so reps can verify how the answer was reached</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Call Details Pop up.png" alt="Call detail popup showing video thumbnail, participants, opportunity name, and key topics" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Call Details Popup - quick overview of a meeting source with participants, opportunity name, key topics, and recording thumbnail</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Call Details collapse.png" alt="Call details in collapsed view showing call name and date in the source panel" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Call Details — Collapsed - compact source entry showing call name and date, expandable for full context without cluttering the panel</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/meetings as sources 1.png" alt="Meetings listed as sources in the Ask Buddy source panel" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Meetings as Sources - recorded calls added directly as knowledge sources so Ask Buddy can reference real conversation context</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/meetings as sources 3.png" alt="Multiple meeting sources selected and active in the source panel" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Meetings as Sources — Multiple Selected - several calls active at once, letting reps query across a set of relevant conversations</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/meetings as sources Hover.png" alt="Hover state on a meeting source showing quick action options" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Meeting Source Hover State - reveals quick actions (view details, remove) without leaving the chat flow</p>
+    </div>
+
+    <div class="rv d1" style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--card);">
+      <img src="Images/Ask buddy Images/Double Drawer.png" alt="Two side drawers open simultaneously showing source panel and call details together" style="width:100%;height:auto;display:block;border-radius:0;">
+      <p style="font-family:var(--ff);font-size:13px;color:var(--muted);padding:16px 20px;border-top:1px solid var(--border);">Double Drawer - source panel and call details open side by side, keeping full context visible while staying in the chat</p>
+    </div>
+
+  </div>
+
+  <div class="rv d3" style="margin-top:40px;">
+    <p class="section-body">These supporting designs helped turn Ask Buddy from a simple AI assistant into a broader sales guidance system for answering, coaching, and improving team knowledge.</p>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 13. IMPACT ═══ -->
+<section id="s-impact" style="background:var(--bg);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Impact</p></div>
+  <div class="rv d1"><h2 class="section-h">Faster Answers, Better Adoption</h2></div>
+  <div class="grid-4" style="margin-top:48px;">
+    <div class="card rv d1" style="text-align:center;padding:40px 28px;">
+      <p class="metric-num"><span>3x</span></p>
+      <p style="font-family:var(--ff);font-weight:700;font-size:16px;color:#fff;margin-bottom:10px;">Faster Responses</p>
+      <p class="metric-label">Reps could get useful answers without searching across multiple tools</p>
+    </div>
+    <div class="card rv d2" style="text-align:center;padding:40px 28px;">
+      <p class="metric-num"><span>70%</span></p>
+      <p style="font-family:var(--ff);font-weight:700;font-size:16px;color:#fff;margin-bottom:10px;">Improved Consistency</p>
+      <p class="metric-label">Teams had a stronger way to align messaging across reps</p>
+    </div>
+    <div class="card rv d3" style="text-align:center;padding:40px 28px;">
+      <p class="metric-num"><span>+40%</span></p>
+      <p style="font-family:var(--ff);font-weight:700;font-size:16px;color:#fff;margin-bottom:10px;">Better Adoption</p>
+      <p class="metric-label">The experience became more flexible and closer to real sales needs</p>
+    </div>
+    <div class="card rv d4" style="text-align:center;padding:40px 28px;">
+      <p class="metric-num"><span>50%</span></p>
+      <p style="font-family:var(--ff);font-weight:700;font-size:16px;color:#fff;margin-bottom:10px;">Reduced Manager Dependency</p>
+      <p class="metric-label">Repeated clarification questions could be handled through AI guidance and reusable knowledge</p>
+    </div>
+  </div>
+  <div class="rv d3" style="margin-top:36px;">
+    <p class="section-body">The project evolved through active iterations. By focusing on core user needs instead of feature overload, Ask Buddy became faster, more flexible, and more relevant to everyday sales workflows.</p>
+  </div>
+</div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══ 14. LEARNINGS ═══ -->
+<section id="s-learnings" style="background:var(--bg2);">
+<div class="section-inner">
+  <div class="rv"><p class="kicker">Learnings</p></div>
+  <div class="rv d1"><h2 class="section-h">What I Learned Designing AI Sales Guidance</h2></div>
+  <div style="display:flex;flex-direction:column;gap:20px;margin-top:48px;">
+    <div class="card rv d1" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">01</div>
+      <div>
+        <p class="card-title">Speed Is Not Enough</p>
+        <p class="card-body">Reps need fast answers, but they also need trust that the answer is accurate and safe to use in a real customer conversation.</p>
+      </div>
+    </div>
+    <div class="card rv d2" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">02</div>
+      <div>
+        <p class="card-title">Context Makes AI Useful</p>
+        <p class="card-body">Generic AI copy does not solve sales problems. The value comes from combining deal, buyer, content, and messaging context into a single answer.</p>
+      </div>
+    </div>
+    <div class="card rv d3" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">03</div>
+      <div>
+        <p class="card-title">Prompting Needs Guidance</p>
+        <p class="card-body">Most reps do not know what to ask at first. Prompt starters helped reduce hesitation and made the assistant feel easier to use from the start.</p>
+      </div>
+    </div>
+    <div class="card rv d4" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">04</div>
+      <div>
+        <p class="card-title">Trust Needs UI Support</p>
+        <p class="card-body">Source visibility, editability, and feedback controls are important when AI is helping reps communicate with real buyers in live deals.</p>
+      </div>
+    </div>
+    <div class="card rv d4" style="display:grid;grid-template-columns:48px 1fr;gap:24px;align-items:start;">
+      <div class="num-badge" style="margin-bottom:0;">05</div>
+      <div>
+        <p class="card-title">Manager Insights Should Focus on Patterns</p>
+        <p class="card-body">The manager experience should highlight recurring questions, content gaps, and coaching opportunities instead of monitoring every rep message.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══ 15. CLOSING CTA ═══ -->
+<div class="closing-section">
+  <p class="kicker" style="justify-content:center;">Next Project</p>
+  <p style="font-family:var(--ffs);font-style:italic;font-weight:500;font-size:clamp(18px,2vw,26px);color:var(--muted);line-height:1.7;max-width:720px;margin:0 auto 40px;">Designing Ask Buddy taught me that AI assistants in B2B SaaS should not just generate answers. They should reduce friction, build confidence, and help teams stay aligned in the moments that affect revenue.</p>
+  <div class="btn-row" style="margin-bottom:56px;">
+    <a href="agentic-workflow.html" class="btn btn-red">View Next Project →</a>
+    <a href="portfolio.html" class="btn btn-ghost">Back to Portfolio</a>
+  </div>
+  <a href="agentic-workflow.html" style="font-family:var(--ff);font-weight:800;font-size:clamp(22px,3.5vw,48px);color:#fff;text-decoration:none;letter-spacing:-.02em;line-height:1.1;display:inline-block;transition:color .25s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='#fff'">Agentic Workflow Builder - Build Workflows That Think →</a>
+</div>
+
+<footer>
+  <p>&#169; 2026 Kiran Tanwar</p>
+  <span class="f-name">Designed with intention</span>
+  <p>All rights reserved</p>
+</footer>
+
+<nav class="section-nav" aria-label="Page section navigation">
+  <a href="#s-hero" class="section-dot" data-label="Overview" aria-label="Go to Overview"></a>
+  <a href="#s-overview" class="section-dot" data-label="What is it?" aria-label="Go to What is Ask Buddy"></a>
+  <a href="#s-problem" class="section-dot" data-label="Problem" aria-label="Go to Problem"></a>
+  <a href="#s-research" class="section-dot" data-label="Research" aria-label="Go to Research"></a>
+  <a href="#s-personas" class="section-dot" data-label="Personas" aria-label="Go to Personas"></a>
+  <a href="#s-ia" class="section-dot" data-label="IA" aria-label="Go to Information Architecture"></a>
+  <a href="#s-design" class="section-dot" data-label="Design" aria-label="Go to Design Decisions"></a>
+  <a href="#s-impact" class="section-dot" data-label="Impact" aria-label="Go to Impact"></a>
+  <a href="#s-learnings" class="section-dot" data-label="Learnings" aria-label="Go to Learnings"></a>
+</nav>
+<script>
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');}});
+},{threshold:0.04,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el=>{
+  obs.observe(el);
+  const r=el.getBoundingClientRect();
+  if(r.top<window.innerHeight&&r.bottom>0)el.classList.add('vis');
+});
+</script>
+
+<script>
+(function(){
+  var links=document.querySelectorAll('.section-nav a');
+  if(!links.length)return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.getAttribute('id');
+        links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+id);});
+      }
+    });
+  },{root:null,rootMargin:'-40% 0px -50% 0px',threshold:0});
+  links.forEach(function(l){
+    var target=document.querySelector(l.getAttribute('href'));
+    if(target)io.observe(target);
+    l.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=document.querySelector(l.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  if(links[0])links[0].classList.add('active');
+})();
+</script>
+</body>
+</html>

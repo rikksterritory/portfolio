@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - Kiran Tanwar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0C0A0A;
+  --bg2:#1A1214;
+  --bg3:#2A1018;
+  --card:#1A1214;
+  --white:#FFFFFF;
+  --muted:rgba(240,237,232,0.50);
+  --muted2:rgba(240,237,232,0.45);
+  --border:rgba(240,237,232,0.07);
+  --accent:#FF9C09;
+  --accent-dim:rgba(255,156,9,0.10);
+  --accent-bdr:rgba(255,156,9,0.25);
+  --purple:#FF9C09;
+  --radius:24px;
+  --radius-sm:10px;
+  --radius-pill:100px;
+  --ff:'DM Sans',sans-serif;
+  --ffb:'DM Sans',sans-serif;
+  --ffs:'Cormorant Garamond',serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:var(--ffb);overflow-x:hidden;}
+
+/* ── Nav ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding-block:20px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(12,10,10,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:var(--ff);font-weight:600;font-size:16px;color:rgba(255,255,255,0.75);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px rgba(255,156,9,0.5);}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center;}
+.nav-links a{font-family:var(--ffb);font-size:14px;font-weight:400;color:var(--muted);text-decoration:none;padding:8px 18px;border-radius:var(--radius-pill);transition:all .2s;}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,0.07);}
+.nav-links a.active{color:var(--white);font-weight:600;}
+.nav-cta-link{color:#0C0A0A!important;background:#FF9C09!important;border:1px solid #FF9C09!important;font-weight:500!important;padding:9px 24px!important;}
+.nav-cta-link:hover{background:#FFB03A!important;border-color:#FFB03A!important;color:#0C0A0A!important;}
+
+/* ── Scroll reveal ── */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .9s cubic-bezier(.16,1,.3,1);}
+.rv.vis{opacity:1;transform:none;}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.25s}.d4{transition-delay:.35s}.d5{transition-delay:.45s}
+
+/* ── Global section spacing ── */
+
+section + section{border-top:1px solid var(--border);}
+
+/* ── Kicker label ── */
+.kicker{
+  font-family:var(--ffb);font-size:11px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.kicker::before{content:'';width:24px;height:1px;background:var(--accent-bdr);}
+
+/* ════════════════════
+   1. HERO
+════════════════════ */
+.hero{
+  padding-block:clamp(130px,12vw,190px) clamp(90px,9vw,140px);
+  padding-inline:var(--content-gutter);
+  display:grid;
+  grid-template-columns:1fr 400px;
+  gap:72px;
+  align-items:center;
+  min-height:100vh;
+  background:radial-gradient(ellipse 70% 60% at 0% 50%, rgba(255,156,9,0.06) 0%, transparent 60%),var(--bg);
+}
+.hero-left{}
+.hero-headline{
+  font-family:var(--ff);font-weight:800;
+  font-size:clamp(52px,6.5vw,96px);
+  line-height:1.0;letter-spacing:-.025em;
+  color:#fff;margin-bottom:28px;
+}
+.hero-headline em{
+  font-style:italic;
+  color:var(--accent);
+  font-family:var(--ffs);font-weight:600;
+}
+.hero-sub{
+  font-family:var(--ffb);font-size:17px;font-weight:300;
+  color:var(--muted);line-height:1.35;
+  max-width:580px;margin-bottom:20px;
+}
+.hero-support{
+  font-family:var(--ffb);font-size:16px;font-weight:400;
+  color:var(--muted2);line-height:1.8;
+  max-width:520px;margin-bottom:40px;
+  border-left:2px solid var(--accent-bdr);
+  padding-left:16px;
+}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.hero-tag{
+  font-family:var(--ffb);font-size:11px;font-weight:500;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);
+  padding:6px 16px;border-radius:var(--radius-pill);
+  border:1px solid var(--border);background:rgba(255,255,255,0.03);
+  transition:all .2s;
+}
+.hero-tag:hover{border-color:var(--accent-bdr);color:var(--white);background:var(--accent-dim);}
+
+/* Portrait */
+.hero-portrait{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+}
+.hero-portrait-frame{
+  width:100%;aspect-ratio:3/4;
+  border-radius:var(--radius);
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--card);
+  position:relative;
+}
+/* REPLACE: swap the src below with your actual portrait image path */
+.hero-portrait-frame img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+.hero-portrait-placeholder{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  background:var(--card);
+}
+.hero-portrait-placeholder span{
+  font-family:var(--ffb);font-size:11px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted2);text-align:center;
+}
+.hero-portrait-placeholder svg{color:var(--muted2);}
+.hero-portrait-label{
+  font-family:var(--ffb);font-size:11px;font-weight:400;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted2);margin-top:14px;text-align:center;
+}
+
+/* ════════════════════
+   2. DESIGN STORY
+════════════════════ */
+.story{background:var(--bg2);}
+.story-split{
+  display:grid;
+  grid-template-columns:1fr 440px;
+  gap:72px;align-items:center;
+}
+.story-left .story-h{
+  font-family:var(--ff);font-weight:800;
+  font-size:clamp(36px,4vw,60px);
+  line-height:1.05;letter-spacing:-.02em;
+  color:#fff;margin-bottom:28px;
+}
+.story-left .story-h em{
+  font-style:italic;color:var(--accent);
+  font-family:var(--ffs);font-weight:600;
+}
+.story-p{
+  font-family:var(--ffb);font-size:17px;font-weight:300;
+  color:var(--muted);line-height:1.85;margin-bottom:16px;
+}
+.story-p:last-child{margin-bottom:0;}
+.story-img-wrap{
+  border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--border);
+  aspect-ratio:3/4;
+}
+/* REPLACE: swap with your own workspace or creative desk photo */
+.story-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.16,1,.3,1);}
+.story-img-wrap:hover img{transform:scale(1.03);}
+
+/* ════════════════════
+   3. PERSPECTIVE CARDS
+════════════════════ */
+.perspective-h{
+  font-family:var(--ff);font-weight:800;
+  font-size:clamp(36px,4vw,60px);
+  line-height:1.05;letter-spacing:-.02em;
+  color:#fff;margin-bottom:56px;
+  max-width:640px;
+}
+.perspective-h em{
+  font-style:italic;color:var(--accent);
+  font-family:var(--ffs);font-weight:600;
+}
+.lens-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.lens-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:32px 28px;
+  transition:border-color .3s,transform .3s;
+  display:flex;flex-direction:column;gap:0;
+}
+.lens-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.lens-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:var(--accent-dim);border:1px solid var(--accent-bdr);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:24px;color:var(--accent);flex-shrink:0;
+}
+.lens-icon svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.lens-title{
+  font-family:var(--ff);font-weight:700;font-size:16px;
+  color:#fff;margin-bottom:10px;line-height:1.2;
+}
+.lens-desc{
+  font-family:var(--ffb);font-size:14px;font-weight:300;
+  color:var(--muted);line-height:1.7;
+}
+
+/* (today section removed) */
+
+/* ════════════════════
+   5. HOW I THINK (BELIEFS)
+════════════════════ */
+.beliefs-h{
+  font-family:var(--ff);font-weight:800;
+  font-size:clamp(34px,3.8vw,56px);
+  line-height:1.05;letter-spacing:-.02em;
+  color:#fff;margin-bottom:64px;
+}
+.belief-list{display:flex;flex-direction:column;}
+.belief-item{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:32px;align-items:baseline;
+  padding:32px 0;
+  border-top:1px solid var(--border);
+  transition:border-color .25s;
+}
+.belief-item:last-child{border-bottom:1px solid var(--border);}
+.belief-item:hover{border-color:var(--accent-bdr);}
+.belief-num{
+  font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.12em;color:var(--accent);
+  text-transform:uppercase;padding-top:6px;
+}
+.belief-text{
+  font-family:var(--ffs);font-style:italic;font-weight:500;
+  font-size:clamp(28px,3vw,44px);
+  color:rgba(240,237,232,0.88);line-height:1.25;
+  letter-spacing:-.01em;
+}
+
+/* ════════════════════
+   6. CERTIFICATIONS
+════════════════════ */
+.certs{background:var(--bg2);}
+.certs-intro{
+  font-family:var(--ffb);font-size:17px;font-weight:300;
+  color:var(--muted);line-height:1.8;
+  max-width:600px;margin-bottom:56px;
+}
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.cert-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  transition:border-color .3s,transform .3s;
+  cursor:pointer;
+  display:flex;flex-direction:column;
+}
+.cert-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.cert-img-area{
+  height:180px;overflow:hidden;
+  border-bottom:1px solid var(--border);
+  background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.cert-img-area img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+.cert-img-placeholder{
+  font-family:var(--ffb);font-size:11px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted2);
+  display:none;
+}
+.cert-body{padding:28px;display:flex;flex-direction:column;flex:1;}
+.cert-inst{
+  font-family:var(--ffb);font-size:11px;font-weight:600;
+  letter-spacing:.10em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:10px;
+}
+.cert-course{
+  font-family:var(--ff);font-weight:700;
+  font-size:17px;color:#fff;line-height:1.2;margin-bottom:10px;
+}
+.cert-focus{
+  font-family:var(--ffb);font-size:14px;font-weight:300;
+  color:var(--muted);line-height:1.65;margin-bottom:20px;flex:1;
+}
+.cert-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--ffb);font-size:11px;font-weight:500;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-dim);
+  border:1px solid var(--accent-bdr);
+  padding:5px 14px;border-radius:var(--radius-pill);
+  width:fit-content;
+}
+.cert-placeholder-card{
+  background:var(--card);border:2px dashed rgba(240,237,232,0.08);
+  border-radius:var(--radius);
+  display:flex;flex-direction:column;
+  align-items:flex-start;justify-content:flex-end;
+  padding:28px;min-height:320px;
+  transition:border-color .3s;
+}
+.cert-placeholder-card:hover{border-color:var(--accent-bdr);}
+.cert-ph-label{
+  font-family:var(--ffb);font-size:11px;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted2);margin-bottom:10px;
+}
+.cert-ph-title{
+  font-family:var(--ff);font-weight:700;font-size:17px;
+  color:var(--muted2);line-height:1.3;margin-bottom:8px;
+}
+.cert-ph-sub{
+  font-family:var(--ffb);font-size:14px;font-weight:300;
+  color:rgba(240,237,232,0.45);line-height:1.6;
+}
+
+/* ════════════════════
+   7. TESTIMONIALS
+════════════════════ */
+.testimonial-h{
+  font-family:var(--ff);font-weight:800;
+  font-size:clamp(34px,3.8vw,56px);
+  line-height:1.05;letter-spacing:-.02em;
+  color:#fff;margin-bottom:56px;
+}
+.testimonial-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.testimonial-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:44px 40px;transition:border-color .3s,transform .3s;
+  display:flex;flex-direction:column;
+}
+.testimonial-card:hover{border-color:var(--accent-bdr);transform:translateY(-4px);}
+.testimonial-mark{
+  font-family:var(--ffs);font-size:72px;line-height:.75;
+  color:var(--accent);margin-bottom:20px;display:block;
+}
+.testimonial-quote{
+  font-family:var(--ffs);font-style:italic;
+  font-size:clamp(16px,1.6vw,20px);font-weight:500;
+  color:rgba(240,237,232,0.88);line-height:1.65;
+  flex:1;margin-bottom:28px;
+}
+.testimonial-div{width:32px;height:2px;background:var(--accent);margin-bottom:16px;}
+.testimonial-name{font-family:var(--ff);font-weight:700;font-size:15px;color:#fff;margin-bottom:4px;}
+.testimonial-role{font-family:var(--ffb);font-size:12px;font-weight:300;color:var(--muted);line-height:1.5;}
+
+/* (learning and desk sections removed) */
+
+/* ════════════════════
+   10. OUTSIDE THE SCREEN
+════════════════════ */
+.outside{background:var(--bg2);}
+.outside-inner{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:72px;align-items:center;
+}
+.outside-img-wrap{
+  border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--border);
+  aspect-ratio:4/5;
+}
+/* REPLACE: swap with your own warm editorial photo */
+.outside-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.outside-h{
+  font-family:var(--ff);font-weight:800;
+  font-size:clamp(34px,3.8vw,56px);
+  line-height:1.05;letter-spacing:-.02em;
+  color:#fff;margin-bottom:24px;
+}
+.outside-h em{font-style:italic;color:var(--accent);font-family:var(--ffs);font-weight:600;}
+.outside-p{
+  font-family:var(--ffb);font-size:17px;font-weight:300;
+  color:var(--muted);line-height:1.85;margin-bottom:16px;
+}
+
+/* ════════════════════
+   11. CLOSING CTA
+════════════════════ */
+.closing{
+  text-align:center;
+  background:radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255,156,9,0.08) 0%, transparent 70%),var(--bg);
+}
+.closing-h{
+  font-family:var(--ff);font-weight:800;
+  font-size:clamp(30px,4vw,56px);
+  line-height:1.05;letter-spacing:-.025em;
+  color:#fff;margin-bottom:24px;max-width:760px;
+  margin-left:auto;margin-right:auto;
+}
+.closing-p{
+  font-family:var(--ffb);font-size:17px;font-weight:300;
+  color:var(--muted);line-height:1.8;
+  max-width:600px;margin:0 auto 48px;
+}
+.closing-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{
+  font-family:var(--ffb);font-size:14px;font-weight:600;
+  background:var(--accent);color:#0C0A0A;
+  padding:14px 36px;border-radius:var(--radius-pill);
+  text-decoration:none;transition:all .2s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{background:#FFB03A;transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,156,9,0.35);}
+.btn-secondary{
+  font-family:var(--ffb);font-size:14px;font-weight:400;
+  border:1px solid rgba(255,156,9,0.30);color:var(--white);
+  padding:14px 36px;border-radius:var(--radius-pill);
+  text-decoration:none;background:rgba(255,156,9,0.08);
+  transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-secondary:hover{background:rgba(255,156,9,0.14);border-color:rgba(255,156,9,0.5);}
+
+/* ── Footer ── */
+footer{
+  padding-block:28px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg);
+}
+footer p{font-family:var(--ffb);font-size:12px;color:var(--muted2);}
+.f-name{font-family:var(--ff);font-weight:600;font-size:14px;color:var(--muted2);}
+
+/* ── Certificate Lightbox ── */
+.cert-lightbox{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,0.92);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+}
+.cert-lightbox.open{opacity:1;pointer-events:all;}
+.cert-lightbox-inner{position:relative;max-width:860px;width:100%;max-height:90vh;display:flex;align-items:center;justify-content:center;}
+.cert-lightbox-img{max-width:100%;max-height:85vh;border-radius:var(--radius);box-shadow:0 32px 80px rgba(0,0,0,0.7);display:block;transform:scale(.96);transition:transform .3s cubic-bezier(.16,1,.3,1);}
+.cert-lightbox.open .cert-lightbox-img{transform:scale(1);}
+.cert-lightbox-close{position:fixed;top:24px;right:28px;width:44px;height:44px;border-radius:50%;background:rgba(240,237,232,0.1);border:1px solid rgba(240,237,232,0.2);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;z-index:1001;}
+.cert-lightbox-close:hover{background:var(--accent);border-color:var(--accent);}
+
+/* ── Responsive ── */
+@media(max-width:1100px){
+  .lens-grid{grid-template-columns:repeat(2,1fr);}
+  .cert-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:960px){
+
+  section{padding-block:80px;}
+  .hero{padding:120px 24px 80px;grid-template-columns:1fr;gap:48px;min-height:auto;}
+  .hero-portrait{order:-1;}
+  .hero-portrait-frame{aspect-ratio:4/3;max-height:360px;}
+  .story-split{grid-template-columns:1fr;}
+  .story-img-wrap{aspect-ratio:16/9;}
+  .testimonial-grid{grid-template-columns:1fr;}
+  .outside-inner{grid-template-columns:1fr;gap:40px;}
+  .outside-img-wrap{aspect-ratio:16/9;}
+  .lens-grid{grid-template-columns:1fr 1fr;}
+  .cert-grid{grid-template-columns:1fr;}
+  .belief-item{grid-template-columns:60px 1fr;gap:20px;}
+}
+@media(max-width:640px){
+  .hero-headline{font-size:38px;}
+  .lens-grid{grid-template-columns:1fr;}
+  .closing-btns{flex-direction:column;align-items:center;}
+  .belief-item{grid-template-columns:1fr;gap:8px;}
+  .belief-num{display:none;}
+  .nav-links li:not(:last-child){display:none;}
+}
+
+/* ── Section scrollspy nav ── */
+html{scroll-behavior:smooth;}
+.section-nav{position:fixed;top:50%;right:28px;left:auto;transform:translateY(-50%);z-index:90;width:38px;height:auto;display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding:0;margin:0;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;pointer-events:none;}
+.section-nav-link,.section-dot{position:relative;display:block;width:24px;height:2px;min-height:2px;padding:0;margin:0;border-radius:999px;background:rgba(255,255,255,0.24);border:0;box-shadow:none;overflow:visible;pointer-events:auto;text-decoration:none;cursor:pointer;transition:width 180ms ease,background 180ms ease,opacity 180ms ease;}
+.section-nav-link:hover,.section-dot:hover{width:34px;background:rgba(255,255,255,0.72);}
+.section-nav-link.active,.section-dot.active{width:38px;background:var(--accent);}
+.section-nav-link::before,.section-dot::before{content:attr(data-label);position:absolute;right:48px;top:50%;transform:translateY(-50%) translateX(4px);opacity:0;pointer-events:none;white-space:nowrap;background:rgba(16,13,13,0.96);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.84);padding:6px 10px;border-radius:8px;font-size:12px;line-height:1;box-shadow:0 8px 24px rgba(0,0,0,0.24);font-family:'DM Sans',sans-serif;transition:opacity 160ms ease,transform 160ms ease;}
+.section-nav-link:hover::before,.section-dot:hover::before{opacity:1;transform:translateY(-50%) translateX(0);}
+@media(max-width:900px){.section-nav{display:none;}}
+
+
+
+/* ── Container system ── */
+:root{--content-max:1440px;--content-gutter:clamp(24px,5vw,96px);--section-y:clamp(88px,9vw,150px);}
+.section-inner,.hero-inner{width:min(calc(100% - var(--content-gutter) * 2),var(--content-max));margin-inline:auto;}
+section{padding-block:var(--section-y);padding-inline:0;}
+nav,footer{padding-inline:var(--content-gutter);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="portfolio.html" class="nav-logo">
+    <span class="nav-dot"></span>Kiran Tanwar
+  </a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html">Home</a></li>
+    <li><a href="portfolio.html#work">Work</a></li>
+    <li><a href="ai-assisted-prototypes.html">UX Solutions</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="portfolio.html#experience">Experience</a></li>
+    <li><a href="portfolio.html#contact" class="nav-cta-link">Let's Talk</a></li>
+  </ul>
+</nav>
+
+<!-- ════════════════════════════
+  1. HERO
+════════════════════════════ -->
+<section id="s-hero" class="hero rv">
+  <div class="hero-left">
+    <div class="kicker">About Me</div>
+    <h1 class="hero-headline">
+      I design products where <em>clarity, behavior,</em> and AI meet.
+    </h1>
+    <p class="hero-sub">
+      I'm a Product Designer with 13+ years of design experience, including 4+ years designing B2B SaaS and AI-first products. My work sits at the intersection of product thinking, visual craft, human behavior, and emerging technology.
+    </p>
+    <p class="hero-support">
+      Currently exploring AI assistants, agentic workflows, human-AI interaction, motion, and better ways to make complex enterprise products feel simple.
+    </p>
+    <div class="hero-tags">
+      <span class="hero-tag">Product Design</span>
+      <span class="hero-tag">AI / UX</span>
+      <span class="hero-tag">B2B SaaS</span>
+      <span class="hero-tag">Motion</span>
+      <span class="hero-tag">Visual Storytelling</span>
+    </div>
+  </div>
+
+  <div class="hero-portrait">
+    <div class="hero-portrait-frame">
+      <!--
+        REPLACE: Replace the src below with your actual portrait photo.
+        Recommended: square or portrait crop, object-position:top center.
+        If no image, the placeholder below will show automatically.
+      -->
+      <img
+        src="Images/kiran.jpg"
+        alt="Kiran Tanwar - Product Designer"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="hero-portrait-placeholder" style="display:none;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Portrait / Profile Image</span>
+      </div>
+    </div>
+    <p class="hero-portrait-label">Kiran Tanwar &mdash; Product Designer</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+  2. DESIGN STORY
+════════════════════════════ -->
+<section id="s-story" class="story">
+<div class="section-inner">
+  <div class="story-split rv">
+    <div class="story-left">
+      <div class="kicker">My Design Story</div>
+      <h2 class="story-h">
+        I didn't start with product design.<br>
+        I arrived here <em>through craft.</em>
+      </h2>
+      <p class="story-p">
+        My career started with curiosity about human behavior. As a psychology student, I learned to observe how people think, respond, decide, and make sense of the world around them.
+      </p>
+      <p class="story-p">
+        From there, I moved into animation and game design, then visual design, branding, print media, motion, and eventually product design. Every phase added a different lens to how I solve problems today.
+      </p>
+      <p class="story-p">
+        I love that my path was not linear. It taught me to keep learning, stay open to new mediums, and look at design from many angles - behavior, motion, storytelling, systems, and product thinking.
+      </p>
+      <p class="story-p">
+        That journey changed my mindset. I no longer see design as only screens or visuals; I see it as a way to shape understanding, confidence, and better decisions.
+      </p>
+    </div>
+
+    <div class="story-img-wrap">
+      <!--
+        REPLACE: Swap with a photo of your own creative workspace, sketchbook, or desk.
+        Current: Unsplash editorial workspace photo.
+      -->
+      <img
+        src="Images/9528b74f-f273-48c2-909b-6ce7269360df.png"
+        alt="Illustration representing a designer's multidisciplinary journey through psychology, animation, motion, and product design"
+        loading="lazy">
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════
+  3. PERSPECTIVE CARDS
+════════════════════════════ -->
+<section id="s-perspective" class="rv">
+<div class="section-inner">
+  <div class="kicker">What Makes Me Different</div>
+  <h2 class="perspective-h">
+    I bring more than <em>one lens</em> to design.
+  </h2>
+  <div class="lens-grid">
+
+    <div class="lens-card rv d1">
+      <div class="lens-icon">
+        <!-- Layout / Product icon -->
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      </div>
+      <div class="lens-title">Product Thinking + Problem Solving</div>
+      <p class="lens-desc">B2B SaaS taught me to connect user needs, business goals, product logic, and technical constraints into practical design decisions.</p>
+    </div>
+
+    <div class="lens-card rv d2">
+      <div class="lens-icon">
+        <!-- Psychology / Activity icon -->
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="lens-title">Psychology + Human Behavior</div>
+      <p class="lens-desc">My psychology background helps me think about confidence, hesitation, decision-making, motivation, and trust in product experiences.</p>
+    </div>
+
+    <div class="lens-card rv d3">
+      <div class="lens-icon">
+        <!-- Motion / Play icon -->
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+      </div>
+      <div class="lens-title">Motion</div>
+      <p class="lens-desc">Animation and motion design trained me to think about rhythm, transitions, attention, and how small movements can make interfaces feel more natural.</p>
+    </div>
+
+    <div class="lens-card rv d4">
+      <div class="lens-icon">
+        <!-- Interaction / Cursor icon -->
+        <svg viewBox="0 0 24 24"><path d="M4 4l7.07 17 2.51-7.39L21 11.07z"/></svg>
+      </div>
+      <div class="lens-title">Interaction</div>
+      <p class="lens-desc">I'm interested in how humans and machines interact - especially in AI products where users need guidance, control, and clarity.</p>
+    </div>
+
+    <div class="lens-card rv d5">
+      <div class="lens-icon">
+        <!-- AI / CPU icon -->
+        <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+      </div>
+      <div class="lens-title">AI Exploration</div>
+      <p class="lens-desc">Working with AI-first products pushed me to design for transparency, context, trust, and human judgment instead of just automation.</p>
+    </div>
+
+    <div class="lens-card rv d5">
+      <div class="lens-icon">
+        <!-- Book / Storytelling icon -->
+        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </div>
+      <div class="lens-title">Storytelling</div>
+      <p class="lens-desc">I use narrative to make complex workflows, case studies, and product ideas easier to understand and remember.</p>
+    </div>
+
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════
+  5. HOW I THINK (BELIEFS)
+════════════════════════════ -->
+<section id="s-beliefs" class="rv">
+<div class="section-inner">
+  <div class="kicker">How I Think</div>
+  <h2 class="beliefs-h">A few beliefs that guide my work</h2>
+  <div class="belief-list">
+    <div class="belief-item rv">
+      <span class="belief-num">01</span>
+      <p class="belief-text">Powerful products still need simple entry points.</p>
+    </div>
+    <div class="belief-item rv d1">
+      <span class="belief-num">02</span>
+      <p class="belief-text">AI should support user judgment, not replace it blindly.</p>
+    </div>
+    <div class="belief-item rv d2">
+      <span class="belief-num">03</span>
+      <p class="belief-text">Good UX reduces hesitation.</p>
+    </div>
+    <div class="belief-item rv d3">
+      <span class="belief-num">04</span>
+      <p class="belief-text">Trust is designed through context, control, and clarity.</p>
+    </div>
+    <div class="belief-item rv d4">
+      <span class="belief-num">05</span>
+      <p class="belief-text">The best interfaces teach users while they work.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════
+  6. CERTIFICATIONS
+════════════════════════════ -->
+<section id="s-certs" class="certs">
+<div class="section-inner">
+  <div class="kicker">Certifications &amp; Learning</div>
+  <h2 class="beliefs-h rv" style="margin-bottom:20px;">Certifications that shaped my product thinking</h2>
+  <p class="certs-intro rv">
+    I actively invest in learning - not just to add credentials, but to sharpen how I think about products, users, AI, and business problems.
+  </p>
+  <div class="cert-grid">
+
+    <!-- Stanford Cert - REPLACE: update data-cert path if cert image moves -->
+    <div class="cert-card rv d1" data-cert="Images/stanford-cert.png" data-cert-title="UI/UX Design for AI Products - Stanford">
+      <div class="cert-img-area">
+        <img
+          src="Images/stanford-cert.png"
+          alt="Stanford UI/UX Design for AI Products Certificate"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="cert-img-placeholder">Certificate Image</span>
+      </div>
+      <div class="cert-body">
+        <div class="cert-inst">Stanford Online &mdash; July 2025</div>
+        <div class="cert-course">UI/UX Design for AI Products</div>
+        <p class="cert-focus">
+          Deepened my understanding of human-AI interaction, explainability, mixed-initiative systems, and designing against overreliance. Changed how I think about trust, transparency, and control in AI interfaces.
+        </p>
+        <span class="cert-badge">Human-AI Interaction</span>
+      </div>
+    </div>
+
+    <!-- ISB Cert - REPLACE: update data-cert path if cert image moves -->
+    <div class="cert-card rv d2" data-cert="Images/isb-cert.png" data-cert-title="Product Management - ISB">
+      <div class="cert-img-area">
+        <img
+          src="Images/isb-cert.png"
+          alt="ISB Product Management Certificate"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="cert-img-placeholder">Certificate Image</span>
+      </div>
+      <div class="cert-body">
+        <div class="cert-inst">Indian School of Business &mdash; Oct 2024</div>
+        <div class="cert-course">Product Management</div>
+        <p class="cert-focus">
+          Sharpened my product strategy thinking, prioritization frameworks, and business reasoning. Helped me speak the language of product and business - not just design - when making decisions.
+        </p>
+        <span class="cert-badge">Product Strategy</span>
+      </div>
+    </div>
+
+    <!-- Placeholder for future cert - REPLACE: fill in when adding a new certification -->
+    <div class="cert-placeholder-card rv d3">
+      <div style="flex:1;display:flex;align-items:flex-start;padding-top:0;">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(240,237,232,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+        </svg>
+      </div>
+      <div>
+        <div class="cert-ph-label">Coming Soon</div>
+        <div class="cert-ph-title">Design / AI / Product Learning</div>
+        <p class="cert-ph-sub">A flexible slot for the next course, workshop, or program I complete. This space updates as I keep learning.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════
+  7. STORIES OF IMPACT
+════════════════════════════ -->
+<section id="s-impact" class="rv">
+<div class="section-inner">
+  <div class="kicker">Stories of Impact</div>
+  <h2 class="testimonial-h">What others have said</h2>
+  <div class="testimonial-grid">
+    <div class="testimonial-card rv d1">
+      <span class="testimonial-mark">&ldquo;</span>
+      <p class="testimonial-quote">Kiran does a terrific job translating complex product problems into clear, intuitive user experiences. She is able to take high-level requirements and turn them into thoughtful product flows that balance user needs, business goals, and execution clarity. Kiran brings structure, craft, and a strong sense of ownership to every project she works on.</p>
+      <div class="testimonial-div"></div>
+      <div class="testimonial-name">Nick Mehta</div>
+      <div class="testimonial-role">Board Member: Gainsight, F5 (NASDAQ: FFIV), Pubmatic (NASDAQ: PUBM)</div>
+    </div>
+    <div class="testimonial-card rv d2">
+      <span class="testimonial-mark">&ldquo;</span>
+      <p class="testimonial-quote">Kiran's design talent shines through in GTM Buddy's modern aesthetic and intuitive user experience. Her attention to detail, particularly with micro-interactions, has created a product that customers find both beautiful and easy to learn.</p>
+      <div class="testimonial-div"></div>
+      <div class="testimonial-name">Sundar V.</div>
+      <div class="testimonial-role">Chief Customer Success Officer, GTM Buddy</div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════
+  10. OUTSIDE THE SCREEN
+════════════════════════════ -->
+<section id="s-outside" class="outside">
+<div class="section-inner">
+  <div class="outside-inner rv">
+    <div class="outside-img-wrap">
+      <!--
+        REPLACE: Swap with your own image - piano, creative practice, or calm editorial workspace.
+        Current: Unsplash piano keys in soft light.
+      -->
+      <img
+        src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=800&q=80&auto=format&fit=crop"
+        alt="Piano keys in soft light representing creative learning outside work"
+        loading="lazy">
+    </div>
+    <div class="outside-right">
+      <div class="kicker">Outside the Screen</div>
+      <h2 class="outside-h">
+        Outside work,<br>I stay <em>curious.</em>
+      </h2>
+      <p class="outside-p">
+        I like exploring new tools, reading about design and psychology, creating visual stories, improving my portfolio, experimenting with ideas before they become polished, and learning piano.
+      </p>
+      <p class="outside-p">
+        I'm drawn to anything that helps me think differently - a course, a book, a new AI tool, a creative practice, or a good conversation.
+      </p>
+      <p class="outside-p" style="color:var(--muted2);font-size:15px;font-style:italic;">
+        This curiosity keeps my design practice alive.
+      </p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════
+  11. CLOSING CTA
+════════════════════════════ -->
+<section id="s-closing" class="closing rv">
+<div class="section-inner">
+  <div class="kicker" style="justify-content:center;">Design Direction</div>
+  <h2 class="closing-h">
+    I'm drawn to products where design shapes clarity, trust, and better decision-making.
+  </h2>
+  <p class="closing-p">
+    My focus is on AI-first products, enterprise workflows, and systems that make complex work feel more understandable, useful, and human.
+  </p>
+  <div class="closing-btns">
+    <a href="portfolio.html#work" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Explore My Work
+    </a>
+    <a href="portfolio.html#contact" class="btn-secondary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Start a Conversation
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Kiran Tanwar</p>
+  <span class="f-name">Designed with intention</span>
+  <p>All rights reserved</p>
+</footer>
+
+<!-- Certificate Lightbox -->
+<div class="cert-lightbox" id="certLightbox" role="dialog" aria-modal="true" aria-label="Certificate viewer">
+  <button class="cert-lightbox-close" id="certClose" aria-label="Close certificate">&#10005;</button>
+  <div class="cert-lightbox-inner">
+    <img class="cert-lightbox-img" id="certLightboxImg" src="" alt="">
+  </div>
+</div>
+
+<script>
+// Scroll-reveal
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.04, rootMargin: '0px 0px -24px 0px' });
+document.querySelectorAll('.rv').forEach(el => {
+  io.observe(el);
+  const r = el.getBoundingClientRect();
+  if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('vis');
+});
+
+// Certificate lightbox
+const lightbox = document.getElementById('certLightbox');
+const lbImg    = document.getElementById('certLightboxImg');
+const lbClose  = document.getElementById('certClose');
+
+document.querySelectorAll('.cert-card[data-cert]').forEach(card => {
+  card.addEventListener('click', () => {
+    lbImg.src = card.dataset.cert;
+    lbImg.alt = card.dataset.certTitle || '';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { lbImg.src = ''; }, 300);
+}
+
+lbClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+<nav class="section-nav" aria-label="Page section navigation">
+  <a href="#s-hero" class="section-dot" data-label="About" aria-label="Go to About"></a>
+  <a href="#s-story" class="section-dot" data-label="Story" aria-label="Go to My Story"></a>
+  <a href="#s-perspective" class="section-dot" data-label="Perspective" aria-label="Go to Perspective"></a>
+  <a href="#s-beliefs" class="section-dot" data-label="Beliefs" aria-label="Go to Beliefs"></a>
+  <a href="#s-certs" class="section-dot" data-label="Certs" aria-label="Go to Certifications"></a>
+  <a href="#s-impact" class="section-dot" data-label="Impact" aria-label="Go to Impact"></a>
+  <a href="#s-outside" class="section-dot" data-label="Outside" aria-label="Go to Outside the Screen"></a>
+  <a href="#s-closing" class="section-dot" data-label="Direction" aria-label="Go to Design Direction"></a>
+</nav>
+<script>
+(function(){
+  var links=document.querySelectorAll('.section-nav a');
+  if(!links.length)return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.getAttribute('id');
+        links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+id);});
+      }
+    });
+  },{root:null,rootMargin:'-40% 0px -50% 0px',threshold:0});
+  links.forEach(function(l){
+    var target=document.querySelector(l.getAttribute('href'));
+    if(target)io.observe(target);
+    l.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=document.querySelector(l.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  if(links[0])links[0].classList.add('active');
+})();
+</script>
+</body>
+</html>
