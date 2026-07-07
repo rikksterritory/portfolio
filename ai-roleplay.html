@@ -474,7 +474,7 @@ nav,footer{padding-inline:var(--content-gutter);}
         <div class="persona-card">
           <!-- avatar -->
           <div class="persona-avatar-ring">
-            <img src="Images/SalesRepPicture2.png" alt="Naomi Wright" class="persona-avatar" id="personaAvatar">
+            <img src="Images/Role_Play_Avatars/young_female.png" alt="Naomi Wright" class="persona-avatar" id="personaAvatar">
             <span class="persona-online"></span>
           </div>
           <!-- info -->
@@ -512,8 +512,15 @@ nav,footer{padding-inline:var(--content-gutter);}
               <select class="persona-select" id="pGender" onchange="updatePersonaAvatar(this.value)">
                 <option value="young-female">Young Female</option>
                 <option value="young-male">Young Male</option>
-                <option value="mid-female">Mid-age Female</option>
-                <option value="mid-male">Mid-age Male</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="female-person">Female Person</option>
+                <option value="male-person">Male Person</option>
+                <option value="mid-female">Middle-aged Female</option>
+                <option value="mid-male">Middle-aged Male</option>
+                <option value="old-female">Older Female</option>
+                <option value="old-male">Older Male</option>
+                <option value="neutral">Neutral</option>
               </select>
             </div>
           </div>
@@ -1162,10 +1169,17 @@ document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
 
 <script>
 const avatarMap = {
-  'young-female': 'Images/SalesRepPicture2.png',
-  'young-male':   'Images/SalesRepPicture1.png',
-  'mid-female':   'Images/SalesRepPicture3.png',
-  'mid-male':     'Images/SalesRepPicture4.png'
+  'young-female':  'Images/Role_Play_Avatars/young_female.png',
+  'young-male':    'Images/Role_Play_Avatars/young_male.png',
+  'female':        'Images/Role_Play_Avatars/female.png',
+  'male':          'Images/Role_Play_Avatars/male.png',
+  'female-person': 'Images/Role_Play_Avatars/female-person.png',
+  'male-person':   'Images/Role_Play_Avatars/male-person.png',
+  'mid-female':    'Images/Role_Play_Avatars/middle_aged_female.png',
+  'mid-male':      'Images/Role_Play_Avatars/middle_aged_male.png',
+  'old-female':    'Images/Role_Play_Avatars/old_female.png',
+  'old-male':      'Images/Role_Play_Avatars/old_male.png',
+  'neutral':       'Images/Role_Play_Avatars/neutral.png'
 };
 function updatePersonaAvatar(val){
   const img = document.getElementById('personaAvatar');
