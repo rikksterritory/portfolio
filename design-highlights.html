@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Design Highlights – Kiran Tanwar</title>
+<title>Design Highlights - Kiran Tanwar Portfolio 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
@@ -95,6 +95,16 @@ footer p{font-family:var(--ff);font-size:12px;color:var(--muted2);}
   border-bottom:1px solid var(--border);
 }
 .dh-hero-inner{width:min(calc(100% - var(--content-gutter) * 2),var(--content-max));margin-inline:auto;}
+/* Hero right-side visual: animated image stack */
+.dh-hero-visual{display:none;}
+@media(min-width:1000px){
+  .dh-hero-inner{display:grid;grid-template-columns:1fr minmax(380px,480px);gap:clamp(40px,5vw,80px);align-items:center;}
+  .dh-hero-visual{display:block;justify-self:end;width:100%;}
+}
+.sc-stack{position:relative;width:100%;aspect-ratio:16/11;}
+.sc-img{position:absolute;inset:0;background:transparent;border:none;transform-origin:center;transition:transform 1.1s cubic-bezier(.33,1,.68,1),opacity 1.1s cubic-bezier(.33,1,.68,1);will-change:transform,opacity;}
+.sc-img img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;}
+@media(prefers-reduced-motion:reduce){.sc-img{transition:none;}}
 .dh-hero-title{font-family:var(--ff);font-weight:800;font-size:clamp(52px,9vw,96px);color:#fff;line-height:.97;letter-spacing:-.04em;margin-bottom:28px;}
 .dh-hero-sub{font-family:var(--ffs);font-style:italic;font-size:clamp(18px,2.2vw,26px);color:rgba(240,237,232,0.72);line-height:1.5;max-width:680px;margin-bottom:20px;}
 .dh-hero-note{font-family:var(--ff);font-size:14px;font-weight:300;color:rgba(240,237,232,0.35);line-height:1.7;max-width:580px;margin-bottom:36px;}
@@ -291,6 +301,7 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
 ═══════════════════════════ -->
 <section id="s-intro" class="dh-hero">
 <div class="dh-hero-inner">
+ <div class="dh-hero-left">
   <p class="kicker rv vis">Design Highlights</p>
   <h1 class="dh-hero-title rv vis d1">Design<br>Highlights</h1>
   <p class="dh-hero-sub rv vis d2">A quick 2-minute snapshot of my best product design work, AI-first projects, key screens, impact, and the way I approach complex product problems.</p>
@@ -302,6 +313,15 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
     <span class="dh-pill">AI-first experience</span>
   </div>
   <p class="dh-time rv vis d4">~2 min read</p>
+ </div>
+ <div class="dh-hero-visual rv vis d2">
+   <div class="sc-stack" id="scStack">
+     <div class="sc-img"><img src="Images/Templates_Gallery.png" alt="Templates gallery screen"></div>
+     <div class="sc-img"><img src="Images/Ask_buddy_Images/Content_Creation_Screen.png" alt="Content creation screen"></div>
+     <div class="sc-img"><img src="Images/Ask_buddy_Images/Ask_Buddy_Desktop_-_Sources.png" alt="Ask Buddy sources screen"></div>
+     <div class="sc-img"><img src="Images/Ask_buddy_Images/Call_Details_Pop_up.png" alt="Call details popup screen"></div>
+   </div>
+ </div>
 </div>
 </section>
 
@@ -422,7 +442,7 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
   <div class="screens-grid">
 
     <!-- Screen 1 -->
-    <div class="screen-card rv d1" data-img="Images/Start_Trigger_Screen.png" data-label="Workflow Canvas — Agentic Workflow Builder">
+    <div class="screen-card rv d1" data-img="Images/Start_Trigger_Screen.png" data-label="Workflow Canvas - Agentic Workflow Builder">
       <div class="screen-img">
         <img src="Images/Start_Trigger_Screen.png" alt="Workflow Canvas" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
@@ -437,7 +457,7 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
     </div>
 
     <!-- Screen 2 -->
-    <div class="screen-card rv d2" data-img="Images/Logs_&_Insights.png" data-label="ARE Reasoning / Logs — Agentic Workflow Builder">
+    <div class="screen-card rv d2" data-img="Images/Logs_&_Insights.png" data-label="Logs & Insights - Agentic Workflow Builder">
       <div class="screen-img">
         <img src="Images/Logs_&_Insights.png" alt="ARE Reasoning Logs" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
@@ -446,13 +466,13 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
       </div>
       <div class="screen-info">
         <p class="screen-project">Agentic Workflow Builder</p>
-        <p class="screen-label">ARE Reasoning / Logs</p>
+        <p class="screen-label">Logs & Insights</p>
         <p class="screen-desc">A visibility layer that helps users understand what the workflow did and why.</p>
       </div>
     </div>
 
     <!-- Screen 3 -->
-    <div class="screen-card rv d3" data-img="Images/Screen12.png" data-label="Role-Play Creator — AI Role-Play">
+    <div class="screen-card rv d3" data-img="Images/Screen12.png" data-label="Scenario Selection - AI Role-Play">
       <div class="screen-img">
         <img src="Images/Screen12.png" alt="Role-Play Creator" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
@@ -461,13 +481,13 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
       </div>
       <div class="screen-info">
         <p class="screen-project">AI Role-Play</p>
-        <p class="screen-label">Role-Play Creator</p>
-        <p class="screen-desc">An admin flow for creating realistic sales practice scenarios and buyer personas.</p>
+        <p class="screen-label">Scenario Selection</p>
+        <p class="screen-desc">A browsable grid of role-play scenarios and buyer personas reps pick from to start practicing.</p>
       </div>
     </div>
 
     <!-- Screen 4 -->
-    <div class="screen-card rv d4" data-img="Images/Screen4.png" data-label="Practice Session — AI Role-Play">
+    <div class="screen-card rv d4" data-img="Images/Screen4.png" data-label="Live Conversation - AI Role-Play">
       <div class="screen-img">
         <img src="Images/Screen4.png" alt="Practice Session" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
@@ -476,13 +496,13 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
       </div>
       <div class="screen-info">
         <p class="screen-project">AI Role-Play</p>
-        <p class="screen-label">Practice Session</p>
-        <p class="screen-desc">A guided role-play experience that helps reps practice buyer conversations before real meetings.</p>
+        <p class="screen-label">Live Conversation</p>
+        <p class="screen-desc">A real-time call interface where reps practice buyer conversations with an adaptive AI persona.</p>
       </div>
     </div>
 
     <!-- Screen 5 -->
-    <div class="screen-card rv d1" data-img="Images/Real-time_coaching_signals_1.png" data-label="Feedback & Coaching — AI Role-Play">
+    <div class="screen-card rv d1" data-img="Images/Real-time_coaching_signals_1.png" data-label="Feedback & Coaching - AI Role-Play">
       <div class="screen-img">
         <img src="Images/Real-time_coaching_signals_1.png" alt="Feedback and Coaching" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
@@ -497,7 +517,7 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
     </div>
 
     <!-- Screen 6 -->
-    <div class="screen-card rv d2" data-img="Images/Ask_buddy_Images/Ask_Buddy_Projects_Dashboard.png" data-label="AI Assistant — Ask Buddy">
+    <div class="screen-card rv d2" data-img="Images/Ask_buddy_Images/Ask_Buddy_Projects_Dashboard.png" data-label="Projects Dashboard - Ask Buddy">
       <div class="screen-img">
         <img src="Images/Ask_buddy_Images/Ask_Buddy_Projects_Dashboard.png" alt="AI Assistant" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
@@ -512,7 +532,7 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
     </div>
 
     <!-- Screen 7 -->
-    <div class="screen-card rv d3" data-img="Images/Ask_buddy_Images/Prompt_Starter.png" data-label="Prompt / Response Flow — Ask Buddy">
+    <div class="screen-card rv d3" data-img="Images/Ask_buddy_Images/Prompt_Starter.png" data-label="Prompt Starters - Ask Buddy">
       <div class="screen-img">
         <img src="Images/Ask_buddy_Images/Prompt_Starter.png" alt="Prompt Response Flow" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
@@ -521,13 +541,13 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
       </div>
       <div class="screen-info">
         <p class="screen-project">Ask Buddy</p>
-        <p class="screen-label">Prompt / Response Flow</p>
-        <p class="screen-desc">A guided interaction model that helps reps ask better questions and use AI-generated responses safely.</p>
+        <p class="screen-label">Prompt Starters</p>
+        <p class="screen-desc">Suggested prompts surfaced before the rep types, reducing blank-input anxiety and showing what Ask Buddy can do.</p>
       </div>
     </div>
 
     <!-- Screen 8 -->
-    <div class="screen-card rv d4" data-img="Images/Conversation_UI_not_forms_2.png" data-label="Manager Analytics Dashboard — AI Role-Play">
+    <div class="screen-card rv d4" data-img="Images/Conversation_UI_not_forms_2.png" data-label="Scenario Cards - AI Role-Play">
       <div class="screen-img">
         <img src="Images/Conversation_UI_not_forms_2.png" alt="Manager Analytics Dashboard" onerror="this.style.display='none';this.parentElement.querySelector('.screen-placeholder-icon').style.display='flex'">
         <div class="screen-placeholder-icon" style="display:none;flex-direction:column;align-items:center;gap:8px;z-index:1;">
@@ -536,8 +556,8 @@ div.section-nav{position:fixed!important;top:50%!important;right:28px!important;
       </div>
       <div class="screen-info">
         <p class="screen-project">AI Role-Play</p>
-        <p class="screen-label">Manager Analytics Dashboard</p>
-        <p class="screen-desc">A performance overview for managers tracking team proficiency, score distribution, and role-play trends.</p>
+        <p class="screen-label">Scenario Cards</p>
+        <p class="screen-desc">Browsable persona cards organized by call type, so reps pick a person to talk to instead of a module to complete.</p>
       </div>
     </div>
 
@@ -787,6 +807,40 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
   }
   window.addEventListener('scroll',update,{passive:true});
   update();
+})();
+
+// Hero animated image stack
+(function(){
+  const stack=document.getElementById('scStack');
+  if(!stack) return;
+  const imgs=[...stack.querySelectorAll('.sc-img')];
+  const n=imgs.length;
+  const layout=[
+    {r:0,   x:0,   y:0,   s:1,    o:1},
+    {r:-7,  x:-5,  y:-4,  s:0.94, o:0.75},
+    {r:6,   x:5,   y:-8,  s:0.89, o:0.55},
+    {r:-4,  x:-2,  y:-12, s:0.85, o:0.35}
+  ];
+  let active=0, timer=null;
+  function render(){
+    imgs.forEach((im,i)=>{
+      const order=(i-active+n)%n;
+      const L=layout[Math.min(order,layout.length-1)];
+      im.style.zIndex=String(n-order);
+      im.style.opacity=String(L.o);
+      im.style.transform=`translate(${L.x}%,${L.y}%) scale(${L.s}) rotate(${L.r}deg)`;
+    });
+  }
+  function go(i){active=(i+n)%n;render();}
+  function next(){go(active+1);}
+  function prev(){go(active-1);}
+  function start(){stop();timer=setInterval(next,4600);}
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+  render();start();
+  const vis=document.querySelector('.dh-hero-visual');
+  vis.addEventListener('mouseenter',stop);
+  vis.addEventListener('mouseleave',start);
+  imgs.forEach((im,i)=>im.addEventListener('click',()=>{if(i!==active){go(i);start();}}));
 })();
 </script>
 </body>

@@ -150,27 +150,27 @@ body::before{
 /* ── Question ── */
 .question{
   font-family:'Space Grotesk',sans-serif;
-  font-size:clamp(15px,2.2vw,20px);
+  font-size:clamp(18px,2.4vw,24px);
   font-weight:500;
   color:#fff;
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:28px;
 }
 
 /* ── Path buttons ── */
 .paths{
   width:100%;
-  max-width:480px;
-  border-radius:12px;
+  max-width:640px;
+  border-radius:18px;
   border:1px solid rgba(240,237,232,0.06);
   overflow:hidden;
-  margin-bottom:28px;
+  margin-bottom:36px;
 }
 .path{
   display:flex;
   align-items:center;
-  gap:16px;
-  padding:18px 20px;
+  gap:22px;
+  padding:28px 34px;
   text-decoration:none;
   background:var(--bg2);
   transition:background .3s;
@@ -193,7 +193,7 @@ body::before{
 
 /* Circle indicator */
 .path-icon{
-  width:40px;height:40px;
+  width:54px;height:54px;
   border-radius:50%;
   border:1.5px solid rgba(196,30,58,0.3);
   display:flex;align-items:center;justify-content:center;
@@ -207,7 +207,7 @@ body::before{
 .path:hover .path-b-icon{background:var(--gold);border-color:var(--gold);}
 
 .path-icon svg{
-  width:11px;height:11px;
+  width:15px;height:15px;
   transition:fill .3s;
 }
 .path-a .path-icon svg{fill:var(--accent);}
@@ -218,14 +218,14 @@ body::before{
 .path-body{flex:1;position:relative;z-index:1;}
 .path-title{
   font-family:'Space Grotesk',sans-serif;
-  font-size:15px;font-weight:600;
+  font-size:21px;font-weight:600;
   color:#fff;
-  margin-bottom:3px;
+  margin-bottom:6px;
   line-height:1.2;
 }
 .path-sub{
   font-family:'Space Mono',monospace;
-  font-size:11px;font-weight:400;
+  font-size:13px;font-weight:400;
   color:var(--muted2);
   line-height:1.7;
 }
@@ -233,7 +233,7 @@ body::before{
 /* Time label */
 .path-time{
   font-family:'Space Mono',monospace;
-  font-size:11px;font-weight:400;
+  font-size:13px;font-weight:400;
   white-space:nowrap;
   position:relative;z-index:1;
   flex-shrink:0;
@@ -258,8 +258,10 @@ body::before{
 
 /* ── Responsive ── */
 @media(max-width:560px){
-  .path{padding:15px 14px;gap:12px;}
-  .path-icon{width:34px;height:34px;}
+  .path{padding:20px 18px;gap:16px;}
+  .path-icon{width:44px;height:44px;}
+  .path-title{font-size:18px;}
+  .path-sub{font-size:12px;}
   .path-time{display:none;}
   .kicker-line{width:18px;}
 }
